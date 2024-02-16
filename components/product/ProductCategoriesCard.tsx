@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 
-const Card = ({productName}: {productName: string}) => {
+const Card = ({item}: any) => {
   return (
     <View style={styles.cardContainer}>
       <Image
@@ -10,7 +10,7 @@ const Card = ({productName}: {productName: string}) => {
         resizeMode="cover"
       />
       <View style={styles.overlay}>
-        <Text style={styles.productName}>{productName}</Text>
+        <Text style={styles.productName}>{item.toUpperCase()}</Text>
         <Text style={styles.productsCount}>358 Products</Text>
       </View>
     </View>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   productName: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
   },

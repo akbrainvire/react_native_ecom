@@ -16,8 +16,9 @@ import {
 import CartSummary from '../../components/cart/CartSummary';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
+import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 
-const CartScreen = () => {
+const CartScreen = ({navigation}: any) => {
   const dispatch = useDispatch();
   const {cartItems} = useSelector((state: any) => state.cart);
 
@@ -39,6 +40,11 @@ const CartScreen = () => {
 
   console.log(cartItems);
 
+  const handleProceedCheckout = () => {
+    // navigation.navigate('AddressScreen', {cartItems: cartItems});
+    navigation.navigate('AddressScreen');
+  };
+
   const totalSum = cartItems.reduce(
     (sum: any, item: any) => sum + item.totalPrice,
     0,
@@ -50,7 +56,8 @@ const CartScreen = () => {
         cartItems.map((item: any) => (
           <View key={item.id} style={styles.card}>
             <Image
-              source={require('../../assets/m3.jpg')}
+              // source={require('../../assets/m3.jpg')}
+              source={{uri: item.thumbnail}}
               style={styles.image}
               resizeMode="cover"
             />
@@ -97,10 +104,19 @@ const CartScreen = () => {
             </Text>
             <Text style={styles.totalPriceValue}>${totalSum}</Text>
           </View>
-          <TouchableOpacity style={styles.proceedButton}>
-            <Text style={styles.proceedButtonText}>Proceed to Checkout</Text>
-            <Icon name="chevron-forward-outline" size={24} color="#fff" />
-          </TouchableOpacity>
+          <View style={styles.btnproceed}>
+            <CustomButtonComponent
+              LogoComponent={() => (
+                <Icon name="chevron-forward-outline" size={24} color="#fff" />
+              )}
+              logoComp={true}
+              text="Proceed to Checkout"
+              color="black"
+              onSubmit={handleProceedCheckout}
+              textcolor="white"
+              width="100%"
+            />
+          </View>
         </View>
       ) : (
         ''
@@ -184,7 +200,10 @@ const styles = StyleSheet.create({
     top: 20,
     right: 20,
   },
-  removeButtonIcon: {},
+  removeButtonIcon: {
+    backgroundColor: '#515151',
+    borderRadius: 10,
+  },
   quantity: {
     fontSize: 18,
   },
@@ -198,7 +217,7 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
   footer: {
-    // flex: 1,
+    flex: 1,
     // position: 'relative',
     gap: 10,
     flexDirection: 'column',
@@ -239,6 +258,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     marginRight: 5,
+  },
+  btnproceed: {
+    marginTop: 'auto',
+    flexDirection: 'row',
   },
 });
 

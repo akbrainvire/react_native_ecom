@@ -13,7 +13,12 @@ const App = () => {
     <SafeAreaView style={{flex: 1}}>
       <Provider store={store}>
         <View style={{flex: 1}}>
-          <StatusBar animated={true} backgroundColor="#fffeb5" hidden={true} />
+          <StatusBar
+            animated={true}
+            backgroundColor="#ffffff"
+            hidden={false}
+            barStyle={'dark-content'}
+          />
           <NavigationRoute />
         </View>
       </Provider>

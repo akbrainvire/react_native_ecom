@@ -16,6 +16,10 @@ import ProfileScreen from '../../screens/profile/ProfileScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ProductsScreen from '../../screens/dashboard/ProductsScreen';
 import ProductDetail from '../../screens/dashboard/ProductDetail';
+import AddressScreen from '../../screens/cart/AddressScreen';
+import OrderSummaryScreen from '../../screens/cart/OrderSummaryScreen';
+import PaymentScreen from '../../screens/cart/PaymentScreen';
+import OrderConfirmed from '../../screens/cart/OrderConfirmed';
 
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
@@ -42,7 +46,7 @@ const NavigationRoute = () => {
         name="Login"
         component={LoginScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton navigation={navigation} />,
+          headerLeft: props => <HeaderBackButton />,
           headerShown: true,
         })}
       />
@@ -50,7 +54,7 @@ const NavigationRoute = () => {
         name="Signup"
         component={SignupScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton navigation={navigation} />,
+          headerLeft: props => <HeaderBackButton />,
           headerShown: true,
         })}
       />
@@ -76,7 +80,15 @@ const NavigationRoute = () => {
           headerShown: false,
         })}
       />
-      <Stack.Screen name="Product Detail" component={ProductDetail} />
+      <Stack.Screen
+        name="Product Detail"
+        component={ProductDetail}
+        options={({navigation, route}) => ({
+          headerTitle: '',
+          headerBackTitleVisible: false,
+          headerShown: false,
+        })}
+      />
 
       {/* <Stack.Screen name="ProductDetail" component={ProductDetailScreen} /> */}
     </Stack.Navigator>
@@ -86,7 +98,35 @@ const NavigationRoute = () => {
   const CartStack = () => (
     <Stack.Navigator>
       {/* Add screens for the "Cart" tab */}
-      <Stack.Screen name="Cart Screen" component={CartScreen} />
+      <Stack.Screen
+        name="Cart Screen"
+        component={CartScreen}
+        options={({navigation, route}) => ({
+          headerTitle: 'Cart',
+        })}
+      />
+      <Stack.Screen
+        name="AddressScreen"
+        component={AddressScreen}
+        options={({navigation, route}) => ({
+          headerTitle: 'Select delivery address',
+        })}
+      />
+      <Stack.Screen
+        name="OrderSummary"
+        component={OrderSummaryScreen}
+        options={({navigation, route}) => ({
+          headerTitle: 'Order summary',
+        })}
+      />
+      <Stack.Screen
+        name="PaymentScreen"
+        component={PaymentScreen}
+        options={({navigation, route}) => ({
+          headerTitle: 'Payment',
+        })}
+      />
+      <Stack.Screen name="OrderConfirmed" component={OrderConfirmed} />
     </Stack.Navigator>
   );
 

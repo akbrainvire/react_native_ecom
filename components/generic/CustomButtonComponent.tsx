@@ -8,10 +8,13 @@ const CustomButtonComponent = ({
   logo,
   onSubmit,
   textcolor,
+  width,
+  LogoComponent,
+  logoComp,
 }: any) => {
   const styles = StyleSheet.create({
     button: {
-      width: 'auto',
+      width: width ? width : 'auto',
       color: 'white',
       backgroundColor: color,
       padding: 10,
@@ -23,7 +26,7 @@ const CustomButtonComponent = ({
 
     buttonstyle: {
       display: 'flex',
-      justifyContent: 'center',
+      justifyContent: logoComp ? 'space-between' : 'center',
       flexDirection: 'row',
       alignItems: 'center',
       gap: 15,
@@ -40,6 +43,7 @@ const CustomButtonComponent = ({
       <View style={styles.buttonstyle}>
         {logo && <Icon name={logo} size={20} color={textcolor} />}
         <Text style={styles.textstyle}>{text}</Text>
+        {logoComp && LogoComponent && <LogoComponent />}
       </View>
     </TouchableOpacity>
   );

@@ -33,11 +33,13 @@ const ProductCategories = () => {
 
   useEffect(() => {
     try {
-      fetch('https://dummyjson.com/products')
+      fetch('https://dummyjson.com/products/categories')
         .then(res => res.json())
-        .then(console.log);
+        .then(data => console.log(data, setCategories(data)));
+      setLoading(false);
     } catch {
       console.log('error');
+      setLoading(false);
     }
     setTimeout(() => {
       setCategories(categoriesJson);
@@ -58,13 +60,13 @@ const ProductCategories = () => {
         />
       </View>
       {loading ? (
-        <ActivityIndicator size="large" color="#00ff00" />
+        <ActivityIndicator size="large" color="#242424" />
       ) : (
         <FlatList
           data={categories}
           renderItem={({item}) => (
             <TouchableOpacity onPress={() => handleCategoryPress(item)}>
-              <Card productName={item} />
+              <Card item={item} />
             </TouchableOpacity>
           )}
           keyExtractor={(item, index) => index.toString()}

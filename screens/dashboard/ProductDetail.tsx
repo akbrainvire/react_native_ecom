@@ -8,14 +8,14 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import {RadioButton} from 'react-native-paper';
 import {Rating} from 'react-native-ratings';
 import Carousel from 'react-native-snap-carousel'; // Import Carousel from the library
 import {colors} from '../../theme/theme';
 import {useDispatch} from 'react-redux';
 import {addToCart} from '../../store/CartSlice';
+import HeaderBackButton from '../../components/generic/HeaderBackButton';
 
-const CustomRadioButton = ({selected, onPress, children}: any) => (
+export const CustomRadioButton = ({selected, onPress, children}: any) => (
   <TouchableOpacity
     onPress={onPress}
     style={[styles.radioButton, selected && styles.radioButtonSelected]}>
@@ -44,7 +44,7 @@ const ProductDetail = ({route}: any) => {
       quantity: quantity,
       size: selectedSize,
       price: item.price,
-
+      thumbnail: item.thumbnail,
       id: item.id,
     };
 
@@ -56,8 +56,16 @@ const ProductDetail = ({route}: any) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={{height: Dimensions.get('window').height * 0.4}}>
+    <ScrollView style={styles.container}>
+      <View
+        style={{
+          height: Dimensions.get('window').height * 0.5,
+          position: 'relative',
+        }}>
+        <View style={styles.backBtn}>
+          <HeaderBackButton />
+        </View>
+        {/* <View style={styles.carouselContainer}> */}
         <Carousel
           ref={carouselRef}
           data={item.images}
@@ -65,17 +73,19 @@ const ProductDetail = ({route}: any) => {
             <Image
               source={{uri: item}}
               style={styles.image}
-              resizeMode="cover"
+              resizeMode="contain"
             />
           )}
-          sliderWidth={300}
-          itemWidth={200}
-        />
+          sliderHeight={Dimensions.get('window').width}
+          sliderWidth={Dimensions.get('window').width}
+          itemWidth={Dimensions.get('window').width}
+          itemHeight={Dimensions.get('window').width}></Carousel>
+        {/* </View> */}
       </View>
       <ScrollView style={styles.contentContainer}>
         <View style={styles.contentsubContainer}>
           <View style={styles.productInfo}>
-            <View>
+            <View style={styles.productDetailContainer}>
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.brand}>Brand: {item.brand}</Text>
               <Rating
@@ -136,7 +146,7 @@ const ProductDetail = ({route}: any) => {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -152,6 +162,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
   },
+  productDetailContainer: {
+    maxWidth: '80%',
+  },
+
   productInfo: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -181,6 +195,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 15,
     backgroundColor: '#ececec',
+    maxWidth: '20%',
   },
   quantityButton: {
     fontSize: 20,
@@ -248,6 +263,12 @@ const styles = StyleSheet.create({
   radioButtonSelected: {
     borderColor: '#000',
     fontWeight: 'bold',
+  },
+  backBtn: {
+    position: 'absolute',
+    top: 1,
+    left: 10,
+    zIndex: 1,
   },
 });
 

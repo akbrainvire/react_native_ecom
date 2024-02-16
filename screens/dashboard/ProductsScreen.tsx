@@ -35,6 +35,18 @@ const ProductsScreen = ({route}: any) => {
 
   useEffect(() => {
     try {
+      fetch(`https://dummyjson.com/products/category/${categoryName}`)
+        .then(res => res.json())
+        .then(resdata => setCategoryProducts(resdata.products))
+        .then(() => setLoading(false));
+    } catch {
+      console.log('error');
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
       if (searchTerm !== '') {
         // console.log('enter', categoryProducts);
         const filteredCategories = categoryProducts.filter(
@@ -43,17 +55,23 @@ const ProductsScreen = ({route}: any) => {
         );
         setCategoryProducts(filteredCategories);
       } else {
-        const filteredProducts = allProducts.filter(
-          product => product.category === categoryName,
-        );
+        // const filteredProducts = allProducts.filter(
+        //   product => product.category === categoryName,
+        // );
 
-        setCategoryProducts(filteredProducts);
+        // setCategoryProducts(filteredProducts);
+
+        fetch(`https://dummyjson.com/products/category/${categoryName}`)
+          .then(res => res.json())
+          .then(resdata => setCategoryProducts(resdata.products))
+          .then(() => setLoading(false));
       }
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
+      // setTimeout(() => {
+      //   setLoading(false);
+      // }, 2000);
     } catch (error) {
       console.log('Error:', error);
+      setLoading(false);
     }
   }, [categoryName, allProducts, searchTerm]);
 
@@ -73,6 +91,8 @@ const ProductsScreen = ({route}: any) => {
       Keyboard.dismiss();
     }
   };
+
+  // console.log(categoryProducts);
 
   return (
     <View style={styles.mainContainer}>
@@ -102,7 +122,7 @@ const ProductsScreen = ({route}: any) => {
         </View>
       </View>
       {loading ? (
-        <ActivityIndicator size="large" color="#00ff00" />
+        <ActivityIndicator size="large" color="#242424" />
       ) : (
         <View style={styles.container}>
           <Text style={styles.categoryName}>{categoryName.toUpperCase()}</Text>

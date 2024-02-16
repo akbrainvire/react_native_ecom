@@ -7,12 +7,10 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
-interface HeaderBackButtonProps {
-  navigation: any;
-}
-
-const HeaderBackButton: React.FC<HeaderBackButtonProps> = ({navigation}) => {
+const HeaderBackButton: React.FC = () => {
+  const navigation = useNavigation<any>();
   const handleGoBack = () => {
     navigation.goBack();
   };
