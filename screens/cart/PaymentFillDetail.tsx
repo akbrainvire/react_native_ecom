@@ -15,6 +15,7 @@ const PaymentFillDetail = ({navigation, route}: any) => {
 
   const handleContinueShopping = () => {
     setModalVisible(false);
+    navigation.navigate('Dashboard Screen');
   };
 
   const handleConfirm = () => {

@@ -12,12 +12,13 @@ const CustomButtonComponent = ({
   LogoComponent,
   logoComp,
   border,
+  disabled = false,
 }: any) => {
   const styles = StyleSheet.create({
     button: {
       width: width ? width : 'auto',
       color: 'white',
-      backgroundColor: color,
+      backgroundColor: disabled ? '#838383' : color,
       padding: 10,
       borderWidth: 1,
       borderColor: '#eaeaea',
@@ -41,7 +42,10 @@ const CustomButtonComponent = ({
     },
   });
   return (
-    <TouchableOpacity style={styles.button} onPress={onSubmit}>
+    <TouchableOpacity
+      style={styles.button}
+      onPress={onSubmit}
+      disabled={disabled}>
       <View style={styles.buttonstyle}>
         {logo && <Icon name={logo} size={20} color={textcolor} />}
         <Text style={styles.textstyle}>{text}</Text>

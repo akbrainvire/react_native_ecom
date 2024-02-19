@@ -1,7 +1,13 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {Image} from 'react-native-elements';
 
-const RadioButtonGroup = ({radioButtons, onPress, selectedId}: any) => {
+const RadioButtonGroup = ({
+  radioButtons,
+  onPress,
+  selectedId,
+  LogoComponent,
+}: any) => {
   return (
     <View style={styles.container}>
       {radioButtons.map((button: any) => (
@@ -12,15 +18,22 @@ const RadioButtonGroup = ({radioButtons, onPress, selectedId}: any) => {
             selectedId === button.value ? styles.radiobuttonSelectedBg : null,
           ]}
           onPress={() => onPress(button.value)}>
-          <Text
-            style={[
-              styles.radioButtonLabel,
-              selectedId === button.value
-                ? styles.radiobuttonSelectedLabel
-                : null,
-            ]}>
-            {button.label}
-          </Text>
+          <View style={styles.logoLabelContainer}>
+            {LogoComponent && (
+              <View style={styles.logoimageContainer}>
+                <Image source={button.image} style={styles.logoimage} />
+              </View>
+            )}
+            <Text
+              style={[
+                styles.radioButtonLabel,
+                selectedId === button.value
+                  ? styles.radiobuttonSelectedLabel
+                  : null,
+              ]}>
+              {button.label}
+            </Text>
+          </View>
           <View
             style={[
               styles.radioButtonCircle,
@@ -94,6 +107,21 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 5,
     backgroundColor: '#ffffff',
+  },
+  logoimageContainer: {
+    width: 50,
+    height: 'auto',
+  },
+  logoimage: {
+    objectFit: 'contain',
+    width: '100%',
+    height: 40,
+  },
+  logoLabelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap: 10,
   },
 });
 

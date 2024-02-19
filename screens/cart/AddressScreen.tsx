@@ -87,6 +87,7 @@ const AddressScreen = ({route}: any) => {
           color="black"
           onSubmit={handleNext}
           textcolor="white"
+          disabled={selectedAddressId ? false : true}
         />
       </View>
     </View>

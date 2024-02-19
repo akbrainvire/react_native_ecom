@@ -13,6 +13,7 @@ const PaymentScreen = ({navigation}: any) => {
 
   const handleContinueShopping = () => {
     setModalVisible(false);
+    navigation.navigate('Dashboard Screen');
   };
 
   const radioButtons = useMemo(
@@ -21,26 +22,31 @@ const PaymentScreen = ({navigation}: any) => {
         id: '1',
         label: 'Credit card',
         value: 'creditcard',
+        image: require('../../assets/logo/mastercardlogo.png'),
       },
       {
         id: '2',
         label: 'Paypal',
         value: 'paypal',
+        image: require('../../assets/logo/paypallogo.png'),
       },
       {
         id: '3',
         label: 'Visa',
         value: 'visa',
+        image: require('../../assets/logo/visalogo.png'),
       },
       {
         id: '4',
         label: 'Google pay',
         value: 'googlepay',
+        image: require('../../assets/logo/gpaylogo.png'),
       },
       {
         id: '5',
         label: 'Cash on delivery',
         value: 'cod',
+        image: require('../../assets/logo/cod.png'),
       },
     ],
     [],
@@ -86,6 +92,7 @@ const PaymentScreen = ({navigation}: any) => {
         radioButtons={radioButtons}
         onPress={setSelectedId}
         selectedId={selectedId}
+        LogoComponent={true}
       />
       <CustomButtonComponent
         text="Add Card"
@@ -118,6 +125,7 @@ const PaymentScreen = ({navigation}: any) => {
             onSubmit={handleNext}
             textcolor="white"
             width="48%"
+            disabled={selectedId ? false : true}
           />
         )}
       </View>
