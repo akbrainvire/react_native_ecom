@@ -11,6 +11,7 @@ const CustomButtonComponent = ({
   width,
   LogoComponent,
   logoComp,
+  border,
 }: any) => {
   const styles = StyleSheet.create({
     button: {
@@ -21,6 +22,7 @@ const CustomButtonComponent = ({
       borderWidth: 1,
       borderColor: '#eaeaea',
       marginVertical: 10,
+      borderStyle: border ? border : 'solid',
       borderRadius: 20,
     },
 

@@ -57,9 +57,9 @@ const styles = StyleSheet.create({
     paddingVertical: 100,
   },
   logoModel: {
-    resizeMode: 'contain', // Add this line to make the image fit inside the container
-    height: 100, // Ensure the image takes the full height of the container
-    width: 200, // Ensure the image takes the full width of the container
+    resizeMode: 'contain',
+    height: 100,
+    width: 200,
   },
   headerStyle: {
     fontSize: 26,
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   errorText: {
-    // paddingLeft: 10,
     color: 'red',
   },
   checkboxContainer: {
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     marginLeft: 0,
-    color: 'black', // Customize the color as needed
+    color: 'black',
   },
   checkbox: {
     alignSelf: 'center',

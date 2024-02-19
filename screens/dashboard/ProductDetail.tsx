@@ -153,6 +153,7 @@ const ProductDetail = ({route}: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor: '#fff',
   },
   contentContainer: {
     paddingHorizontal: 20,

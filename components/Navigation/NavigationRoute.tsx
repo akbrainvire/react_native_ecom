@@ -20,6 +20,8 @@ import AddressScreen from '../../screens/cart/AddressScreen';
 import OrderSummaryScreen from '../../screens/cart/OrderSummaryScreen';
 import PaymentScreen from '../../screens/cart/PaymentScreen';
 import OrderConfirmed from '../../screens/cart/OrderConfirmed';
+import PaymentFillDetail from '../../screens/cart/PaymentFillDetail';
+import AddNewCard from '../../components/cart/AddNewCard';
 
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
@@ -123,7 +125,27 @@ const NavigationRoute = () => {
         name="PaymentScreen"
         component={PaymentScreen}
         options={({navigation, route}) => ({
-          headerTitle: 'Payment',
+          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerShown: true,
+          headerTitle: 'Select Payment Option',
+        })}
+      />
+      <Stack.Screen
+        name="AddNewCard"
+        component={AddNewCard}
+        options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerShown: true,
+          headerTitle: 'Add new card',
+        })}
+      />
+      <Stack.Screen
+        name="PaymentFillDetail"
+        component={PaymentFillDetail}
+        options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerShown: true,
+          headerTitle: '',
         })}
       />
       <Stack.Screen name="OrderConfirmed" component={OrderConfirmed} />

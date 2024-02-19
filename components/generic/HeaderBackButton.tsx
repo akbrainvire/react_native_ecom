@@ -5,23 +5,31 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
-import React, {useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
-const HeaderBackButton: React.FC = () => {
+const HeaderBackButton = ({
+  paddinghorizontal,
+}: {
+  paddinghorizontal?: boolean;
+}) => {
   const navigation = useNavigation<any>();
   const handleGoBack = () => {
     navigation.goBack();
   };
 
   return (
-    <View style={[styles.container, {marginVertical: 10}]}>
+    <View
+      style={[
+        styles.container,
+        {marginVertical: 10},
+        paddinghorizontal ? styles.propStyles : null,
+      ]}>
       <View style={styles.backButton}>
         <TouchableOpacity onPress={handleGoBack}>
           <Icon
             name="arrow-back-circle"
-            size={45}
+            size={40}
             color="#000"
             style={styles.icon}
           />
@@ -36,6 +44,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'space-between',
+  },
+  propStyles: {
+    paddingHorizontal: 20,
   },
   backButton: {
     marginRight: 'auto',
