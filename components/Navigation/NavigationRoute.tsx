@@ -22,6 +22,7 @@ import PaymentScreen from '../../screens/cart/PaymentScreen';
 import OrderConfirmed from '../../screens/cart/OrderConfirmed';
 import PaymentFillDetail from '../../screens/cart/PaymentFillDetail';
 import AddNewCard from '../../components/cart/AddNewCard';
+import ErrorScreen from '../../screens/error/ErrorScreen';
 
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
@@ -98,7 +99,7 @@ const NavigationRoute = () => {
 
   // Stack navigator for the "Cart" tab
   const CartStack = () => (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Cart Screen">
       {/* Add screens for the "Cart" tab */}
       <Stack.Screen
         name="Cart Screen"
@@ -167,6 +168,22 @@ const NavigationRoute = () => {
       {/* Add screens for the "Profile" tab */}
     </Stack.Navigator>
   );
+
+  //Error Stack
+
+  const Error = () => (
+    <Stack.Navigator initialRouteName="Error Screen">
+      {/* Add screens for the "Cart" tab */}
+      <Stack.Screen
+        name="Error Screen"
+        component={ErrorScreen}
+        options={({navigation, route}) => ({
+          headerTitle: 'Error',
+        })}
+      />
+    </Stack.Navigator>
+  );
+
   // Bottom tab navigator for authenticated screens
   const TabNavigator = () => (
     <Tab.Navigator

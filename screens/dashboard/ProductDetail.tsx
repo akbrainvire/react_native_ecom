@@ -76,10 +76,14 @@ const ProductDetail = ({route}: any) => {
               resizeMode="contain"
             />
           )}
-          sliderHeight={Dimensions.get('window').width}
+          autoplay={true}
+          autoplayInterval={2500}
+          loop={true}
+          loopClonesPerSide={2}
+          sliderHeight={Dimensions.get('window').height * 0.5}
           sliderWidth={Dimensions.get('window').width}
           itemWidth={Dimensions.get('window').width}
-          itemHeight={Dimensions.get('window').width}></Carousel>
+          itemHeight={Dimensions.get('window').height * 0.5}></Carousel>
         {/* </View> */}
       </View>
       <ScrollView style={styles.contentContainer}>
@@ -174,7 +178,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 300,
+    height: '100%',
   },
   title: {
     fontWeight: 'bold',

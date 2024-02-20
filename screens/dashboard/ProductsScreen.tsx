@@ -72,6 +72,9 @@ const ProductsScreen = ({route}: any) => {
     } catch (error) {
       console.log('Error:', error);
       setLoading(false);
+      navigation.navigate('Error Screen', {
+        message: 'Error occurred in ProductsScreen',
+      });
     }
   }, [categoryName, allProducts, searchTerm]);
 
@@ -97,7 +100,7 @@ const ProductsScreen = ({route}: any) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerContainer}>
-        <HeaderBackButton navigation={navigation} />
+        <HeaderBackButton />
         <View
           style={[
             styles.searchContainer,

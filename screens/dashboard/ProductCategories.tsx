@@ -15,16 +15,18 @@ import {useNavigation} from '@react-navigation/native';
 
 const ProductCategories = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [categories, setCategories] = useState<any[]>([...categoriesJson]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [filtercategories, setfilterCategories] = useState<any[]>([]);
+
   const navigation = useNavigation<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const handleSearch = (value: string) => {
     setSearchTerm(value);
-    const filteredCategories = categoriesJson.filter(
+    const filteredCategories = categories.filter(
       category => category.toLowerCase().indexOf(value.toLowerCase()) !== -1,
     );
-    setCategories(filteredCategories);
+    setfilterCategories(filteredCategories);
   };
 
   const handleCategoryPress = (categoryName: string) => {
@@ -40,11 +42,10 @@ const ProductCategories = () => {
     } catch {
       console.log('error');
       setLoading(false);
+      navigation.navigate('Error Screen', {
+        message: 'Error occurred in ProductCategories',
+      });
     }
-    setTimeout(() => {
-      setCategories(categoriesJson);
-      setLoading(false);
-    }, 2000);
   }, []);
 
   return (
@@ -63,7 +64,7 @@ const ProductCategories = () => {
         <ActivityIndicator size="large" color="#242424" />
       ) : (
         <FlatList
-          data={categories}
+          data={filtercategories.length > 0 ? filtercategories : categories}
           renderItem={({item}) => (
             <TouchableOpacity onPress={() => handleCategoryPress(item)}>
               <Card item={item} />

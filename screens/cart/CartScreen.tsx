@@ -53,8 +53,8 @@ const CartScreen = ({navigation}: any) => {
   return (
     <ScrollView style={styles.container}>
       {cartItems.length > 0 ? (
-        cartItems.map((item: any) => (
-          <View key={item.id} style={styles.card}>
+        cartItems.map((item: any, i: any) => (
+          <View key={`${item.id}-${item.name}-${i}`} style={styles.card}>
             <Image
               // source={require('../../assets/m3.jpg')}
               source={{uri: item.thumbnail}}
