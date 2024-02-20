@@ -8,7 +8,7 @@ const SuccessfulPage = ({navigation}: any) => {
   const startShopping = () => {
     // Navigate to the dashboard screen
     console.log('neter');
-    navigation.navigate('Dashboard'); // Replace 'Dashboard' with the name of your dashboard screen
+    navigation.navigate('Dashboard');
   };
 
   return (

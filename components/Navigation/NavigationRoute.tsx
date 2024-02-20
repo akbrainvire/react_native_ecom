@@ -36,11 +36,6 @@ const NavigationRoute = () => {
   const AuthStack = () => (
     <Stack.Navigator initialRouteName="FirstScreenNoLogin">
       <Stack.Screen
-        name="SuccessfulPage"
-        component={SuccessfulPage}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
         name="FirstScreenNoLogin"
         component={FirstScreenNoLogin}
         options={{headerShown: false}}
@@ -75,6 +70,11 @@ const NavigationRoute = () => {
         })}
       />
       <Stack.Screen
+        name="SuccessfulPage"
+        component={SuccessfulPage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="Products Screen"
         component={ProductsScreen}
         options={({navigation, route}) => ({
@@ -94,6 +94,14 @@ const NavigationRoute = () => {
       />
 
       {/* <Stack.Screen name="ProductDetail" component={ProductDetailScreen} /> */}
+
+      <Stack.Screen
+        name="Error Screen"
+        component={ErrorScreen}
+        options={({navigation, route}) => ({
+          headerTitle: 'Error',
+        })}
+      />
     </Stack.Navigator>
   );
 
@@ -170,19 +178,6 @@ const NavigationRoute = () => {
   );
 
   //Error Stack
-
-  const Error = () => (
-    <Stack.Navigator initialRouteName="Error Screen">
-      {/* Add screens for the "Cart" tab */}
-      <Stack.Screen
-        name="Error Screen"
-        component={ErrorScreen}
-        options={({navigation, route}) => ({
-          headerTitle: 'Error',
-        })}
-      />
-    </Stack.Navigator>
-  );
 
   // Bottom tab navigator for authenticated screens
   const TabNavigator = () => (

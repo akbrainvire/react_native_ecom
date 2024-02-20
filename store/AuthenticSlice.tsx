@@ -7,14 +7,18 @@ const Authorize = createSlice({
     userDetails: {
       email: '',
       password: '',
+      firstName: '',
+      token: '',
+      lastName: '',
+      gender: '',
+      image: '',
       savedAddresses: [],
     },
   },
   reducers: {
     authorize: (state: any, action) => {
       state.isAuthorized = true;
-      state.userDetails.email = action.payload.email;
-      state.userDetails.password = action.payload.password;
+      state.userDetails = action.payload;
 
       //Adding a dummy saved address
       const dummyAddress = {

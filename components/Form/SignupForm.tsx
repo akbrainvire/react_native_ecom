@@ -6,6 +6,8 @@ import {CheckBox} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {authorize} from '../../store/AuthenticSlice';
+import CustomModal from '../generic/CustomModal';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const SignupForm = () => {
   const dispatch = useDispatch();
@@ -22,9 +24,10 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (state.isAuthorized) {
+      console.log('enter');
       navigation.navigate('SuccessfulPage');
     }
-  }, [state.isAuthorized]);
+  }, [state.isAuthorized, navigation]);
 
   const [error, setError] = useState({
     name: '',
@@ -94,11 +97,42 @@ const SignupForm = () => {
     checkForError();
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     checkForError();
-    if (isFormValid) {
-      dispatch(authorize(formInput));
+    if (isFormValid && agreeTerms) {
+      try {
+        const response = await fetch('https://dummyjson.com/users/add', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            username: formInput.name,
+            name: formInput.name,
+            email: formInput.email,
+            password: formInput.password,
+            age: 25,
+          }),
+        });
+        const userData = await response.json();
+
+        console.log(userData, 'userdata');
+
+        if (userData.id) {
+          const data = {...userData, savedAddresses: []};
+          dispatch(authorize(data));
+          // navigation.navigate('SuccessfulPage');
+        } else {
+          console.error('Signup failed: Token not received');
+        }
+      } catch (error) {
+        console.error('Signup failed:', error);
+        navigation.navigate('Error Screen');
+      } finally {
+      }
     }
+
+    // if (isFormValid) {
+    //   dispatch(authorize(formInput));
+    // }
   };
 
   //   console.log(error);
@@ -160,7 +194,7 @@ const SignupForm = () => {
         <CheckBox
           title="By creating an account you agree to our Terms & Conditions"
           checked={agreeTerms}
-          onPress={() => setAgreeTerms(true)}
+          onPress={() => setAgreeTerms(!agreeTerms)}
           containerStyle={styles.checkboxContainer}
           textStyle={styles.checkboxLabel}
         />
