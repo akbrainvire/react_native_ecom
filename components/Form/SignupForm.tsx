@@ -117,7 +117,11 @@ const SignupForm = () => {
         console.log(userData, 'userdata');
 
         if (userData.id) {
-          const data = {...userData, savedAddresses: []};
+          const data = {
+            ...userData,
+            savedAddresses: [],
+            image: require('../../assets/logo/icon-5359553_640.png'),
+          };
           dispatch(authorize(data));
           // navigation.navigate('SuccessfulPage');
         } else {

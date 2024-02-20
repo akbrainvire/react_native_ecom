@@ -22,7 +22,10 @@ const CartScreen = ({navigation}: any) => {
   const dispatch = useDispatch();
   const {cartItems} = useSelector((state: any) => state.cart);
 
+  // console.log(cartItems, 'cartitems');
+
   const handleRemoveFromCart = (id: any) => {
+    // console.log(id, 'idremove');
     dispatch(removeFromCart(id));
   };
 
@@ -38,7 +41,21 @@ const CartScreen = ({navigation}: any) => {
     dispatch(removeFromCartFull(id));
   };
 
-  console.log(cartItems);
+  function generateRandomId(item: any, length = 8) {
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomId = '';
+
+    for (let i = 0; i < length; i++) {
+      randomId += characters.charAt(
+        Math.floor(Math.random() * characters.length),
+      );
+    }
+
+    return item.id + '-' + item.name + '-' + randomId;
+  }
+
+  // console.log(cartItems);
 
   const handleProceedCheckout = () => {
     // navigation.navigate('AddressScreen', {cartItems: cartItems});
@@ -54,7 +71,9 @@ const CartScreen = ({navigation}: any) => {
     <ScrollView style={styles.container}>
       {cartItems.length > 0 ? (
         cartItems.map((item: any, i: any) => (
-          <View key={`${item.id}-${item.name}-${i}`} style={styles.card}>
+          <View
+            key={`${item.id}-${item.name}-${item.size}`}
+            style={styles.card}>
             <Image
               // source={require('../../assets/m3.jpg')}
               source={{uri: item.thumbnail}}

@@ -17,6 +17,7 @@ const Cart = createSlice({
       if (existingItemIndex !== -1) {
         // If item with same id and size exists, increase quantity
         state.cartItems[existingItemIndex].quantity += quantity;
+        state.cartItemCount += quantity;
         state.cartItems[existingItemIndex].totalPrice += price * quantity;
       } else {
         // Otherwise, add new item to cart
@@ -30,8 +31,8 @@ const Cart = createSlice({
           quantity: quantity,
           thumbnail: thumbnail,
         });
+        state.cartItemCount += quantity;
       }
-      state.cartItemCount++;
     },
     removeFromCart: (state: any, action: any) => {
       const idToRemove = action.payload;
@@ -42,12 +43,14 @@ const Cart = createSlice({
       if (itemIndex !== -1) {
         if (state.cartItems[itemIndex].quantity > 1) {
           state.cartItems[itemIndex].quantity--;
+
           state.cartItems[itemIndex].totalPrice -=
             state.cartItems[itemIndex].price;
+          state.cartItemCount--;
         } else {
           state.cartItems.splice(itemIndex, 1);
+          state.cartItemCount--;
         }
-        state.cartItemCount--;
       }
     },
     removeFromCartFull: (state: any, action: any) => {
