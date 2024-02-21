@@ -4,6 +4,7 @@ import CustomButtonComponent from '../../components/generic/CustomButtonComponen
 import RadioButtonGroup from '../../components/generic/RadioButtonGroup';
 import CustomModal from '../../components/generic/CustomModal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {CommonActions} from '@react-navigation/native';
 
 const PaymentScreen = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -13,6 +14,13 @@ const PaymentScreen = ({navigation}: any) => {
 
   const handleContinueShopping = () => {
     setModalVisible(false);
+    // This is to reset the stack when order is placed and redirected to dashoard page when clicked on continue shopping
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: 'Cart Screen'}],
+      }),
+    );
     navigation.navigate('Dashboard Screen');
   };
 

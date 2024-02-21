@@ -15,68 +15,50 @@ import productsJson from '../../products.json';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackButton from '../../components/generic/HeaderBackButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchProductsReq} from '../../sagas/productSaga';
 
 const ProductsScreen = ({route}: any) => {
   const {categoryName} = route.params;
   const [searchTerm, setSearchTerm] = useState<string>('');
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [allProducts, setAllProducts] = useState<any[]>([
-    ...productsJson.products,
-  ]);
   const [searchExpanded, setSearchExpanded] = useState<boolean>(false);
   const navigation = useNavigation<any>();
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  // const [categoryProducts, setCategoryProducts] = useState<any[]>([]);
 
-  const [categoryProducts, setCategoryProducts] = useState<any[]>([]);
-
+  const {categoryProducts, loading} = useSelector(
+    (state: any) => state.products,
+  );
+  const dispatch = useDispatch();
   const handleSearch = (value: string) => {
     setSearchTerm(value);
   };
 
   useEffect(() => {
-    try {
-      fetch(`https://dummyjson.com/products/category/${categoryName}`)
-        .then(res => res.json())
-        .then(resdata => setCategoryProducts(resdata.products))
-        .then(() => setLoading(false));
-    } catch {
-      console.log('error');
-      setLoading(false);
-    }
-  }, []);
+    // try {
+    //   fetch(`https://dummyjson.com/products/category/${categoryName}`)
+    //     .then(res => res.json())
+    //     .then(resdata => setCategoryProducts(resdata.products))
+    //     .then(() => setLoading(false));
+    // } catch {
+    //   console.log('error');
+    //   setLoading(false);
+    // }
+
+    dispatch(fetchProductsReq({categoryName}));
+  }, [dispatch, categoryName]);
 
   useEffect(() => {
-    try {
-      if (searchTerm !== '') {
-        // console.log('enter', categoryProducts);
-        const filteredCategories = categoryProducts.filter(
-          item =>
-            item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1,
-        );
-        setCategoryProducts(filteredCategories);
-      } else {
-        // const filteredProducts = allProducts.filter(
-        //   product => product.category === categoryName,
-        // );
-
-        // setCategoryProducts(filteredProducts);
-
-        fetch(`https://dummyjson.com/products/category/${categoryName}`)
-          .then(res => res.json())
-          .then(resdata => setCategoryProducts(resdata.products))
-          .then(() => setLoading(false));
-      }
-      // setTimeout(() => {
-      //   setLoading(false);
-      // }, 2000);
-    } catch (error) {
-      console.log('Error:', error);
-      setLoading(false);
-      navigation.navigate('Error Screen', {
-        message: 'Error occurred in ProductsScreen',
-      });
+    if (searchTerm !== '') {
+      // console.log('enter', categoryProducts);
+      const filteredCategories = categoryProducts.filter(
+        (item: any) =>
+          item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1,
+      );
+      setFilteredProducts(filteredCategories);
     }
-  }, [categoryName, allProducts, searchTerm]);
+  }, [searchTerm]);
 
   const handleCategoryPress = (item: string) => {
     console.log(item);
@@ -131,7 +113,7 @@ const ProductsScreen = ({route}: any) => {
           <Text style={styles.categoryName}>{categoryName.toUpperCase()}</Text>
 
           <FlatList
-            data={categoryProducts}
+            data={searchTerm !== '' ? filteredProducts : categoryProducts}
             numColumns={2}
             renderItem={({item}) => (
               <View style={styles.productContainer}>

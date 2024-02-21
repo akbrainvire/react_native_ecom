@@ -14,6 +14,7 @@ import {colors} from '../../theme/theme';
 import {useDispatch} from 'react-redux';
 import {addToCart} from '../../store/CartSlice';
 import HeaderBackButton from '../../components/generic/HeaderBackButton';
+import ColorSelect from '../../components/generic/ColorSelect';
 
 export const CustomRadioButton = ({selected, onPress, children}: any) => (
   <TouchableOpacity
@@ -27,6 +28,8 @@ const ProductDetail = ({route}: any) => {
   const {item} = route.params;
   const [selectedSize, setSelectedSize] = useState('S');
   const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState();
+
   const carouselRef = React.createRef<any>(); // Create a reference for the carousel
   const dispatch = useDispatch();
   const increaseQuantity = () => setQuantity(quantity + 1);
@@ -35,6 +38,7 @@ const ProductDetail = ({route}: any) => {
       setQuantity(quantity - 1);
     }
   };
+
   // console.log(item, 'items-pd');
 
   const addToCartFunction = () => {
@@ -46,6 +50,7 @@ const ProductDetail = ({route}: any) => {
       price: item.price,
       thumbnail: item.thumbnail,
       id: `${item.id}-${item.title}-${selectedSize}`,
+      color: color,
     };
 
     dispatch(addToCart(dataToSend));
@@ -54,6 +59,12 @@ const ProductDetail = ({route}: any) => {
   const finishedRating = (rating: any) => {
     console.log(rating, 'rating');
   };
+
+  const handleColorSelect = (color: any) => {
+    console.log(color);
+    setColor(color);
+  };
+  const colors = ['#fd7777', '#74ff74', '#7c7cff', '#ffff78'];
 
   return (
     <ScrollView style={styles.container}>
@@ -136,6 +147,7 @@ const ProductDetail = ({route}: any) => {
               onPress={() => setSelectedSize('XL')}>
               XL
             </CustomRadioButton>
+            <ColorSelect colors={colors} onSelectColor={handleColorSelect} />
           </View>
           <Text style={styles.descriptionTitle}>Description:</Text>
           <Text style={styles.description}>{item.description}</Text>
