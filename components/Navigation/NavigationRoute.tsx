@@ -23,6 +23,9 @@ import OrderConfirmed from '../../screens/cart/OrderConfirmed';
 import PaymentFillDetail from '../../screens/cart/PaymentFillDetail';
 import AddNewCard from '../../components/cart/AddNewCard';
 import ErrorScreen from '../../screens/error/ErrorScreen';
+import ProfileHeaderRight from '../profile/ProfileHeaderRight';
+import CartHeaderRight from '../cart/CartHeaderRight';
+import PersonalDetails from '../profile/PersonalDetails';
 
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
@@ -32,6 +35,7 @@ const NavigationRoute = () => {
   );
 
   const notification = useSelector((state: any) => state.notification.count);
+  // const cartItems = useSelector((state: any) => state.cart.cartItemCount);
   // Stack navigator for authentication flow
   const AuthStack = () => (
     <Stack.Navigator initialRouteName="FirstScreenNoLogin">
@@ -114,6 +118,8 @@ const NavigationRoute = () => {
         component={CartScreen}
         options={({navigation, route}) => ({
           headerTitle: 'Cart',
+          headerShown: true,
+          headerRight: () => <CartHeaderRight />,
         })}
       />
       <Stack.Screen
@@ -172,7 +178,26 @@ const NavigationRoute = () => {
   // Stack navigator for the "Profile" tab
   const ProfileStack = () => (
     <Stack.Navigator>
-      <Stack.Screen name="Profile Screen" component={ProfileScreen} />
+      <Stack.Screen
+        name="Profile Screen"
+        component={ProfileScreen}
+        options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerRight: () => <ProfileHeaderRight />,
+          headerShown: true,
+          headerTitle: '',
+        })}
+      />
+      <Stack.Screen
+        name="Personal Details"
+        component={PersonalDetails}
+        options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerRight: () => <ProfileHeaderRight />,
+          headerShown: true,
+          headerTitle: '',
+        })}
+      />
       {/* Add screens for the "Profile" tab */}
     </Stack.Navigator>
   );
@@ -223,6 +248,8 @@ const NavigationRoute = () => {
         component={CartStack}
         options={{
           headerShown: false,
+
+          // tabBarBadge: cartItems > 0 ? cartItems : undefined,  //This is cause rerender that's why it's commented
           tabBarIcon: ({color, size}) => (
             <Icon name="shopping-cart" size={size} color={color} />
           ),

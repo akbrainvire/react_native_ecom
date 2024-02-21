@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TextInput,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {colors} from '../../theme/theme';
@@ -23,73 +24,39 @@ const LoginForm = () => {
   const state = useSelector((state: any) => state.autheticate);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
-  const [invalidcred, setinvalidcred] = useState<any>('');
-
-  // useEffect(() => {
-  //   if (state.isAuthorized) {
-  //     navigation.navigate('Dashboard');
-  //   }
-  // }, [state.isAuthorized]);
-
   const [error, setError] = useState({
     username: '',
     password: '',
+    general: '', // General error message for invalid credentials
   });
-  const [isFormValid, setisFormValid] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  const OnHandleChange = (value: any, tag: any) => {
-    setFormInput((prev: any) => {
-      return {
-        ...prev,
-        [tag]: value,
-      };
-    });
-  };
+  useEffect(() => {
+    setError(prevError => ({...prevError, general: ''}));
+  }, [formInput.username, formInput.password]);
 
   const checkForError = () => {
     const updatedErrors: any = {};
 
     for (const tag in formInput) {
-      if (tag === 'username') {
-        if (formInput[tag] === '') {
-          updatedErrors[tag] = 'Username is required';
-        }
+      if (formInput[tag] === '') {
+        updatedErrors[tag] =
+          tag === 'username' ? 'Username is required' : 'Password is required';
       } else {
-        if (formInput[tag] === '') {
-          updatedErrors[tag] = 'This Field cannot be blank';
-        } else {
-          updatedErrors[tag] = '';
-        }
+        updatedErrors[tag] = '';
       }
     }
 
     setError(prev => ({...prev, ...updatedErrors}));
 
     const isFormValid = Object.values(updatedErrors).every(val => val === '');
-    setisFormValid(isFormValid);
-  };
-
-  const HandleErrorOnBlur = () => {
-    checkForError();
-  };
-
-  // const isValidEmail = (email: string) => {
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   return emailRegex.test(email);
-  // };
-
-  const HandleOAuth = (name: string) => {
-    if (name == 'google') {
-      console.log('google');
-    } else if (name == 'facebook') {
-      console.log('facebook');
-    } else if (name == 'apple') {
-      console.log('apple');
-    }
+    setIsFormValid(isFormValid);
   };
 
   const handleLogin = async () => {
     checkForError();
+    if (!isFormValid) return;
+
     setLoading(true);
     try {
       const username = formInput.username;
@@ -97,38 +64,29 @@ const LoginForm = () => {
       const response = await fetch('https://dummyjson.com/auth/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          username,
-          password,
-        }),
+        body: JSON.stringify({username, password}),
       });
       const data = await response.json();
 
       if (data.message) {
-        setinvalidcred(data.message);
+        setError(prev => ({...prev, general: data.message}));
       } else {
         const pushData = {...data, savedAddresses: []};
         dispatch(authorize(pushData));
         navigation.navigate('Dashboard Screen');
       }
-      // return data;
     } catch (error) {
       console.error('Login failed:', error);
-      setinvalidcred(error);
-      throw new Error('Login failed');
+      setError(prev => ({
+        ...prev,
+        general: 'An error occurred. Please try again later.',
+      }));
     } finally {
       setLoading(false);
     }
-
-    // if (isFormValid) {
-    //   dispatch(authorize(formInput));
-    //   setFormInput({
-    //     email: '',
-    //     password: '',
-    //   });
-    // }
-
-    // console.log(error);
+  };
+  const HandleOAuth = (s: string) => {
+    console.log(s);
   };
 
   return (
@@ -152,8 +110,11 @@ const LoginForm = () => {
           <View style={styles.inputContainer}>
             <TextInput
               style={styles.textInput}
-              onChangeText={value => OnHandleChange(value, 'username')}
-              onBlur={() => HandleErrorOnBlur()}
+              onChangeText={value => {
+                setFormInput((prev: any) => ({...prev, username: value}));
+                checkForError();
+              }}
+              // onBlur={checkForError}
               placeholder="Enter username"
               value={formInput.username}
             />
@@ -163,13 +124,18 @@ const LoginForm = () => {
 
             <TextInput
               style={styles.textInput}
-              onChangeText={value => OnHandleChange(value, 'password')}
-              onBlur={() => HandleErrorOnBlur()}
+              onChangeText={value =>
+                setFormInput((prev: any) => ({...prev, password: value}))
+              }
+              onBlur={checkForError}
               placeholder="Enter Password"
               value={formInput.password}
             />
             {error.password !== '' && (
               <Text style={styles.errorText}>{error.password}</Text>
+            )}
+            {error.general !== '' && (
+              <Text style={styles.errorText}>{error.general}</Text>
             )}
           </View>
 
@@ -239,9 +205,9 @@ const styles = StyleSheet.create({
     paddingVertical: 100,
   },
   logoModel: {
-    resizeMode: 'contain', // Add this line to make the image fit inside the container
-    height: 100, // Ensure the image takes the full height of the container
-    width: 200, // Ensure the image takes the full width of the container
+    resizeMode: 'contain',
+    height: 100,
+    width: 200,
   },
   headerStyle: {
     fontSize: 26,
@@ -253,7 +219,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   errorText: {
-    // paddingLeft: 10,
     color: 'red',
   },
   checkboxContainer: {
@@ -264,7 +229,7 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     marginLeft: 0,
-    color: 'black', // Customize the color as needed
+    color: 'black',
   },
   checkbox: {
     alignSelf: 'center',

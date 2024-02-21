@@ -35,7 +35,7 @@ const ProductDetail = ({route}: any) => {
       setQuantity(quantity - 1);
     }
   };
-  console.log(item);
+  // console.log(item, 'items-pd');
 
   const addToCartFunction = () => {
     const dataToSend = {
@@ -45,7 +45,7 @@ const ProductDetail = ({route}: any) => {
       size: selectedSize,
       price: item.price,
       thumbnail: item.thumbnail,
-      id: item.id,
+      id: `${item.id}-${item.title}-${selectedSize}`,
     };
 
     dispatch(addToCart(dataToSend));

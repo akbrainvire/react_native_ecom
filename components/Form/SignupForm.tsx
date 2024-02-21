@@ -151,7 +151,10 @@ const SignupForm = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.textInput}
-          onChangeText={value => OnHandleChange(value, 'name')}
+          onChangeText={value => {
+            OnHandleChange(value, 'name');
+            checkForError();
+          }}
           onBlur={() => HandleErrorOnBlur()}
           placeholder="Enter Name"
           value={formInput.name}
@@ -162,7 +165,10 @@ const SignupForm = () => {
 
         <TextInput
           style={styles.textInput}
-          onChangeText={value => OnHandleChange(value, 'email')}
+          onChangeText={value => {
+            OnHandleChange(value, 'email');
+            checkForError();
+          }}
           onBlur={() => HandleErrorOnBlur()}
           placeholder="Enter Email"
           value={formInput.email}
@@ -173,7 +179,10 @@ const SignupForm = () => {
 
         <TextInput
           style={styles.textInput}
-          onChangeText={value => OnHandleChange(value, 'password')}
+          onChangeText={value => {
+            OnHandleChange(value, 'password');
+            checkForError();
+          }}
           onBlur={() => HandleErrorOnBlur()}
           placeholder="Enter Password"
           value={formInput.password}
@@ -184,7 +193,10 @@ const SignupForm = () => {
 
         <TextInput
           style={styles.textInput}
-          onChangeText={value => OnHandleChange(value, 'confirmpassword')}
+          onChangeText={value => {
+            OnHandleChange(value, 'confirmpassword');
+            checkForError();
+          }}
           onBlur={() => HandleErrorOnBlur()}
           placeholder="Confirm Password"
           value={formInput.confirmpassword}

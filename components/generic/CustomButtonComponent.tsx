@@ -30,6 +30,7 @@ const CustomButtonComponent = ({
     buttonstyle: {
       display: 'flex',
       justifyContent: logoComp ? 'space-between' : 'center',
+      paddingHorizontal: logoComp ? 20 : null,
       flexDirection: 'row',
       alignItems: 'center',
       gap: 15,
