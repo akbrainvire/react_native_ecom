@@ -26,7 +26,8 @@ import ErrorScreen from '../../screens/error/ErrorScreen';
 import ProfileHeaderRight from '../profile/ProfileHeaderRight';
 import CartHeaderRight from '../cart/CartHeaderRight';
 import PersonalDetails from '../profile/PersonalDetails';
-
+import {CustomTabBar} from './CustomTabBar';
+import {TabButton} from './TabBarCustomButton';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator(); // Create bottom tab navigator
@@ -58,6 +59,13 @@ const NavigationRoute = () => {
         options={({navigation, route}) => ({
           headerLeft: props => <HeaderBackButton />,
           headerShown: true,
+        })}
+      />
+      <Stack.Screen
+        name="Error Screen"
+        component={ErrorScreen}
+        options={({navigation, route}) => ({
+          headerTitle: 'Error',
         })}
       />
     </Stack.Navigator>
@@ -202,11 +210,10 @@ const NavigationRoute = () => {
     </Stack.Navigator>
   );
 
-  //Error Stack
-
   // Bottom tab navigator for authenticated screens
   const TabNavigator = () => (
     <Tab.Navigator
+      tabBar={props => <CustomTabBar {...props} />}
       screenOptions={({route}) => ({
         headerShown: false,
         tabBarActiveTintColor: '#000',
@@ -231,16 +238,16 @@ const NavigationRoute = () => {
           borderTopWidth: 0,
           backgroundColor: 'white',
         },
+        tabBarShowLabel: false,
       })}>
       <Tab.Screen
         name="Home"
         component={HomeStack}
         options={{
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Icon name="home" size={size} color={color} />
-          ),
-          tabBarLabelPosition: 'beside-icon',
+          // tabBarButton: props => {
+          //   return <TabButton {...props} label="Home" logoname="home" />;
+          // },
         }}
       />
       <Tab.Screen
@@ -250,10 +257,14 @@ const NavigationRoute = () => {
           headerShown: false,
 
           // tabBarBadge: cartItems > 0 ? cartItems : undefined,  //This is cause rerender that's why it's commented
-          tabBarIcon: ({color, size}) => (
-            <Icon name="shopping-cart" size={size} color={color} />
-          ),
-          tabBarLabelPosition: 'beside-icon',
+          // tabBarIcon: ({color, size}) => (
+          //   <Icon name="shopping-cart" size={size} color={color} />
+          // ),
+          // tabBarButton: props => {
+          //   return (
+          //     <TabButton {...props} label="Cart" logoname="shopping-cart" />
+          //   );
+          // },
         }}
       />
       <Tab.Screen
@@ -262,10 +273,14 @@ const NavigationRoute = () => {
         options={{
           headerShown: false,
           tabBarBadge: notification > 0 ? notification : undefined,
-          tabBarIcon: ({color, size}) => (
-            <Icon name="bell-o" size={size} color={color} />
-          ),
-          tabBarLabelPosition: 'beside-icon',
+          // tabBarIcon: ({color, size}) => (
+          //   <Icon name="bell-o" size={size} color={color} />
+          // ),
+          // tabBarButton: props => {
+          //   return (
+          //     <TabButton {...props} label="Notification" logoname="bell-o" />
+          //   );
+          // },
         }}
       />
       <Tab.Screen
@@ -273,10 +288,15 @@ const NavigationRoute = () => {
         component={ProfileStack}
         options={{
           headerShown: false,
-          tabBarIcon: ({color, size}) => (
-            <Icon name="user-circle-o" size={size} color={color} />
-          ),
-          tabBarLabelPosition: 'beside-icon',
+          // tabBarIcon: ({color, size}) => (
+          //   <Icon name="user-circle-o" size={size} color={color} />
+          // ),
+          // tabBarLabelPosition: 'beside-icon',
+          // tabBarButton: props => {
+          //   return (
+          //     <TabButton {...props} label="Profile" logoname="user-circle-o" />
+          //   );
+          // },
         }}
       />
     </Tab.Navigator>

@@ -1,4 +1,10 @@
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {colors} from '../../theme/theme';
 import CustomButtonComponent from '../generic/CustomButtonComponent';
@@ -21,6 +27,7 @@ const SignupForm = () => {
     confirmpassword: '',
   });
   const [isFormValid, setisFormValid] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (state.isAuthorized) {
@@ -99,6 +106,7 @@ const SignupForm = () => {
 
   const handleSignup = async () => {
     checkForError();
+    setLoading(true);
     if (isFormValid && agreeTerms) {
       try {
         const response = await fetch('https://dummyjson.com/users/add', {
@@ -131,6 +139,7 @@ const SignupForm = () => {
         console.error('Signup failed:', error);
         navigation.navigate('Error Screen');
       } finally {
+        setLoading(false);
       }
     }
 
@@ -144,84 +153,90 @@ const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <View>
-      <View style={styles.welcomeContainer}>
-        <Text style={styles.headerStyle}>Sign Up</Text>
-        <Text style={styles.headerDesStyle}>Create a new account</Text>
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          onChangeText={value => {
-            OnHandleChange(value, 'name');
-            checkForError();
-          }}
-          onBlur={() => HandleErrorOnBlur()}
-          placeholder="Enter Name"
-          value={formInput.name}
-        />
-        {error.name !== '' && (
-          <Text style={styles.errorText}>{error.name}</Text>
-        )}
+      {loading ? (
+        <ActivityIndicator size="large" color="#000000" />
+      ) : (
+        <View>
+          <View style={styles.welcomeContainer}>
+            <Text style={styles.headerStyle}>Sign Up</Text>
+            <Text style={styles.headerDesStyle}>Create a new account</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={value => {
+                OnHandleChange(value, 'name');
+                checkForError();
+              }}
+              onBlur={() => HandleErrorOnBlur()}
+              placeholder="Enter Name"
+              value={formInput.name}
+            />
+            {error.name !== '' && (
+              <Text style={styles.errorText}>{error.name}</Text>
+            )}
 
-        <TextInput
-          style={styles.textInput}
-          onChangeText={value => {
-            OnHandleChange(value, 'email');
-            checkForError();
-          }}
-          onBlur={() => HandleErrorOnBlur()}
-          placeholder="Enter Email"
-          value={formInput.email}
-        />
-        {error.email !== '' && (
-          <Text style={styles.errorText}>{error.email}</Text>
-        )}
+            <TextInput
+              style={styles.textInput}
+              onChangeText={value => {
+                OnHandleChange(value, 'email');
+                checkForError();
+              }}
+              onBlur={() => HandleErrorOnBlur()}
+              placeholder="Enter Email"
+              value={formInput.email}
+            />
+            {error.email !== '' && (
+              <Text style={styles.errorText}>{error.email}</Text>
+            )}
 
-        <TextInput
-          style={styles.textInput}
-          onChangeText={value => {
-            OnHandleChange(value, 'password');
-            checkForError();
-          }}
-          onBlur={() => HandleErrorOnBlur()}
-          placeholder="Enter Password"
-          value={formInput.password}
-        />
-        {error.password !== '' && (
-          <Text style={styles.errorText}>{error.password}</Text>
-        )}
+            <TextInput
+              style={styles.textInput}
+              onChangeText={value => {
+                OnHandleChange(value, 'password');
+                checkForError();
+              }}
+              onBlur={() => HandleErrorOnBlur()}
+              placeholder="Enter Password"
+              value={formInput.password}
+            />
+            {error.password !== '' && (
+              <Text style={styles.errorText}>{error.password}</Text>
+            )}
 
-        <TextInput
-          style={styles.textInput}
-          onChangeText={value => {
-            OnHandleChange(value, 'confirmpassword');
-            checkForError();
-          }}
-          onBlur={() => HandleErrorOnBlur()}
-          placeholder="Confirm Password"
-          value={formInput.confirmpassword}
-        />
-        {error.confirmpassword !== '' && (
-          <Text style={styles.errorText}>{error.confirmpassword}</Text>
-        )}
-      </View>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={value => {
+                OnHandleChange(value, 'confirmpassword');
+                checkForError();
+              }}
+              onBlur={() => HandleErrorOnBlur()}
+              placeholder="Confirm Password"
+              value={formInput.confirmpassword}
+            />
+            {error.confirmpassword !== '' && (
+              <Text style={styles.errorText}>{error.confirmpassword}</Text>
+            )}
+          </View>
 
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          title="By creating an account you agree to our Terms & Conditions"
-          checked={agreeTerms}
-          onPress={() => setAgreeTerms(!agreeTerms)}
-          containerStyle={styles.checkboxContainer}
-          textStyle={styles.checkboxLabel}
-        />
-      </View>
+          <View style={styles.checkboxContainer}>
+            <CheckBox
+              title="By creating an account you agree to our Terms & Conditions"
+              checked={agreeTerms}
+              onPress={() => setAgreeTerms(!agreeTerms)}
+              containerStyle={styles.checkboxContainer}
+              textStyle={styles.checkboxLabel}
+            />
+          </View>
 
-      <CustomButtonComponent
-        text={'Sign Up'}
-        color={colors.elementBackground}
-        onSubmit={handleSignup}
-        textcolor={colors.white}
-      />
+          <CustomButtonComponent
+            text={'Sign Up'}
+            color={colors.elementBackground}
+            onSubmit={handleSignup}
+            textcolor={colors.white}
+          />
+        </View>
+      )}
     </View>
   );
 };
