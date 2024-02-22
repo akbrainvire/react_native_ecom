@@ -96,7 +96,7 @@ const CartScreen = ({navigation}: any) => {
             <View style={styles.removeButtonContainer}>
               <TouchableOpacity onPress={() => handleRemoveWhole(item.id)}>
                 <View style={styles.removeButtonIcon}>
-                  <Icon2 name="delete-outline" size={24} color="#fff" />
+                  <Icon2 name="delete" size={18} color="#fff" />
                 </View>
               </TouchableOpacity>
             </View>
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 150,
+    height: 130,
     borderRadius: 10,
   },
   counterContainer: {
@@ -216,12 +216,13 @@ const styles = StyleSheet.create({
   removeButtonContainer: {
     // backgroundColor: '#f6f6f6',
     position: 'absolute',
-    top: 20,
-    right: 20,
+    top: 22,
+    right: 30,
   },
   removeButtonIcon: {
-    backgroundColor: '#515151',
-    borderRadius: 10,
+    backgroundColor: '#000000',
+    borderRadius: 15,
+    padding: 4,
   },
   quantity: {
     fontSize: 18,

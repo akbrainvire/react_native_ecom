@@ -30,7 +30,7 @@ const Cart = createSlice({
           totalPrice: price * quantity,
           quantity: quantity,
           thumbnail: thumbnail,
-          color: color,
+          color: color !== '' ? color : null,
         });
         state.cartItemCount += quantity;
       }
@@ -65,8 +65,17 @@ const Cart = createSlice({
         state.cartItems.splice(itemIndex, 1);
       }
     },
+    emptyCartafterOplaced: (state: any) => {
+      state.cartItems = [];
+      state.cartItemCount = 0;
+    },
   },
 });
 
-export const {addToCart, removeFromCart, removeFromCartFull} = Cart.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  removeFromCartFull,
+  emptyCartafterOplaced,
+} = Cart.actions;
 export default Cart.reducer;

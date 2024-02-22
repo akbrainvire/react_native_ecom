@@ -5,12 +5,15 @@ import RadioButtonGroup from '../../components/generic/RadioButtonGroup';
 import CustomModal from '../../components/generic/CustomModal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {CommonActions} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {emptyCartafterOplaced} from '../../store/CartSlice';
 
 const PaymentScreen = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const dispatch = useDispatch();
 
   const handleContinueShopping = () => {
     setModalVisible(false);
@@ -21,6 +24,8 @@ const PaymentScreen = ({navigation}: any) => {
         routes: [{name: 'Cart Screen'}],
       }),
     );
+    dispatch(emptyCartafterOplaced());
+
     navigation.navigate('Dashboard Screen');
   };
 

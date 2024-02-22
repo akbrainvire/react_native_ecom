@@ -131,13 +131,13 @@ const SignupForm = () => {
             image: require('../../assets/logo/icon-5359553_640.png'),
           };
           dispatch(authorize(data));
-          // navigation.navigate('SuccessfulPage');
+          navigation.navigate('SuccessfulPage');
         } else {
           console.error('Signup failed: Token not received');
         }
       } catch (error) {
         console.error('Signup failed:', error);
-        navigation.navigate('Error Screen');
+        navigation.navigate('Error Screen', {message: 'Signup Failed'});
       } finally {
         setLoading(false);
       }

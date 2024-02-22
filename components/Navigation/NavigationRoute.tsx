@@ -68,6 +68,11 @@ const NavigationRoute = () => {
           headerTitle: 'Error',
         })}
       />
+      <Stack.Screen
+        name="SuccessfulPage"
+        component={SuccessfulPage}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 
@@ -127,7 +132,9 @@ const NavigationRoute = () => {
         options={({navigation, route}) => ({
           headerTitle: 'Cart',
           headerShown: true,
-          headerRight: () => <CartHeaderRight />,
+          headerRight: () => (
+            <CartHeaderRight paddingRight={20} color={'#afafaf'} />
+          ),
         })}
       />
       <Stack.Screen

@@ -20,11 +20,12 @@ const CustomButtonComponent = ({
       color: 'white',
       backgroundColor: disabled ? '#838383' : color,
       padding: 10,
+      paddingVertical: 12,
       borderWidth: 1,
       borderColor: '#eaeaea',
       marginVertical: 10,
       borderStyle: border ? border : 'solid',
-      borderRadius: 20,
+      borderRadius: 30,
     },
 
     buttonstyle: {

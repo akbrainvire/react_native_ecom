@@ -12,7 +12,7 @@ const ColorSelect = ({colors, onSelectColor}: any) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Color</Text>
+      {/* <Text style={styles.title}>Color</Text> */}
       <View style={styles.colorContainer}>
         {colors.map((color: any, index: any) => (
           <TouchableOpacity
@@ -35,8 +35,19 @@ const ColorSelect = ({colors, onSelectColor}: any) => {
 
 const styles = StyleSheet.create({
   container: {
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 2,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 4,
     position: 'absolute',
-    right: 15,
+    right: 5,
+    top: -25,
+    backgroundColor: '#fff',
   },
   title: {
     fontWeight: 'bold',
@@ -44,19 +55,18 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   colorContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
   },
   colorOption: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     borderRadius: 20,
-    marginBottom: 2,
+    marginBottom: 8,
   },
   selectedColor: {
-    // borderWidth: 1,
-    // borderColor: '#000000',
+    borderWidth: 2, // Example border for selected color
+    borderColor: '#ffffff',
   },
 });
 

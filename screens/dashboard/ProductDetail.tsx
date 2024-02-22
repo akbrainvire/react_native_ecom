@@ -2,35 +2,47 @@ import React, {useState} from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   Image,
   StyleSheet,
   Dimensions,
   ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import {Rating} from 'react-native-ratings';
-import Carousel from 'react-native-snap-carousel'; // Import Carousel from the library
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {colors} from '../../theme/theme';
 import {useDispatch} from 'react-redux';
 import {addToCart} from '../../store/CartSlice';
 import HeaderBackButton from '../../components/generic/HeaderBackButton';
 import ColorSelect from '../../components/generic/ColorSelect';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {useToast} from 'react-native-toast-notifications';
+import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
+import CartHeaderRight from '../../components/cart/CartHeaderRight';
 
 export const CustomRadioButton = ({selected, onPress, children}: any) => (
   <TouchableOpacity
     onPress={onPress}
     style={[styles.radioButton, selected && styles.radioButtonSelected]}>
-    <Text style={styles.radioButtonText}>{children}</Text>
+    <Text
+      style={[
+        styles.radioButtonText,
+        selected && styles.radioButtonTextSelected,
+      ]}>
+      {children}
+    </Text>
   </TouchableOpacity>
 );
 
-const ProductDetail = ({route}: any) => {
+const ProductDetail = ({navigation, route}: any) => {
   const {item} = route.params;
   const [selectedSize, setSelectedSize] = useState('S');
   const [quantity, setQuantity] = useState(1);
-  const [color, setColor] = useState();
-
-  const carouselRef = React.createRef<any>(); // Create a reference for the carousel
+  const [color, setColor] = useState('');
+  const [wishlisted, setWishlisted] = useState<boolean>(false);
+  const toast = useToast();
+  const carouselRef = React.createRef<any>();
   const dispatch = useDispatch();
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => {
@@ -39,7 +51,44 @@ const ProductDetail = ({route}: any) => {
     }
   };
 
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const renderPagination = () => (
+    <Pagination
+      dotsLength={item.images.length}
+      activeDotIndex={activeIndex}
+      containerStyle={{paddingTop: 10}}
+      dotStyle={{
+        width: 10,
+        height: 10,
+        borderRadius: 10,
+        marginHorizontal: -5,
+        backgroundColor: 'white',
+      }}
+      inactiveDotStyle={{
+        backgroundColor: '#7a7a7a',
+      }}
+      inactiveDotOpacity={0.4}
+      inactiveDotScale={0.8}
+    />
+  );
+
   // console.log(item, 'items-pd');
+
+  const AddToWishlist = () => {
+    console.log('first', wishlisted);
+    setWishlisted(true);
+    toast.show('Successfully added to wishlist', {
+      type: 'normal',
+      placement: 'top',
+      duration: 3000,
+      animationType: 'slide-in',
+    });
+  };
+
+  const RemoveFromWishlist = () => {
+    setWishlisted(false);
+  };
 
   const addToCartFunction = () => {
     const dataToSend = {
@@ -54,6 +103,12 @@ const ProductDetail = ({route}: any) => {
     };
 
     dispatch(addToCart(dataToSend));
+    toast.show('Successfully added to cart', {
+      type: 'normal',
+      placement: 'top',
+      duration: 3000,
+      animationType: 'slide-in',
+    });
   };
 
   const finishedRating = (rating: any) => {
@@ -63,6 +118,10 @@ const ProductDetail = ({route}: any) => {
   const handleColorSelect = (color: any) => {
     console.log(color);
     setColor(color);
+  };
+
+  const RedirectToCart = () => {
+    navigation.navigate('Cart Screen');
   };
   const colors = ['#fd7777', '#74ff74', '#7c7cff', '#ffff78'];
 
@@ -77,6 +136,24 @@ const ProductDetail = ({route}: any) => {
           <HeaderBackButton />
         </View>
         {/* <View style={styles.carouselContainer}> */}
+        {wishlisted ? (
+          <View style={styles.wishlistBtn}>
+            <TouchableOpacity onPress={() => RemoveFromWishlist()}>
+              <Icon name="heart" size={23} color="red" />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.wishlistBtn}>
+            <TouchableOpacity onPress={() => AddToWishlist()}>
+              <Icon name="heart-o" size={23} color="red" />
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <View style={styles.cartButton}>
+          <CartHeaderRight />
+        </View>
+
         <Carousel
           ref={carouselRef}
           data={item.images}
@@ -87,6 +164,7 @@ const ProductDetail = ({route}: any) => {
               resizeMode="contain"
             />
           )}
+          onSnapToItem={index => setActiveIndex(index)}
           autoplay={true}
           autoplayInterval={2500}
           loop={true}
@@ -95,73 +173,108 @@ const ProductDetail = ({route}: any) => {
           sliderWidth={Dimensions.get('window').width}
           itemWidth={Dimensions.get('window').width}
           itemHeight={Dimensions.get('window').height * 0.5}></Carousel>
+        {renderPagination()}
         {/* </View> */}
       </View>
-      <ScrollView style={styles.contentContainer}>
-        <View style={styles.contentsubContainer}>
-          <View style={styles.productInfo}>
-            <View style={styles.productDetailContainer}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.brand}>Brand: {item.brand}</Text>
-              <Rating
-                type="custom"
-                showRating={false}
-                readonly={true}
-                onFinishRating={finishedRating}
-                ratingBackgroundColor="#00000000"
-                style={styles.rating}
-                fractions={1}
-                startingValue={item.rating}
-                imageSize={15}
+      <SafeAreaView>
+        <ScrollView style={styles.contentContainer}>
+          <View style={styles.contentsubContainer}>
+            <View style={styles.productInfo}>
+              <View style={styles.productDetailContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.brand}>Brand: {item.brand}</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Rating
+                    type="custom"
+                    showRating={false}
+                    readonly={true}
+                    onFinishRating={finishedRating}
+                    ratingBackgroundColor="#00000000"
+                    style={styles.rating}
+                    fractions={1}
+                    startingValue={item.rating}
+                    imageSize={15}
+                  />
+                  <Text style={styles.ratingText}>(280 Review)</Text>
+                </View>
+              </View>
+              <View style={styles.quantityContainer}>
+                <TouchableOpacity onPress={decreaseQuantity}>
+                  <Text style={styles.quantityButton}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.quantity}>{quantity}</Text>
+                <TouchableOpacity onPress={increaseQuantity}>
+                  <Text style={styles.quantityButton}>+</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.sizeContainer}>
+              <Text style={styles.othertitle}>Size</Text>
+              <View style={styles.sizeButtonContainer}>
+                <CustomRadioButton
+                  selected={selectedSize === 'S'}
+                  onPress={() => {
+                    setSelectedSize('S');
+                    setQuantity(1);
+                  }}>
+                  S
+                </CustomRadioButton>
+                <CustomRadioButton
+                  selected={selectedSize === 'M'}
+                  onPress={() => {
+                    setSelectedSize('M');
+                    setQuantity(1);
+                  }}>
+                  M
+                </CustomRadioButton>
+                <CustomRadioButton
+                  selected={selectedSize === 'L'}
+                  onPress={() => {
+                    setSelectedSize('L');
+                    setQuantity(1);
+                  }}>
+                  L
+                </CustomRadioButton>
+                <CustomRadioButton
+                  selected={selectedSize === 'XL'}
+                  onPress={() => {
+                    setSelectedSize('XL');
+                    setQuantity(1);
+                  }}>
+                  XL
+                </CustomRadioButton>
+                <CustomRadioButton
+                  selected={selectedSize === 'XXL'}
+                  onPress={() => {
+                    setSelectedSize('XXL');
+                    setQuantity(1);
+                  }}>
+                  XXL
+                </CustomRadioButton>
+              </View>
+              <ColorSelect colors={colors} onSelectColor={handleColorSelect} />
+            </View>
+            <Text style={styles.othertitle}>Description</Text>
+            <Text style={styles.description}>{item.description}</Text>
+
+            <View style={styles.priceContainer}>
+              <View style={styles.pricesubContainer}>
+                <Text style={styles.priceT}>Price</Text>
+
+                <Text style={styles.price}>${item.price}</Text>
+              </View>
+              <CustomButtonComponent
+                onSubmit={addToCartFunction}
+                text="Add to Cart"
+                color="black"
+                logo="cart-plus"
+                textcolor="white"
+                width="60%"
               />
             </View>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity onPress={decreaseQuantity}>
-                <Text style={styles.quantityButton}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantity}>{quantity}</Text>
-              <TouchableOpacity onPress={increaseQuantity}>
-                <Text style={styles.quantityButton}>+</Text>
-              </TouchableOpacity>
-            </View>
           </View>
-          <View style={styles.sizeContainer}>
-            <Text>Select Size: </Text>
-            <CustomRadioButton
-              selected={selectedSize === 'S'}
-              onPress={() => setSelectedSize('S')}>
-              S
-            </CustomRadioButton>
-            <CustomRadioButton
-              selected={selectedSize === 'M'}
-              onPress={() => setSelectedSize('M')}>
-              M
-            </CustomRadioButton>
-            <CustomRadioButton
-              selected={selectedSize === 'L'}
-              onPress={() => setSelectedSize('L')}>
-              L
-            </CustomRadioButton>
-            <CustomRadioButton
-              selected={selectedSize === 'XL'}
-              onPress={() => setSelectedSize('XL')}>
-              XL
-            </CustomRadioButton>
-            <ColorSelect colors={colors} onSelectColor={handleColorSelect} />
-          </View>
-          <Text style={styles.descriptionTitle}>Description:</Text>
-          <Text style={styles.description}>{item.description}</Text>
-
-          <View style={styles.priceContainer}>
-            <Text style={styles.price}>Price: ${item.price}</Text>
-            <TouchableOpacity
-              style={styles.addToCartButton}
-              onPress={addToCartFunction}>
-              <Text style={styles.addToCartButtonText}>Add to Cart</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     </ScrollView>
   );
 };
@@ -185,7 +298,7 @@ const styles = StyleSheet.create({
 
   productInfo: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
   image: {
@@ -196,9 +309,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     marginTop: 10,
+    color: 'black',
   },
   brand: {
     marginTop: 5,
+  },
+  ratingText: {
+    fontSize: 12,
+    color: '#656565',
+    fontWeight: 'bold',
+    paddingLeft: 5,
   },
   contentsubContainer: {
     flex: 1,
@@ -222,14 +342,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   sizeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 20,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    marginTop: 15,
   },
-  descriptionTitle: {
+
+  sizeButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // position: 'relative',
+  },
+
+  othertitle: {
     fontWeight: 'bold',
-    fontSize: 16,
-    marginTop: 20,
+    fontSize: 18,
+    color: 'black',
+    marginTop: 10,
   },
   description: {
     marginTop: 5,
@@ -243,11 +372,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 20,
-    marginBottom: 20,
+    // marginBottom: 20,
+  },
+  pricesubContainer: {
+    justifyContent: 'flex-start',
+  },
+  priceT: {
+    fontSize: 12,
+    color: 'grey',
   },
   price: {
     fontWeight: 'bold',
     fontSize: 20,
+    color: 'black',
   },
   addToCartButton: {
     marginLeft: 20,
@@ -260,25 +397,33 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   radioButton: {
+    height: 40,
+    width: 40,
     borderWidth: 1.3,
     borderColor: '#ccc',
-    borderRadius: 12,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginRight: 10,
-    marginLeft: 10,
+    borderRadius: 20,
+    // paddingHorizontal: 10,
+    // paddingVertical: 5,
+    marginTop: 5,
+    marginRight: 15,
+    // marginLeft: 10,
   },
   radioButtonText: {
     // marginRight: 5,
     fontSize: 15,
+    textAlign: 'center',
+    paddingTop: 8,
   },
   radioButtonTextSelected: {
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
+    textAlign: 'center',
+    paddingTop: 8,
     fontSize: 15,
   },
   radioButtonSelected: {
     borderColor: '#000',
+    backgroundColor: '#000',
     fontWeight: 'bold',
   },
   backBtn: {
@@ -286,6 +431,24 @@ const styles = StyleSheet.create({
     top: 1,
     left: 10,
     zIndex: 1,
+  },
+  wishlistBtn: {
+    position: 'absolute',
+    bottom: 15,
+    right: 20,
+    zIndex: 990,
+    backgroundColor: 'white',
+    padding: 5,
+    borderRadius: 30,
+  },
+  cartButton: {
+    position: 'absolute',
+    top: 15,
+    right: 10,
+    zIndex: 990,
+    backgroundColor: 'white',
+    padding: 5,
+    borderRadius: 30,
   },
 });
 

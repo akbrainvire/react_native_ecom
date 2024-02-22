@@ -29,7 +29,7 @@ const HeaderBackButton = ({
         <TouchableOpacity onPress={handleGoBack}>
           <Icon
             name="arrow-back-circle"
-            size={40}
+            size={38}
             color="#000"
             style={styles.icon}
           />
@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginRight: 'auto',
+    backgroundColor: 'white',
+    borderRadius: 20,
   },
 
   icon: {
