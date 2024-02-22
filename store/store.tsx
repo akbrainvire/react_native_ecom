@@ -9,6 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import ProductsSlice from './ProductsSlice';
 import rootSaga from '../sagas';
 import OrderSlice from './OrderSlice';
+import WishlistedSlice from './WishlistedSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,6 +21,7 @@ const store = configureStore({
     category: CategoryReducer,
     orders: OrderSlice,
     products: ProductsSlice,
+    wishlist: WishlistedSlice,
   },
   middleware: (getDefaultMiddleWare: any) =>
     getDefaultMiddleWare().concat(sagaMiddleware),

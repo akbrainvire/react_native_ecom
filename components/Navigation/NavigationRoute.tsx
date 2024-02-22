@@ -87,7 +87,7 @@ const NavigationRoute = () => {
           headerShown: false,
         })}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="SuccessfulPage"
         component={SuccessfulPage}
         options={{headerShown: false}}
@@ -113,13 +113,13 @@ const NavigationRoute = () => {
 
       {/* <Stack.Screen name="ProductDetail" component={ProductDetailScreen} /> */}
 
-      <Stack.Screen
+      {/*<Stack.Screen
         name="Error Screen"
         component={ErrorScreen}
         options={({navigation, route}) => ({
           headerTitle: 'Error',
         })}
-      />
+      /> */}
     </Stack.Navigator>
   );
 
@@ -228,6 +228,39 @@ const NavigationRoute = () => {
     </Stack.Navigator>
   );
 
+  const HomeTabNavigator = () => {
+    return (
+      <Tab.Navigator tabBar={props => <CustomTabBar {...props} />}>
+        <Tab.Screen
+          name="Home"
+          component={HomeStack}
+          options={{
+            headerShown: false,
+
+            // tabBarButton: props => {
+            //   return <TabButton {...props} label="Home" logoname="home" />;
+            // },
+          }}
+        />
+      </Tab.Navigator>
+    );
+  };
+
+  const BottomTabHideStack = () => (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeTabNavigator} />
+      <Stack.Screen
+        name="Products Screen"
+        component={ProductsScreen}
+        options={({navigation, route}) => ({
+          headerTitle: '',
+          headerBackTitleVisible: false,
+          headerShown: false,
+        })}
+      />
+    </Stack.Navigator>
+  );
+
   // Bottom tab navigator for authenticated screens
   const TabNavigator = () => (
     <Tab.Navigator
@@ -263,6 +296,7 @@ const NavigationRoute = () => {
         component={HomeStack}
         options={{
           headerShown: false,
+
           // tabBarButton: props => {
           //   return <TabButton {...props} label="Home" logoname="home" />;
           // },
@@ -324,7 +358,7 @@ const NavigationRoute = () => {
     <View style={{flex: 1}}>
       <NavigationContainer>
         {/* Render either the authentication flow or the main stack */}
-        {isAuthorized ? <TabNavigator /> : <AuthStack />}
+        {isAuthorized ? <BottomTabHideStack /> : <AuthStack />}
       </NavigationContainer>
     </View>
   );

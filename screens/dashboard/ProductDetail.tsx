@@ -12,7 +12,7 @@ import {
 import {Rating} from 'react-native-ratings';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {colors} from '../../theme/theme';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addToCart} from '../../store/CartSlice';
 import HeaderBackButton from '../../components/generic/HeaderBackButton';
 import ColorSelect from '../../components/generic/ColorSelect';
@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useToast} from 'react-native-toast-notifications';
 import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 import CartHeaderRight from '../../components/cart/CartHeaderRight';
+import {addToWishlist, removeFromWishlist} from '../../store/WishlistedSlice';
 
 export const CustomRadioButton = ({selected, onPress, children}: any) => (
   <TouchableOpacity
@@ -40,7 +41,6 @@ const ProductDetail = ({navigation, route}: any) => {
   const [selectedSize, setSelectedSize] = useState('S');
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState('');
-  const [wishlisted, setWishlisted] = useState<boolean>(false);
   const toast = useToast();
   const carouselRef = React.createRef<any>();
   const dispatch = useDispatch();
@@ -51,6 +51,9 @@ const ProductDetail = ({navigation, route}: any) => {
     }
   };
 
+  const isWishlisted = useSelector((state: any) =>
+    state.wishlist.wishlisted.some((itemc: any) => itemc.id === item.id),
+  );
   const [activeIndex, setActiveIndex] = useState(0);
 
   const renderPagination = () => (
@@ -76,8 +79,7 @@ const ProductDetail = ({navigation, route}: any) => {
   // console.log(item, 'items-pd');
 
   const AddToWishlist = () => {
-    console.log('first', wishlisted);
-    setWishlisted(true);
+    dispatch(addToWishlist(item));
     toast.show('Successfully added to wishlist', {
       type: 'normal',
       placement: 'top',
@@ -87,7 +89,7 @@ const ProductDetail = ({navigation, route}: any) => {
   };
 
   const RemoveFromWishlist = () => {
-    setWishlisted(false);
+    dispatch(removeFromWishlist(item.id));
   };
 
   const addToCartFunction = () => {
@@ -133,7 +135,7 @@ const ProductDetail = ({navigation, route}: any) => {
           <HeaderBackButton />
         </View>
         {/* <View style={styles.carouselContainer}> */}
-        {wishlisted ? (
+        {isWishlisted ? (
           <View style={styles.wishlistBtn}>
             <TouchableOpacity onPress={() => RemoveFromWishlist()}>
               <Icon name="heart" size={23} color="red" />

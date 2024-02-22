@@ -22,7 +22,7 @@ const CustomButtonComponent = ({
       padding: 10,
       paddingVertical: 12,
       borderWidth: 1,
-      borderColor: '#eaeaea',
+      borderColor: '#c0c0c0',
       marginVertical: 10,
       borderStyle: border ? border : 'solid',
       borderRadius: 30,
