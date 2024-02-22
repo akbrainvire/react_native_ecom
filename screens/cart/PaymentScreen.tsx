@@ -5,8 +5,9 @@ import RadioButtonGroup from '../../components/generic/RadioButtonGroup';
 import CustomModal from '../../components/generic/CustomModal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {CommonActions} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {emptyCartafterOplaced} from '../../store/CartSlice';
+import {addOrders} from '../../store/OrderSlice';
 
 const PaymentScreen = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -14,7 +15,7 @@ const PaymentScreen = ({navigation}: any) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const dispatch = useDispatch();
-
+  const orderItems = useSelector((state: any) => state.cart.cartItems);
   const handleContinueShopping = () => {
     setModalVisible(false);
     // This is to reset the stack when order is placed and redirected to dashoard page when clicked on continue shopping
@@ -24,6 +25,7 @@ const PaymentScreen = ({navigation}: any) => {
         routes: [{name: 'Cart Screen'}],
       }),
     );
+    dispatch(addOrders(orderItems));
     dispatch(emptyCartafterOplaced());
 
     navigation.navigate('Dashboard Screen');

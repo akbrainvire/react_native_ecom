@@ -8,6 +8,7 @@ import {thunk} from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import ProductsSlice from './ProductsSlice';
 import rootSaga from '../sagas';
+import OrderSlice from './OrderSlice';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,9 +18,7 @@ const store = configureStore({
     cart: CartSlice,
     notification: NotificationSlice,
     category: CategoryReducer,
-    // middleware: (getDefaultMiddleWare: any) => {
-    //   return [...getDefaultMiddleWare(), thunk];
-    // },
+    orders: OrderSlice,
     products: ProductsSlice,
   },
   middleware: (getDefaultMiddleWare: any) =>

@@ -120,10 +120,7 @@ const ProductDetail = ({navigation, route}: any) => {
     setColor(color);
   };
 
-  const RedirectToCart = () => {
-    navigation.navigate('Cart Screen');
-  };
-  const colors = ['#fd7777', '#74ff74', '#7c7cff', '#ffff78'];
+  const colors = ['black', 'silver', 'navy', 'lime'];
 
   return (
     <ScrollView style={styles.container}>

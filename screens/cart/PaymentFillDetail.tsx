@@ -5,8 +5,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 import PaymentFillForm from './PaymentFillForm';
 import {CommonActions} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {emptyCartafterOplaced} from '../../store/CartSlice';
+import {addOrders} from '../../store/OrderSlice';
 
 const PaymentFillDetail = ({navigation, route}: any) => {
   console.log(route, 'route');
@@ -16,6 +17,7 @@ const PaymentFillDetail = ({navigation, route}: any) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const dispatch = useDispatch();
+  const orderItems = useSelector((state: any) => state.cart.cartItems);
 
   const handleContinueShopping = () => {
     setModalVisible(false);
@@ -27,6 +29,8 @@ const PaymentFillDetail = ({navigation, route}: any) => {
         routes: [{name: 'Cart Screen'}],
       }),
     );
+    dispatch(addOrders(orderItems));
+
     dispatch(emptyCartafterOplaced());
     navigation.navigate('Dashboard Screen');
   };

@@ -28,6 +28,7 @@ import CartHeaderRight from '../cart/CartHeaderRight';
 import PersonalDetails from '../profile/PersonalDetails';
 import {CustomTabBar} from './CustomTabBar';
 import {TabButton} from './TabBarCustomButton';
+import MyOrders from '../../screens/profile/orders/MyOrders';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator(); // Create bottom tab navigator
@@ -206,6 +207,16 @@ const NavigationRoute = () => {
       <Stack.Screen
         name="Personal Details"
         component={PersonalDetails}
+        options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerRight: () => <ProfileHeaderRight />,
+          headerShown: true,
+          headerTitle: '',
+        })}
+      />
+      <Stack.Screen
+        name="My Orders"
+        component={MyOrders}
         options={({navigation, route}) => ({
           headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
           headerRight: () => <ProfileHeaderRight />,

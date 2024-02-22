@@ -24,7 +24,7 @@ const ColorSelect = ({colors, onSelectColor}: any) => {
             ]}
             onPress={() => handleColorSelect(color)}>
             {selectedColor === color && (
-              <Icon name="checkmark-circle-outline" size={25} color="#ffffff" />
+              <Icon name="checkmark-circle-outline" size={16} color="#ffffff" />
             )}
           </TouchableOpacity>
         ))}
