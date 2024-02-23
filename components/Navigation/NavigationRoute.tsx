@@ -87,39 +87,11 @@ const NavigationRoute = () => {
           headerShown: false,
         })}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="SuccessfulPage"
         component={SuccessfulPage}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="Products Screen"
-        component={ProductsScreen}
-        options={({navigation, route}) => ({
-          headerTitle: '',
-          headerBackTitleVisible: false,
-          headerShown: false,
-        })}
-      />
-      <Stack.Screen
-        name="Product Detail"
-        component={ProductDetail}
-        options={({navigation, route}) => ({
-          headerTitle: '',
-          headerBackTitleVisible: false,
-          headerShown: false,
-        })}
-      />
-
-      {/* <Stack.Screen name="ProductDetail" component={ProductDetailScreen} /> */}
-
-      {/*<Stack.Screen
-        name="Error Screen"
-        component={ErrorScreen}
-        options={({navigation, route}) => ({
-          headerTitle: 'Error',
-        })}
-      /> */}
     </Stack.Navigator>
   );
 
@@ -138,6 +110,112 @@ const NavigationRoute = () => {
           ),
         })}
       />
+    </Stack.Navigator>
+  );
+
+  // Stack navigator for the "Notification" tab
+  const NotificationStack = () => (
+    <Stack.Navigator>
+      {/* Add screens for the "Notification" tab */}
+      <Stack.Screen
+        name="Notification Screen"
+        component={NotificationScreen}
+        options={({navigation, route}) => ({
+          headerTitle: '',
+          headerShown: false,
+        })}
+      />
+    </Stack.Navigator>
+  );
+
+  // Stack navigator for the "Profile" tab
+  const ProfileStack = () => (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Profile Screen"
+        component={ProfileScreen}
+        options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerRight: () => <ProfileHeaderRight />,
+          headerShown: true,
+          headerTitle: '',
+        })}
+      />
+
+      {/* Add screens for the "Profile" tab */}
+    </Stack.Navigator>
+  );
+
+  const StackThatWillHaveBottomTab = () => {
+    return (
+      <Tab.Navigator tabBar={props => <CustomTabBar {...props} />}>
+        <Tab.Screen
+          name="Home"
+          component={HomeStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="Cart"
+          component={CartStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="Notification"
+          component={NotificationStack}
+          options={
+            {
+              // headerShown: false,
+              // tabBarBadge: notification > 0 ? notification : undefined,
+            }
+          }
+        />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileStack}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Tab.Navigator>
+    );
+  };
+
+  const BottomTabHideStack = () => (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="TabStack"
+        component={StackThatWillHaveBottomTab}
+        options={({navigation, route}) => ({
+          headerTitle: '',
+          headerBackTitleVisible: false,
+          headerShown: false,
+        })}
+      />
+      <Stack.Screen
+        name="Products Screen"
+        component={ProductsScreen}
+        options={({navigation, route}) => ({
+          headerTitle: '',
+          headerBackTitleVisible: false,
+          headerShown: false,
+        })}
+      />
+
+      <Stack.Screen
+        name="Product Detail"
+        component={ProductDetail}
+        options={({navigation, route}) => ({
+          headerTitle: '',
+          headerBackTitleVisible: false,
+          headerShown: false,
+        })}
+      />
+
+      {/* for Cart Stack*/}
       <Stack.Screen
         name="AddressScreen"
         component={AddressScreen}
@@ -180,30 +258,13 @@ const NavigationRoute = () => {
         })}
       />
       <Stack.Screen name="OrderConfirmed" component={OrderConfirmed} />
-    </Stack.Navigator>
-  );
 
-  // Stack navigator for the "Notification" tab
-  const NotificationStack = () => (
-    <Stack.Navigator>
-      {/* Add screens for the "Notification" tab */}
-      <Stack.Screen name="Notification Screen" component={NotificationScreen} />
-    </Stack.Navigator>
-  );
+      {/* <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />*/}
 
-  // Stack navigator for the "Profile" tab
-  const ProfileStack = () => (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Profile Screen"
-        component={ProfileScreen}
-        options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
-          headerRight: () => <ProfileHeaderRight />,
-          headerShown: true,
-          headerTitle: '',
-        })}
-      />
+      {/* for Notification Stack*/}
+
+      {/* for Profile Stack*/}
+
       <Stack.Screen
         name="Personal Details"
         component={PersonalDetails}
@@ -224,40 +285,16 @@ const NavigationRoute = () => {
           headerTitle: '',
         })}
       />
-      {/* Add screens for the "Profile" tab */}
-    </Stack.Navigator>
-  );
 
-  const HomeTabNavigator = () => {
-    return (
-      <Tab.Navigator tabBar={props => <CustomTabBar {...props} />}>
-        <Tab.Screen
-          name="Home"
-          component={HomeStack}
-          options={{
-            headerShown: false,
-
-            // tabBarButton: props => {
-            //   return <TabButton {...props} label="Home" logoname="home" />;
-            // },
-          }}
-        />
-      </Tab.Navigator>
-    );
-  };
-
-  const BottomTabHideStack = () => (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeTabNavigator} />
       <Stack.Screen
-        name="Products Screen"
-        component={ProductsScreen}
+        name="Error Screen"
+        component={ErrorScreen}
         options={({navigation, route}) => ({
-          headerTitle: '',
-          headerBackTitleVisible: false,
-          headerShown: false,
+          headerTitle: 'Error',
         })}
       />
+
+      {/* <Stack.Screen name="Cart" component={CartTabNavigator} /> */}
     </Stack.Navigator>
   );
 

@@ -6,7 +6,6 @@ import store from './store/store';
 
 import {SafeAreaView, StatusBar, View} from 'react-native';
 import NavigationRoute from './components/Navigation/NavigationRoute';
-import {notify} from './store/NotificationSlice';
 import {ToastProvider} from 'react-native-toast-notifications';
 
 const App = () => {
