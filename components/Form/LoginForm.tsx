@@ -73,7 +73,7 @@ const LoginForm = () => {
       } else {
         const pushData = {...data, savedAddresses: []};
         dispatch(authorize(pushData));
-        navigation.navigate('Dashboard Screen');
+        navigation.navigate('TabStack');
       }
     } catch (error) {
       console.error('Login failed:', error);

@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TextInput,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {colors} from '../../theme/theme';
@@ -106,8 +107,8 @@ const SignupForm = () => {
 
   const handleSignup = async () => {
     checkForError();
-    setLoading(true);
     if (isFormValid && agreeTerms) {
+      setLoading(true);
       try {
         const response = await fetch('https://dummyjson.com/users/add', {
           method: 'POST',
@@ -151,17 +152,18 @@ const SignupForm = () => {
   //   console.log(error);
 
   const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <View>
+    <View style={styles.mainContainer}>
       {loading ? (
         <ActivityIndicator size="large" color="#000000" />
       ) : (
-        <View>
+        <View style={styles.maincontainerLoaded}>
           <View style={styles.welcomeContainer}>
             <Text style={styles.headerStyle}>Sign Up</Text>
             <Text style={styles.headerDesStyle}>Create a new account</Text>
           </View>
-          <View style={styles.inputContainer}>
+          <View style={[styles.inputContainer]}>
             <TextInput
               style={styles.textInput}
               onChangeText={value => {
@@ -218,34 +220,43 @@ const SignupForm = () => {
               <Text style={styles.errorText}>{error.confirmpassword}</Text>
             )}
           </View>
-
-          <View style={styles.checkboxContainer}>
-            <CheckBox
-              title="By creating an account you agree to our Terms & Conditions"
-              checked={agreeTerms}
-              onPress={() => setAgreeTerms(!agreeTerms)}
-              containerStyle={styles.checkboxContainer}
-              textStyle={styles.checkboxLabel}
-            />
+          <View style={styles.checkboxandbtncontainer}>
+            <View style={styles.checkboxContainer}>
+              <CheckBox
+                title="By creating an account you agree to our Terms & Conditions"
+                checked={agreeTerms}
+                onPress={() => setAgreeTerms(!agreeTerms)}
+                containerStyle={styles.checkboxContainer}
+                textStyle={styles.checkboxLabel}
+              />
+            </View>
+            <View style={styles.signupBtnContainer}>
+              <CustomButtonComponent
+                text={'Sign Up'}
+                color={colors.elementBackground}
+                onSubmit={handleSignup}
+                textcolor={colors.white}
+              />
+            </View>
           </View>
-
-          <CustomButtonComponent
-            text={'Sign Up'}
-            color={colors.elementBackground}
-            onSubmit={handleSignup}
-            textcolor={colors.white}
-          />
         </View>
       )}
     </View>
   );
 };
 
+const deviceHeight = Dimensions.get('screen').height;
+
 const styles = StyleSheet.create({
   mainContainer: {
+    flex: 1,
     paddingHorizontal: 10,
   },
+  maincontainerLoaded: {
+    flex: 1,
+  },
   welcomeContainer: {
+    height: deviceHeight * 0.1,
     paddingVertical: 30,
   },
 
@@ -260,7 +271,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   inputContainer: {
+    height: deviceHeight * 0.4,
     paddingBottom: 30,
+    justifyContent: 'space-between',
   },
 
   logomodelcontainer: {
@@ -288,6 +301,10 @@ const styles = StyleSheet.create({
     // paddingLeft: 10,
     color: 'red',
   },
+  checkboxandbtncontainer: {
+    height: deviceHeight * 0.12,
+    justifyContent: 'space-between',
+  },
   checkboxContainer: {
     backgroundColor: 'transparent',
     borderWidth: 0,
@@ -296,10 +313,13 @@ const styles = StyleSheet.create({
   },
   checkboxLabel: {
     marginLeft: 0,
-    color: 'black', // Customize the color as needed
+    color: 'grey',
   },
   checkbox: {
     alignSelf: 'center',
+  },
+  signupBtnContainer: {
+    marginTop: 'auto',
   },
 });
 

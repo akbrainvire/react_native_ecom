@@ -29,6 +29,8 @@ import PersonalDetails from '../profile/PersonalDetails';
 import {CustomTabBar} from './CustomTabBar';
 import {TabButton} from './TabBarCustomButton';
 import MyOrders from '../../screens/profile/orders/MyOrders';
+import NewAddressForm from '../Form/NewAddressForm';
+import MyFavourites from '../../screens/profile/wishlist/MyFavourites';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator(); // Create bottom tab navigator
@@ -87,11 +89,6 @@ const NavigationRoute = () => {
           headerShown: false,
         })}
       />
-      <Stack.Screen
-        name="SuccessfulPage"
-        component={SuccessfulPage}
-        options={{headerShown: false}}
-      />
     </Stack.Navigator>
   );
 
@@ -135,7 +132,7 @@ const NavigationRoute = () => {
         name="Profile Screen"
         component={ProfileScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
           headerRight: () => <ProfileHeaderRight />,
           headerShown: true,
           headerTitle: '',
@@ -195,6 +192,13 @@ const NavigationRoute = () => {
           headerShown: false,
         })}
       />
+
+      <Stack.Screen
+        name="SuccessfulPage"
+        component={SuccessfulPage}
+        options={{headerShown: false}}
+      />
+
       <Stack.Screen
         name="Products Screen"
         component={ProductsScreen}
@@ -220,13 +224,23 @@ const NavigationRoute = () => {
         name="AddressScreen"
         component={AddressScreen}
         options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={10} />,
           headerTitle: 'Select delivery address',
+        })}
+      />
+      <Stack.Screen
+        name="NewAddressForm"
+        component={NewAddressForm}
+        options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={10} />,
+          headerTitle: 'Enter new delivery address',
         })}
       />
       <Stack.Screen
         name="OrderSummary"
         component={OrderSummaryScreen}
         options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={10} />,
           headerTitle: 'Order summary',
         })}
       />
@@ -234,7 +248,7 @@ const NavigationRoute = () => {
         name="PaymentScreen"
         component={PaymentScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
           headerShown: true,
           headerTitle: 'Select Payment Option',
         })}
@@ -243,7 +257,7 @@ const NavigationRoute = () => {
         name="AddNewCard"
         component={AddNewCard}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
           headerShown: true,
           headerTitle: 'Add new card',
         })}
@@ -252,7 +266,7 @@ const NavigationRoute = () => {
         name="PaymentFillDetail"
         component={PaymentFillDetail}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
           headerShown: true,
           headerTitle: '',
         })}
@@ -269,17 +283,26 @@ const NavigationRoute = () => {
         name="Personal Details"
         component={PersonalDetails}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
           headerRight: () => <ProfileHeaderRight />,
           headerShown: true,
           headerTitle: '',
         })}
       />
       <Stack.Screen
+        name="My Favourites"
+        component={MyFavourites}
+        options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
+
+          headerTitle: 'Wishlist',
+        })}
+      />
+      <Stack.Screen
         name="My Orders"
         component={MyOrders}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={true} />,
+          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
           headerRight: () => <ProfileHeaderRight />,
           headerShown: true,
           headerTitle: '',

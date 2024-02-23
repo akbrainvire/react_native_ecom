@@ -1,14 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {useNavigation} from '@react-navigation/native';
 import CustomButtonComponent from '../components/generic/CustomButtonComponent';
 
 const SuccessfulPage = ({navigation}: any) => {
   const startShopping = () => {
     // Navigate to the dashboard screen
     console.log('neter');
-    navigation.navigate('Dashboard');
+    navigation.navigate('Dashboard Screen');
   };
 
   return (
@@ -46,7 +45,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: 'green', // Adjust the color as needed
+    backgroundColor: 'green',
     padding: 15,
     borderRadius: 10,
   },

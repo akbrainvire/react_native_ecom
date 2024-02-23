@@ -28,14 +28,15 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginHorizontal: 10,
     marginBottom: 20,
-    shadowColor: '#efefef',
+    shadowColor: '#0e0e0e',
     shadowOffset: {
       width: 0,
       height: 1,
     },
     shadowOpacity: 0.25,
     shadowRadius: 1.84,
-    elevation: 3,
+    elevation: 4,
+    backgroundColor: 'white',
   },
   image: {
     width: '100%',

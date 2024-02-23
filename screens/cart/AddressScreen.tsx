@@ -33,6 +33,7 @@ const AddressScreen = ({route}: any) => {
 
   const handleAddAddressNew = () => {
     // Navigate to new address form
+    navigation.navigate('NewAddressForm');
   };
 
   const handleAddressSelect = (addressId: number) => {

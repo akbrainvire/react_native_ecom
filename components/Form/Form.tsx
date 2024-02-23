@@ -15,13 +15,13 @@ const Form = ({value}: {value: string}) => {
             style={styles.logoModel}
           />
         </View>
-        <View>
-          {value === 'login' ? (
-            <LoginForm />
-          ) : value === 'signup' ? (
-            <SignupForm />
-          ) : null}
-        </View>
+        {/* <View> */}
+        {value === 'login' ? (
+          <LoginForm />
+        ) : value === 'signup' ? (
+          <SignupForm />
+        ) : null}
+        {/* </View> */}
       </View>
     </CustomKeyboardAvoidingView>
   );
@@ -29,6 +29,9 @@ const Form = ({value}: {value: string}) => {
 
 const styles = StyleSheet.create({
   mainContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+
     paddingHorizontal: 10,
   },
   welcomeContainer: {

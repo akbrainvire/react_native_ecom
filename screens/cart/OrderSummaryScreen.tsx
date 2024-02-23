@@ -48,7 +48,7 @@ const OrderSummaryScreen = ({route}: any) => {
         renderItem={({item}) => <CartItem item={item} />}
         keyExtractor={item => item.id.toString()}
         ListHeaderComponent={
-          <>
+          <View>
             <Text style={styles.heading}>Delivery Address</Text>
             <View style={styles.addressCard}>
               <AddressText
@@ -65,7 +65,7 @@ const OrderSummaryScreen = ({route}: any) => {
               />
             </View>
             <Text style={styles.heading}>Cart Items</Text>
-          </>
+          </View>
         }
         ListFooterComponent={
           <View style={styles.footerContainer}>
@@ -76,12 +76,14 @@ const OrderSummaryScreen = ({route}: any) => {
                 </Text>
                 <Text style={styles.totalPriceValue}>${totalSum}</Text>
               </View>
-              <CustomButtonComponent
-                text="Next"
-                color="black"
-                onSubmit={handleNext}
-                textcolor="white"
-              />
+              <View style={styles.nextbtnContainer}>
+                <CustomButtonComponent
+                  text="Next"
+                  color="black"
+                  onSubmit={handleNext}
+                  textcolor="white"
+                />
+              </View>
             </View>
           </View>
         }
@@ -97,6 +99,9 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     flex: 1,
+  },
+  nextbtnContainer: {
+    marginTop: 'auto',
   },
   nextbtn: {
     marginTop: 'auto',

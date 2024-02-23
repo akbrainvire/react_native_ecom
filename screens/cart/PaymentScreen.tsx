@@ -22,7 +22,7 @@ const PaymentScreen = ({navigation}: any) => {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{name: 'Cart Screen'}],
+        routes: [{name: 'TabStack'}],
       }),
     );
     dispatch(addOrders(orderItems));

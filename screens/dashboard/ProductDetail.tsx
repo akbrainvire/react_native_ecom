@@ -21,6 +21,7 @@ import {useToast} from 'react-native-toast-notifications';
 import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 import CartHeaderRight from '../../components/cart/CartHeaderRight';
 import {addToWishlist, removeFromWishlist} from '../../store/WishlistedSlice';
+import CustomCarousel from '../../components/generic/CustomCarousel';
 
 export const CustomRadioButton = ({selected, onPress, children}: any) => (
   <TouchableOpacity
@@ -79,7 +80,18 @@ const ProductDetail = ({navigation, route}: any) => {
   // console.log(item, 'items-pd');
 
   const AddToWishlist = () => {
-    dispatch(addToWishlist(item));
+    dispatch(
+      addToWishlist({
+        name: item.title,
+        brand: item.brand,
+        quantity: quantity,
+        size: selectedSize !== '' ? selectedSize : 'XL',
+        price: item.price,
+        thumbnail: item.thumbnail,
+        id: item.id,
+        color: color,
+      }),
+    );
     toast.show('Successfully added to wishlist', {
       type: 'normal',
       placement: 'top',
@@ -97,7 +109,7 @@ const ProductDetail = ({navigation, route}: any) => {
       name: item.title,
       brand: item.brand,
       quantity: quantity,
-      size: selectedSize,
+      size: selectedSize !== '' ? selectedSize : 'XL',
       price: item.price,
       thumbnail: item.thumbnail,
       id: `${item.id}-${item.title}-${selectedSize}`,
@@ -174,6 +186,7 @@ const ProductDetail = ({navigation, route}: any) => {
           itemHeight={Dimensions.get('window').height * 0.5}></Carousel>
         {renderPagination()}
         {/* </View> */}
+        {/* <CustomCarousel images={item.images} />  */}
       </View>
       <SafeAreaView>
         <ScrollView style={styles.contentContainer}>
@@ -321,7 +334,7 @@ const styles = StyleSheet.create({
   },
   contentsubContainer: {
     flex: 1,
-    minHeight: 375,
+    minHeight: Dimensions.get('window').height * 0.49,
     justifyContent: 'space-between',
   },
   quantityContainer: {
@@ -344,7 +357,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    marginTop: 15,
+    // marginTop: 15,
   },
 
   sizeButtonContainer: {
@@ -370,8 +383,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 20,
-    // marginBottom: 20,
+    // marginTop: 10,
+    marginBottom: 10,
   },
   pricesubContainer: {
     justifyContent: 'flex-start',

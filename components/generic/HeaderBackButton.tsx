@@ -11,7 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 const HeaderBackButton = ({
   paddinghorizontal,
 }: {
-  paddinghorizontal?: boolean;
+  paddinghorizontal?: number;
 }) => {
   const navigation = useNavigation<any>();
   const handleGoBack = () => {
@@ -23,7 +23,9 @@ const HeaderBackButton = ({
       style={[
         styles.container,
         {marginVertical: 10},
-        paddinghorizontal ? styles.propStyles : null,
+        paddinghorizontal
+          ? {paddingHorizontal: paddinghorizontal}
+          : {paddingHorizontal: 0},
       ]}>
       <View style={styles.backButton}>
         <TouchableOpacity onPress={handleGoBack}>

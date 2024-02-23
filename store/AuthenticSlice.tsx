@@ -55,8 +55,12 @@ const Authorize = createSlice({
         savedAddress: [],
       };
     },
+
+    addAddressForUser: (state: any, action) => {
+      state.userDetails.savedAddresses.push(action.payload);
+    },
   },
 });
 
-export const {authorize, logout} = Authorize.actions;
+export const {authorize, logout, addAddressForUser} = Authorize.actions;
 export default Authorize.reducer;

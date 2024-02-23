@@ -3,6 +3,7 @@ import {Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
 
 export const TabButton = ({label, isFocused, onPress}: any) => {
+  console.log(label, 'isFocused');
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -17,9 +18,9 @@ export const TabButton = ({label, isFocused, onPress}: any) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+
             backgroundColor: '#e7e7e7',
             borderRadius: 20,
-            // padding: 2,
           }}>
           <View
             style={{
@@ -30,14 +31,16 @@ export const TabButton = ({label, isFocused, onPress}: any) => {
             }}>
             <Icon name={getIconName(label)} size={17} color="white" />
           </View>
-          <Text
-            style={{
-              color: 'black',
-              paddingHorizontal: 5,
-              fontWeight: 'bold',
-            }}>
-            {label}
-          </Text>
+          <View>
+            <Text
+              style={{
+                color: 'black',
+                paddingHorizontal: 5,
+                fontWeight: 'bold',
+              }}>
+              {label}
+            </Text>
+          </View>
         </View>
       ) : (
         <View
