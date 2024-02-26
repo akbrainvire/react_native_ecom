@@ -93,11 +93,15 @@ const ProductDetail = ({navigation, route}: any) => {
       }),
     );
     toast.show('Successfully added to wishlist', {
-      type: 'normal',
+      type: 'custom',
       placement: 'top',
       duration: 3000,
       animationType: 'slide-in',
     });
+  };
+
+  const toastNavigateToCart = () => {
+    navigation.navigate('Cart');
   };
 
   const RemoveFromWishlist = () => {
@@ -117,10 +121,11 @@ const ProductDetail = ({navigation, route}: any) => {
     };
 
     dispatch(addToCart(dataToSend));
-    toast.show('Successfully added to cart', {
-      type: 'normal',
+    toast.show('Successfully added to cart, Click here to check', {
+      type: 'custom',
       placement: 'top',
       duration: 3000,
+      onPress: toastNavigateToCart,
       animationType: 'slide-in',
     });
   };

@@ -13,7 +13,6 @@ import HeaderBackButton from '../generic/HeaderBackButton';
 import CartScreen from '../../screens/cart/CartScreen';
 import NotificationScreen from '../../screens/notification/NotificationScreen';
 import ProfileScreen from '../../screens/profile/ProfileScreen';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import ProductsScreen from '../../screens/dashboard/ProductsScreen';
 import ProductDetail from '../../screens/dashboard/ProductDetail';
 import AddressScreen from '../../screens/cart/AddressScreen';
@@ -27,19 +26,56 @@ import ProfileHeaderRight from '../profile/ProfileHeaderRight';
 import CartHeaderRight from '../cart/CartHeaderRight';
 import PersonalDetails from '../profile/PersonalDetails';
 import {CustomTabBar} from './CustomTabBar';
-import {TabButton} from './TabBarCustomButton';
 import MyOrders from '../../screens/profile/orders/MyOrders';
 import NewAddressForm from '../Form/NewAddressForm';
 import MyFavourites from '../../screens/profile/wishlist/MyFavourites';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import CustomDrawerView from './CustomDrawerView';
+import SearchCategories from '../../screens/dashboard/SearchCategories';
+import DrawerCustomHeader from './DrawerCustomHeader';
+import Settings from '../../screens/setting/Settings';
+import NotificationSetting from '../../screens/setting/NotificationSetting';
+import LanguageSetting from '../../screens/setting/LanguageSetting';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
-  const Tab = createBottomTabNavigator(); // Create bottom tab navigator
+  const Tab = createBottomTabNavigator();
+  const Drawer = createDrawerNavigator();
   const isAuthorized = useSelector(
     (state: any) => state.autheticate.isAuthorized,
   );
 
   const notification = useSelector((state: any) => state.notification.count);
   // const cartItems = useSelector((state: any) => state.cart.cartItemCount);
+
+  //Drawer navigation
+
+  const AppDrawerStack = () => (
+    <Drawer.Navigator
+      drawerContent={props => <CustomDrawerView {...props} />}
+      screenOptions={{
+        // headerShown: false,
+        headerTitle: '',
+        // header: drawer => (
+        //   <DrawerCustomHeader drawer={drawer} showSearchCategories={true} />
+        // ),
+        drawerActiveBackgroundColor: '#000',
+        drawerInactiveBackgroundColor: '#b7b7b7',
+      }}>
+      <Drawer.Screen
+        name="Home"
+        component={BottomTabHideStack}
+        // options={{
+        //   header: drawer => (
+        //     <DrawerCustomHeader drawer={drawer} showSearchCategories={true} />
+        //   ),
+        // }}
+      />
+      <Drawer.Screen name="Cart" component={CartStack} />
+      <Drawer.Screen name="Notification" component={NotificationStack} />
+      <Drawer.Screen name="Profile" component={ProfileStack} />
+    </Drawer.Navigator>
+  );
+
   // Stack navigator for authentication flow
   const AuthStack = () => (
     <Stack.Navigator initialRouteName="FirstScreenNoLogin">
@@ -271,6 +307,7 @@ const NavigationRoute = () => {
           headerTitle: '',
         })}
       />
+
       <Stack.Screen name="OrderConfirmed" component={OrderConfirmed} />
 
       {/* <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />*/}
@@ -308,6 +345,15 @@ const NavigationRoute = () => {
           headerTitle: '',
         })}
       />
+      <Stack.Screen
+        name="Settings"
+        component={SettingAppDrawer}
+        options={({navigation, route}) => ({
+          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
+          headerShown: false,
+          headerTitle: 'Settings',
+        })}
+      />
 
       <Stack.Screen
         name="Error Screen"
@@ -321,11 +367,26 @@ const NavigationRoute = () => {
     </Stack.Navigator>
   );
 
+  const SettingAppDrawer = () => {
+    return (
+      <Drawer.Navigator
+      // drawerContent={props => <CustomDrawerView {...props} />}
+      >
+        <Drawer.Screen name="Setting" component={Settings} />
+        <Drawer.Screen
+          name="Notification Setting"
+          component={NotificationSetting}
+        />
+        <Drawer.Screen name="Language Setting" component={LanguageSetting} />
+      </Drawer.Navigator>
+    );
+  };
+
   // Bottom tab navigator for authenticated screens
   const TabNavigator = () => (
     <Tab.Navigator
       tabBar={props => <CustomTabBar {...props} />}
-      screenOptions={({route}) => ({
+      screenOptions={({route}: any) => ({
         headerShown: false,
         tabBarActiveTintColor: '#000',
         tabBarInactiveTintColor: '#b7b7b7',
@@ -418,7 +479,7 @@ const NavigationRoute = () => {
     <View style={{flex: 1}}>
       <NavigationContainer>
         {/* Render either the authentication flow or the main stack */}
-        {isAuthorized ? <BottomTabHideStack /> : <AuthStack />}
+        {isAuthorized ? <AppDrawerStack /> : <AuthStack />}
       </NavigationContainer>
     </View>
   );

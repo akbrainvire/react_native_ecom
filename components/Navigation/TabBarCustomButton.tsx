@@ -3,7 +3,7 @@ import {Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
 
 export const TabButton = ({label, isFocused, onPress}: any) => {
-  console.log(label, 'isFocused');
+  // console.log(label, 'isFocused');
   return (
     <TouchableOpacity
       onPress={onPress}

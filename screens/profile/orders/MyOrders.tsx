@@ -46,12 +46,16 @@ const MyOrders = () => {
           </Text>
         </View>
       </View>
-      <FlatList
-        // data={orders.filter((order: any) => tab === 'ongoing' ? order.status === 'ongoing' : order.status === 'completed')}
-        data={orders}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      {orders.length > 0 ? (
+        <FlatList
+          // data={orders.filter((order: any) => tab === 'ongoing' ? order.status === 'ongoing' : order.status === 'completed')}
+          data={orders}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      ) : (
+        <Text style={styles.noProducts}>No items available</Text>
+      )}
     </View>
   );
 };
@@ -144,6 +148,15 @@ const styles = StyleSheet.create({
     color: 'black',
     marginTop: 10,
     alignSelf: 'center',
+  },
+  noProducts: {
+    textAlign: 'center',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
 });
 

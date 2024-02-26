@@ -13,10 +13,24 @@ export const categorySlice = createSlice({
   name: 'category',
   initialState: {
     categories: [],
+    filterCategories: [],
     loading: false,
     error: '',
   },
-  reducers: {},
+  reducers: {
+    filterCategoriesAction: (state: any, action: any) => {
+      if (action.payload !== '') {
+        const filteredCategories = state.categories.filter(
+          (category: any) =>
+            category.toLowerCase().indexOf(action.payload.toLowerCase()) !== -1,
+        );
+
+        state.filterCategories = filteredCategories;
+      } else {
+        state.filterCategories = [];
+      }
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchCategories.pending, state => {
@@ -35,5 +49,7 @@ export const categorySlice = createSlice({
       });
   },
 });
+
+export const {filterCategoriesAction} = categorySlice.actions;
 
 export default categorySlice.reducer;

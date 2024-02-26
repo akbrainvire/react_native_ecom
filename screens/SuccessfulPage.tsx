@@ -7,7 +7,7 @@ const SuccessfulPage = ({navigation}: any) => {
   const startShopping = () => {
     // Navigate to the dashboard screen
     console.log('neter');
-    navigation.navigate('Dashboard Screen');
+    navigation.navigate('TabStack');
   };
 
   return (
