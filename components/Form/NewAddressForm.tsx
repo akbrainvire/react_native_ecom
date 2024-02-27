@@ -73,16 +73,22 @@ const NewAddressForm = ({navigation}: any) => {
       validationErrors.area = 'Area is required';
     }
 
-    let flag = true;
-
-    for (let key in validationErrors) {
-      if (validationErrors[key] !== '') {
-        flag = false;
-        break;
+    function checkValidation() {
+      let flag = true;
+      for (let key in validationErrors) {
+        if (validationErrors[key] !== '') {
+          console.log(validationErrors[key]);
+          flag = false;
+          break;
+        }
       }
+
+      console.log(flag);
+
+      return flag;
     }
 
-    if (flag) {
+    if (checkValidation()) {
       dispatch(
         addAddressForUser({
           ...addressDetails,
@@ -164,13 +170,30 @@ const NewAddressForm = ({navigation}: any) => {
             {errors.city && <Text style={styles.error}>{errors.city}</Text>}
           </View>
         </View>
-        <TextInput
-          style={styles.input}
-          placeholder="House No."
-          value={addressDetails.houseNo}
-          onChangeText={text => handleChange('houseNo', text)}
-        />
-        {errors.houseNo && <Text style={styles.error}>{errors.houseNo}</Text>}
+        <View style={styles.row}>
+          <View style={styles.half}>
+            <TextInput
+              style={styles.input}
+              placeholder="House No."
+              value={addressDetails.houseNo}
+              onChangeText={text => handleChange('houseNo', text)}
+            />
+            {errors.houseNo && (
+              <Text style={styles.error}>{errors.houseNo}</Text>
+            )}
+          </View>
+          <View style={styles.half}>
+            <TextInput
+              style={styles.input}
+              placeholder="Pincode"
+              value={addressDetails.pincode}
+              onChangeText={text => handleChange('pincode', text)}
+            />
+            {errors.pincode && (
+              <Text style={styles.error}>{errors.pincode}</Text>
+            )}
+          </View>
+        </View>
         <TextInput
           style={styles.inputArea}
           placeholder="Area"

@@ -11,16 +11,18 @@ const CustomButtonComponent = ({
   width,
   LogoComponent,
   logoComp,
+  size,
   border,
   disabled = false,
+  isOnlyLogo,
 }: any) => {
   const styles = StyleSheet.create({
     button: {
       width: width ? width : 'auto',
       color: 'white',
       backgroundColor: disabled ? '#838383' : color,
-      padding: 10,
-      paddingVertical: 12,
+      padding: isOnlyLogo ? 3 : 10,
+      paddingVertical: isOnlyLogo ? 8 : 12,
       borderWidth: 1,
       borderColor: '#c0c0c0',
       marginVertical: 10,
@@ -34,7 +36,8 @@ const CustomButtonComponent = ({
       paddingHorizontal: logoComp ? 20 : null,
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 15,
+      gap: isOnlyLogo ? 0 : 15,
+      width: isOnlyLogo ? 80 : 'auto',
     },
     textstyle: {
       color: textcolor,
@@ -49,8 +52,8 @@ const CustomButtonComponent = ({
       onPress={onSubmit}
       disabled={disabled}>
       <View style={styles.buttonstyle}>
-        {logo && <Icon name={logo} size={20} color={textcolor} />}
-        <Text style={styles.textstyle}>{text}</Text>
+        {logo && <Icon name={logo} size={size ? size : 20} color={textcolor} />}
+        {isOnlyLogo ? '' : <Text style={styles.textstyle}>{text}</Text>}
         {logoComp && LogoComponent && <LogoComponent />}
       </View>
     </TouchableOpacity>

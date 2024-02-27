@@ -4,7 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'; // Import bottom tab navigator
 import {useSelector} from 'react-redux';
-import SuccessfulPage from '../../screens/SuccessfulPage';
+import SuccessfulPage from '../../screens/default/SuccessfulPage';
 import FirstScreenNoLogin from '../../screens/FirstScreenNoLogin';
 import LoginScreen from '../../screens/LoginScreen';
 import SignupScreen from '../../screens/SignupScreen';
@@ -31,11 +31,11 @@ import NewAddressForm from '../Form/NewAddressForm';
 import MyFavourites from '../../screens/profile/wishlist/MyFavourites';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawerView from './CustomDrawerView';
-import SearchCategories from '../../screens/dashboard/SearchCategories';
-import DrawerCustomHeader from './DrawerCustomHeader';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Settings from '../../screens/setting/Settings';
 import NotificationSetting from '../../screens/setting/NotificationSetting';
 import LanguageSetting from '../../screens/setting/LanguageSetting';
+import LogSignCarousel from '../../screens/default/LogSignCarousel';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -49,32 +49,26 @@ const NavigationRoute = () => {
 
   //Drawer navigation
 
-  const AppDrawerStack = () => (
-    <Drawer.Navigator
-      drawerContent={props => <CustomDrawerView {...props} />}
-      screenOptions={{
-        // headerShown: false,
-        headerTitle: '',
-        // header: drawer => (
-        //   <DrawerCustomHeader drawer={drawer} showSearchCategories={true} />
-        // ),
-        drawerActiveBackgroundColor: '#000',
-        drawerInactiveBackgroundColor: '#b7b7b7',
-      }}>
-      <Drawer.Screen
-        name="Home"
-        component={BottomTabHideStack}
-        // options={{
-        //   header: drawer => (
-        //     <DrawerCustomHeader drawer={drawer} showSearchCategories={true} />
-        //   ),
-        // }}
-      />
-      <Drawer.Screen name="Cart" component={CartStack} />
-      <Drawer.Screen name="Notification" component={NotificationStack} />
-      <Drawer.Screen name="Profile" component={ProfileStack} />
-    </Drawer.Navigator>
-  );
+  // const AppDrawerStack = () => (
+  //   <Drawer.Navigator
+  //     drawerContent={props => <CustomDrawerView {...props} />}
+  //     screenOptions={{
+
+  //       headerTitle: '',
+
+  //       drawerActiveBackgroundColor: '#000',
+  //       drawerInactiveBackgroundColor: '#b7b7b7',
+  //     }}>
+  //     <Drawer.Screen
+  //       name="Home"
+  //       component={HomeStack}
+
+  //     />
+  //     <Drawer.Screen name="Cart" component={CartStack} />
+  //     <Drawer.Screen name="Notification" component={NotificationStack} />
+  //     <Drawer.Screen name="Profile" component={ProfileStack} />
+  //   </Drawer.Navigator>
+  // );
 
   // Stack navigator for authentication flow
   const AuthStack = () => (
@@ -99,6 +93,15 @@ const NavigationRoute = () => {
           headerLeft: props => <HeaderBackButton />,
           headerShown: true,
         })}
+      />
+      <Stack.Screen
+        name="LogSignCarousel"
+        component={LogSignCarousel}
+        options={{
+          headerShown: true,
+          headerTitle: 'Back',
+          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
+        }}
       />
       <Stack.Screen
         name="Error Screen"
@@ -228,6 +231,15 @@ const NavigationRoute = () => {
           headerShown: false,
         })}
       />
+      {/* <Stack.Screen
+        name="AppDrawer"
+        component={AppDrawerStack}
+        options={({navigation, route}) => ({
+          headerTitle: '',
+          headerBackTitleVisible: false,
+          headerShown: true,
+        })}
+      /> */}
 
       <Stack.Screen
         name="SuccessfulPage"
@@ -345,9 +357,10 @@ const NavigationRoute = () => {
           headerTitle: '',
         })}
       />
+
       <Stack.Screen
         name="Settings"
-        component={SettingAppDrawer}
+        component={SettingTabNavigator}
         options={({navigation, route}) => ({
           headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
           headerShown: false,
@@ -367,18 +380,158 @@ const NavigationRoute = () => {
     </Stack.Navigator>
   );
 
-  const SettingAppDrawer = () => {
+  //////////////Combination of tab and drawer navigation////////////////////////////////////
+  const SettingStackNavigator = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Settings"
+          component={MainSettingAppDrawer}
+          options={({navigation, route}) => ({
+            headerShown: false,
+            headerTitle: 'Settings',
+          })}
+        />
+      </Stack.Navigator>
+    );
+  };
+
+  const MainSettingAppDrawer = () => {
+    return (
+      <Drawer.Navigator
+        // drawerContent={props => <CustomDrawerView {...props} />
+        // }
+        screenOptions={{
+          drawerActiveBackgroundColor: 'black',
+          drawerInactiveBackgroundColor: 'grey',
+          drawerLabelStyle: {
+            fontSize: 16,
+            color: 'white',
+          },
+        }}>
+        <Drawer.Screen name="Setting" component={Settings} />
+        {/* <Drawer.Screen
+          name="Notification Setting"
+          component={NotificationSetting}
+        />
+        <Drawer.Screen name="Language Setting" component={LanguageSetting} /> */}
+      </Drawer.Navigator>
+    );
+  };
+
+  const LanguageSettingAppDrawer = () => {
     return (
       <Drawer.Navigator
       // drawerContent={props => <CustomDrawerView {...props} />}
       >
-        <Drawer.Screen name="Setting" component={Settings} />
+        <Drawer.Screen name="Language Setting" component={LanguageSetting} />
+
+        {/* <Drawer.Screen name="Setting" component={Settings} />
+        <Drawer.Screen
+          name="Notification Setting"
+          component={NotificationSetting}
+        /> */}
+      </Drawer.Navigator>
+    );
+  };
+
+  const NotificationSettingAppDrawer = () => {
+    return (
+      <Drawer.Navigator
+      // drawerContent={props => <CustomDrawerView {...props} />}
+      >
         <Drawer.Screen
           name="Notification Setting"
           component={NotificationSetting}
         />
-        <Drawer.Screen name="Language Setting" component={LanguageSetting} />
+        {/* <Drawer.Screen name="Setting" component={Settings} />
+
+        <Drawer.Screen name="Language Setting" component={LanguageSetting} /> */}
       </Drawer.Navigator>
+    );
+  };
+
+  const SettingTabNavigator = () => {
+    return (
+      <Tab.Navigator
+        screenOptions={({route}: any) => ({
+          headerShown: false,
+          tabBarActiveTintColor: '#000',
+          tabBarInactiveTintColor: '#b7b7b7',
+
+          tabBarStyle: {
+            height: 60,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 10,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 16.0,
+            elevation: 24,
+            paddingVertical: 10,
+            bottom: 0,
+            width: '100%',
+            zIndex: 0,
+            borderTopWidth: 0,
+            backgroundColor: 'white',
+          },
+          tabBarShowLabel: true,
+        })}>
+        <Tab.Screen
+          name="Main Setting"
+          component={MainSettingAppDrawer}
+          options={{
+            headerShown: false,
+            tabBarIcon: active => {
+              // console.log(active);
+              return (
+                <Icon
+                  name="application-settings"
+                  size={20}
+                  color={active.focused ? 'black' : 'grey'}
+                />
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Language"
+          component={LanguageSettingAppDrawer}
+          options={{
+            headerShown: false,
+            tabBarIcon: active => {
+              // console.log(active);
+              return (
+                <Icon
+                  name="message-settings"
+                  size={20}
+                  color={active.focused ? 'black' : 'grey'}
+                />
+              );
+            },
+          }}
+        />
+        <Tab.Screen
+          name="Notification"
+          component={NotificationSettingAppDrawer}
+          options={{
+            headerShown: false,
+            tabBarIcon: active => {
+              // console.log(active);
+              return (
+                <Icon
+                  name="cellphone-settings"
+                  size={20}
+                  color={active.focused ? 'black' : 'grey'}
+                />
+              );
+            },
+          }}
+        />
+      </Tab.Navigator>
     );
   };
 
@@ -479,7 +632,7 @@ const NavigationRoute = () => {
     <View style={{flex: 1}}>
       <NavigationContainer>
         {/* Render either the authentication flow or the main stack */}
-        {isAuthorized ? <AppDrawerStack /> : <AuthStack />}
+        {isAuthorized ? <BottomTabHideStack /> : <AuthStack />}
       </NavigationContainer>
     </View>
   );

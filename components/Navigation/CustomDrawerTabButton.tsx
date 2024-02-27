@@ -46,10 +46,10 @@ export const CustomDrawerTabButton = ({
 
 const getIconName = (label: string) => {
   switch (label.toLowerCase()) {
-    case 'home':
-      return 'home';
-    case 'cart':
-      return 'shopping-cart';
+    case 'setting':
+      return 'setting';
+    case 'languages':
+      return 'language';
     case 'notification':
       return 'notification';
     case 'profile':

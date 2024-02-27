@@ -12,7 +12,7 @@ const CustomDrawerView = ({navigation, ...props}: any) => {
   let activeRouteName = props.state.routes[index].name;
   // console.log(activeRouteName == 'Home', 'acrn');
 
-  const [activeRoute, setActiveRoute] = useState('Home');
+  const [activeRoute, setActiveRoute] = useState('Setting');
 
   useEffect(() => {
     console.log('first');
@@ -22,25 +22,20 @@ const CustomDrawerView = ({navigation, ...props}: any) => {
   return (
     <View style={styles.container}>
       <CustomDrawerTabButton
-        onPress={() => navigateToScreen('Home')}
-        label={'home'}
-        isActive={activeRouteName == 'Home'}
+        onPress={() => navigateToScreen('Setting')}
+        label={'settings'}
+        isActive={activeRouteName == 'Setting'}
       />
 
       <CustomDrawerTabButton
-        onPress={() => navigateToScreen('Cart')}
-        label={'cart'}
-        isActive={activeRouteName == 'Cart'}
+        onPress={() => navigateToScreen('Language Setting')}
+        label={'languages'}
+        isActive={activeRouteName == 'Language Setting'}
       />
       <CustomDrawerTabButton
-        onPress={() => navigateToScreen('Notification')}
+        onPress={() => navigateToScreen('Notification Setting')}
         label={'notification'}
-        isActive={activeRouteName == 'Notification'}
-      />
-      <CustomDrawerTabButton
-        onPress={() => navigateToScreen('Profile')}
-        label={'profile'}
-        isActive={activeRouteName == 'Profile'}
+        isActive={activeRouteName == 'Notification Setting'}
       />
     </View>
   );

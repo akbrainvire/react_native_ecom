@@ -14,10 +14,7 @@ const NotificationCard = ({title, message, time, id}: any) => {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Image
-          source={require('../../assets/logo.png')} // Replace with your logo source
-          style={styles.logo}
-        />
+        <Image source={require('../../assets/logo.png')} style={styles.logo} />
         <View style={styles.messageContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.message} numberOfLines={2} ellipsizeMode="tail">
@@ -65,10 +62,11 @@ const NotificationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
     backgroundColor: '#fff',
   },
   card: {
+    marginHorizontal: 20,
+    marginVertical: 10,
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 10,
@@ -76,7 +74,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   messageContainer: {
-    flex: 1, // Ensure the container takes full height
+    flex: 1,
   },
   header: {
     flexDirection: 'row',
@@ -89,12 +87,14 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   title: {
+    color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
   },
   message: {
     fontSize: 14,
     marginBottom: 5,
+    color: 'black',
   },
   footer: {
     flexDirection: 'row',
@@ -103,11 +103,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   markAsReadButton: {
-    color: '#AF8D86',
+    color: '#000000',
     fontWeight: 'bold',
     borderWidth: 1,
 
-    borderColor: '#AF8D86',
+    borderColor: '#000000',
     paddingVertical: 5,
     paddingHorizontal: 5,
     borderRadius: 10,

@@ -4,7 +4,7 @@ import React from 'react';
 const LanguageSetting = () => {
   return (
     <View>
-      <Text>Language Setting</Text>
+      <Text>LanguageSetting</Text>
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CustomButtonComponent from '../components/generic/CustomButtonComponent';
+import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 
 const SuccessfulPage = ({navigation}: any) => {
   const startShopping = () => {

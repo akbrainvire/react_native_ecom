@@ -10,15 +10,21 @@ import {
 
 const FirstScreenNoLogin = ({navigation}: any) => {
   const goToLoginScreen = () => {
-    navigation.navigate('Login', {
+    navigation.navigate('LogSignCarousel', {
       id: 'login',
     });
+    // navigation.navigate('Login', {
+    //   id: 'login',
+    // });
   };
 
   const goToSignupScreen = () => {
-    navigation.navigate('Signup', {
+    navigation.navigate('LogSignCarousel', {
       id: 'signup',
     });
+    // navigation.navigate('Signup', {
+    //   id: 'signup',
+    // });
   };
 
   return (
