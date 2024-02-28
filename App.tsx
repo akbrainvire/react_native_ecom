@@ -7,35 +7,38 @@ import store from './store/store';
 import {SafeAreaView, StatusBar, View} from 'react-native';
 import NavigationRoute from './components/Navigation/NavigationRoute';
 import {ToastProvider} from 'react-native-toast-notifications';
+import {ThemeProvider} from './context/ThemeContext';
 
 const App = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
-      <Provider store={store}>
-        <ToastProvider
-          placement="top"
-          duration={5000}
-          animationType="slide-in"
-          animationDuration={250}
-          successColor="green"
-          dangerColor="red"
-          warningColor="orange"
-          normalColor="#000000"
-          offset={50}
-          offsetTop={30}
-          offsetBottom={40}
-          swipeEnabled={true}>
-          <View style={{flex: 1}}>
-            <StatusBar
-              animated={true}
-              backgroundColor="#ffffff"
-              hidden={false}
-              barStyle={'dark-content'}
-            />
-            <NavigationRoute />
-          </View>
-        </ToastProvider>
-      </Provider>
+      <ThemeProvider>
+        <Provider store={store}>
+          <ToastProvider
+            placement="top"
+            duration={5000}
+            animationType="slide-in"
+            animationDuration={250}
+            successColor="green"
+            dangerColor="red"
+            warningColor="orange"
+            normalColor="#000000"
+            offset={50}
+            offsetTop={30}
+            offsetBottom={40}
+            swipeEnabled={true}>
+            <View style={{flex: 1}}>
+              <StatusBar
+                animated={true}
+                backgroundColor="#ffffff"
+                hidden={false}
+                barStyle={'dark-content'}
+              />
+              <NavigationRoute />
+            </View>
+          </ToastProvider>
+        </Provider>
+      </ThemeProvider>
     </SafeAreaView>
   );
 };

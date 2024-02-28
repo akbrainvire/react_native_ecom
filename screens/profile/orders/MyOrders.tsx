@@ -113,7 +113,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  headerHeading: {},
+  headerHeading: {
+    // paddingHorizontal: 10,
+  },
   headerHeadingText: {
     fontSize: 20,
     color: 'black',

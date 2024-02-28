@@ -332,8 +332,8 @@ const NavigationRoute = () => {
         name="Personal Details"
         component={PersonalDetails}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
-          headerRight: () => <ProfileHeaderRight />,
+          headerLeft: props => <HeaderBackButton paddinghorizontal={10} />,
+          // headerRight: () => <ProfileHeaderRight />,
           headerShown: true,
           headerTitle: '',
         })}

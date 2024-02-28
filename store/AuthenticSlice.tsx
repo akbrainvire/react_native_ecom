@@ -14,6 +14,11 @@ const Authorize = createSlice({
       image: '',
       savedAddresses: [],
     },
+    userOptions: {
+      language: 'English',
+      darkMode: false,
+      notification: false,
+    },
   },
   reducers: {
     authorize: (state: any, action) => {
@@ -59,8 +64,12 @@ const Authorize = createSlice({
     addAddressForUser: (state: any, action) => {
       state.userDetails.savedAddresses.push(action.payload);
     },
+    updateUserOptions: (state: any, action) => {
+      state.userOptions = {...state.userOptions, ...action.payload};
+    },
   },
 });
 
-export const {authorize, logout, addAddressForUser} = Authorize.actions;
+export const {authorize, logout, addAddressForUser, updateUserOptions} =
+  Authorize.actions;
 export default Authorize.reducer;

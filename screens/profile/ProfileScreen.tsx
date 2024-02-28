@@ -101,7 +101,7 @@ const ProfileScreen = ({navigation}: any) => {
       route: 'My Favourites',
     },
   ];
-  // console.log(userDetails.image, 'userimage');
+  console.log(userDetails.image, 'userimage');
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>

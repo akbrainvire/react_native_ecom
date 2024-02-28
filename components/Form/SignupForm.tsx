@@ -129,7 +129,7 @@ const SignupForm = () => {
           const data = {
             ...userData,
             savedAddresses: [],
-            image: require('../../assets/logo/icon-5359553_640.png'),
+            image: require('../../assets/logo/icon-5359553_640.jpg'),
           };
           dispatch(authorize(data));
           navigation.navigate('SuccessfulPage');
