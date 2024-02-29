@@ -5,8 +5,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import {Animated} from 'react-native';
 import {useToast} from 'react-native-toast-notifications';
+import {useTheme} from '../../context/ThemeContext';
 
-const ToggleButton = ({name, toggle, onPress}: any) => {
+const ToggleButton = ({name, toggle, onPress, darkMode}: any) => {
   //   const toast = useToast();
   //   const [isOn, setIsOn] = useState(false);
   //   const handleToggle = () => {
@@ -20,13 +21,17 @@ const ToggleButton = ({name, toggle, onPress}: any) => {
   //     });
   //   };
 
-  console.log(toggle, 'toooooooo');
+  console.log(toggle, name, 'toooooooo');
 
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <View style={[styles.toggleContainerT]}>
-        {!toggle ? (
-          <Icon2 name="toggle-on" size={45} color="black" />
+        {toggle ? (
+          <Icon2
+            name="toggle-on"
+            size={45}
+            color={darkMode ? 'white' : 'black'}
+          />
         ) : (
           <Icon2 name="toggle-off" size={45} color="#c2c2c2" />
         )}
@@ -44,28 +49,35 @@ const SettingCustomOption = ({
   language,
   toggle,
 }: any) => {
-  const objToSend = {
-    language: '',
-    darkMode: false,
-    notification: false,
-  };
+  const {darkMode, mainContainerDarkMode, textColor} = useTheme();
 
-  console.log(toggle, 'ttt');
+  // console.log(toggle, 'ttt');
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.container, darkMode && mainContainerDarkMode]}
+      onPress={onPress}>
       <View style={styles.logoContainer}>
         <Icon name={logo} size={25} color="black" />
       </View>
       <View style={styles.nameContainer}>
-        <Text style={styles.nameText}>{name}</Text>
+        <Text style={[styles.nameText, darkMode && textColor]}>{name}</Text>
       </View>
       <View style={styles.toggleContainer}>
         {isToggle ? (
-          <ToggleButton name={name} toggle={toggle} onPress={onPress} />
+          <ToggleButton
+            name={name}
+            toggle={toggle}
+            onPress={onPress}
+            darkMode={darkMode}
+          />
         ) : (
           <View style={styles.textContainer}>
             {language && <Text style={styles.languageText}>{language}</Text>}
-            <Icon2 name="keyboard-arrow-right" size={24} color="black" />
+            <Icon2
+              name="keyboard-arrow-right"
+              size={24}
+              color={darkMode ? 'white' : 'black'}
+            />
           </View>
         )}
       </View>

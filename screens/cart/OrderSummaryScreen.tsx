@@ -4,25 +4,50 @@ import {Image} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 import {useSelector} from 'react-redux';
+import {useTheme} from '../../context/ThemeContext';
 
-const CartItem = ({item}: any) => (
+const CartItem = ({item, darkMode}: any) => (
   <View style={styles.container}>
     <Image source={{uri: item.thumbnail}} style={styles.image} />
     <View style={styles.textContainer}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.brand}>{item.brand}</Text>
-      <Text style={styles.price}>
+      <Text style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
+        {item.name}
+      </Text>
+      <Text style={[styles.brand, {color: darkMode ? 'grey' : 'grey'}]}>
+        {item.brand}
+      </Text>
+      <Text style={[styles.price, {color: darkMode ? 'white' : 'black'}]}>
         Total Price: ${item.totalPrice} (${item.price} x {item.quantity})
       </Text>
     </View>
   </View>
 );
 
-const AddressText = ({label, data}: {label: string; data: string}) => {
+const AddressText = ({
+  label,
+  data,
+  darkMode,
+}: {
+  label: string;
+  data: string;
+  darkMode: boolean;
+}) => {
   return (
     <View style={styles.addressCardtextContainer}>
-      <Text style={[styles.textaddStylebold]}>{label}</Text>
-      <Text style={[styles.textaddStylelight]}>{data}</Text>
+      <Text
+        style={[
+          styles.textaddStylebold,
+          {color: darkMode ? 'white' : 'black'},
+        ]}>
+        {label}
+      </Text>
+      <Text
+        style={[
+          styles.textaddStylelight,
+          {color: darkMode ? 'white' : 'black'},
+        ]}>
+        {data}
+      </Text>
     </View>
   );
 };
@@ -31,6 +56,7 @@ const OrderSummaryScreen = ({route}: any) => {
   const {selectedAddress} = route.params;
   const cartItems = useSelector((state: any) => state.cart.cartItems);
   const navigation = useNavigation<any>();
+  const {darkMode} = useTheme();
 
   const handleNext = () => {
     navigation.navigate('PaymentScreen');
@@ -42,26 +68,55 @@ const OrderSummaryScreen = ({route}: any) => {
   );
 
   return (
-    <View style={styles.maincontainer}>
+    <View
+      style={[
+        styles.maincontainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       <FlatList
         data={cartItems}
-        renderItem={({item}) => <CartItem item={item} />}
+        renderItem={({item}) => <CartItem item={item} darkMode={darkMode} />}
         keyExtractor={item => item.id.toString()}
         ListHeaderComponent={
           <View>
-            <Text style={styles.heading}>Delivery Address</Text>
-            <View style={styles.addressCard}>
+            <Text
+              style={[styles.heading, {color: darkMode ? 'white' : 'black'}]}>
+              Delivery Address
+            </Text>
+            <View
+              style={[
+                styles.addressCard,
+                {backgroundColor: darkMode ? 'black' : 'white'},
+              ]}>
               <AddressText
                 label="House Number : "
                 data={selectedAddress.houseNo}
+                darkMode={darkMode}
               />
-              <AddressText label="Area : " data={selectedAddress.area} />
-              <AddressText label="City : " data={selectedAddress.city} />
-              <AddressText label="State : " data={selectedAddress.state} />
-              <AddressText label="Pin Code : " data={selectedAddress.pincode} />
+              <AddressText
+                label="Area : "
+                data={selectedAddress.area}
+                darkMode={darkMode}
+              />
+              <AddressText
+                label="City : "
+                data={selectedAddress.city}
+                darkMode={darkMode}
+              />
+              <AddressText
+                label="State : "
+                data={selectedAddress.state}
+                darkMode={darkMode}
+              />
+              <AddressText
+                label="Pin Code : "
+                data={selectedAddress.pincode}
+                darkMode={darkMode}
+              />
               <AddressText
                 label="Mobile Number : "
                 data={selectedAddress.phoneNumber}
+                darkMode={darkMode}
               />
             </View>
             <Text style={styles.heading}>Cart Items</Text>
@@ -71,17 +126,27 @@ const OrderSummaryScreen = ({route}: any) => {
           <View style={styles.footerContainer}>
             <View style={styles.nextbtn}>
               <View style={styles.totalContainer}>
-                <Text style={styles.totalText}>
+                <Text
+                  style={[
+                    styles.totalText,
+                    {color: darkMode ? 'white' : 'black'},
+                  ]}>
                   Total ({cartItems.length} items)
                 </Text>
-                <Text style={styles.totalPriceValue}>${totalSum}</Text>
+                <Text
+                  style={[
+                    styles.totalPriceValue,
+                    {color: darkMode ? 'white' : 'black'},
+                  ]}>
+                  ${totalSum}
+                </Text>
               </View>
               <View style={styles.nextbtnContainer}>
                 <CustomButtonComponent
                   text="Next"
-                  color="black"
+                  color={darkMode ? 'white' : 'black'}
                   onSubmit={handleNext}
-                  textcolor="white"
+                  textcolor={darkMode ? 'black' : 'white'}
                 />
               </View>
             </View>
@@ -93,7 +158,7 @@ const OrderSummaryScreen = ({route}: any) => {
 };
 const styles = StyleSheet.create({
   maincontainer: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     paddingHorizontal: 10,
     flex: 1,
   },
@@ -113,7 +178,7 @@ const styles = StyleSheet.create({
   textaddStylebold: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'black',
+    // color: 'black',
   },
   container: {
     flexDirection: 'row',
@@ -131,11 +196,11 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: 'bold',
-    color: 'black',
+    // color: 'black',
     fontSize: 16,
   },
   brand: {
-    color: 'gray',
+    // color: 'gray',
   },
   price: {
     fontWeight: 'bold',
@@ -160,10 +225,10 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'black',
+    // color: 'black',
   },
   addressCard: {
-    backgroundColor: '#ffffff',
+    // backgroundColor: '#ffffff',
     padding: 10,
     margin: 5,
     marginBottom: 10,

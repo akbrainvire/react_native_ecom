@@ -7,6 +7,7 @@ const RadioButtonGroup = ({
   onPress,
   selectedId,
   LogoComponent,
+  darkMode,
 }: any) => {
   return (
     <View style={styles.container}>
@@ -15,7 +16,18 @@ const RadioButtonGroup = ({
           key={button.id}
           style={[
             styles.radioButton,
-            selectedId === button.value ? styles.radiobuttonSelectedBg : null,
+            {
+              borderWidth: darkMode ? 1 : 0,
+              borderColor: darkMode ? 'white' : 'black',
+            },
+            // {borderColor: darkMode ? 'black' : 'white'},
+            selectedId === button.value
+              ? {
+                  backgroundColor: darkMode ? 'white' : 'black',
+                  borderRadius: 14,
+                }
+              : null,
+            // {backgroundColor: darkMode ? 'black' : 'white'},
           ]}
           onPress={() => onPress(button.value)}>
           <View style={styles.logoLabelContainer}>
@@ -27,8 +39,9 @@ const RadioButtonGroup = ({
             <Text
               style={[
                 styles.radioButtonLabel,
+                {color: darkMode ? 'white' : 'black'},
                 selectedId === button.value
-                  ? styles.radiobuttonSelectedLabel
+                  ? {color: darkMode ? 'black' : 'white'}
                   : null,
               ]}>
               {button.label}
@@ -37,12 +50,18 @@ const RadioButtonGroup = ({
           <View
             style={[
               styles.radioButtonCircle,
-              selectedId === button.value
-                ? styles.radiobuttonSelectedCircle
-                : null,
+              {borderColor: 'white'},
+              selectedId === button.value && {
+                borderColor: darkMode ? 'black' : 'white',
+              },
             ]}>
             {selectedId === button.value && (
-              <View style={[styles.selectedCircle]} />
+              <View
+                style={[
+                  styles.selectedCircle,
+                  {backgroundColor: darkMode ? 'black' : 'white'},
+                ]}
+              />
             )}
           </View>
         </TouchableOpacity>
@@ -68,8 +87,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 5,
     borderRadius: 14,
-    backgroundColor: '#fff',
-    shadowColor: '#696969',
+
+    // backgroundColor: '#fff',
+    // shadowColor: '#c4c1c1',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -83,12 +103,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
     fontSize: 16,
   },
-  radiobuttonSelectedBg: {
-    backgroundColor: '#000',
-    borderRadius: 14,
-  },
   radiobuttonSelectedLabel: {
-    color: '#fff',
+    // color: '#fff',
   },
   radioButtonCircle: {
     width: 20,
@@ -100,14 +116,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   radiobuttonSelectedCircle: {
-    borderColor: '#fff',
-    color: '#fff',
+    // borderColor: '#fff',
+    // color: '#fff',
   },
   selectedCircle: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#ffffff',
+    // backgroundColor: '#ffffff',
   },
   logoimageContainer: {
     width: 50,

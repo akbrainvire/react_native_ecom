@@ -22,15 +22,29 @@ import CustomButtonComponent from '../../components/generic/CustomButtonComponen
 import CartHeaderRight from '../../components/cart/CartHeaderRight';
 import {addToWishlist, removeFromWishlist} from '../../store/WishlistedSlice';
 import CustomCarousel from '../../components/generic/CustomCarousel';
+import {useTheme} from '../../context/ThemeContext';
 
-export const CustomRadioButton = ({selected, onPress, children}: any) => (
+export const CustomRadioButton = ({
+  selected,
+  onPress,
+  darkMode,
+  children,
+}: any) => (
   <TouchableOpacity
     onPress={onPress}
-    style={[styles.radioButton, selected && styles.radioButtonSelected]}>
+    style={[
+      styles.radioButton,
+      selected && {
+        borderColor: darkMode ? 'white' : 'black',
+        backgroundColor: darkMode ? 'white' : 'black',
+      },
+    ]}>
     <Text
       style={[
         styles.radioButtonText,
+        {color: darkMode ? 'white' : 'black'},
         selected && styles.radioButtonTextSelected,
+        selected && {color: darkMode ? 'black' : 'white'},
       ]}>
       {children}
     </Text>
@@ -51,7 +65,7 @@ const ProductDetail = ({navigation, route}: any) => {
       setQuantity(quantity - 1);
     }
   };
-
+  const {darkMode} = useTheme();
   const isWishlisted = useSelector((state: any) =>
     state.wishlist.wishlisted.some((itemc: any) => itemc.id === item.id),
   );
@@ -153,13 +167,21 @@ const ProductDetail = ({navigation, route}: any) => {
         </View>
         {/* <View style={styles.carouselContainer}> */}
         {isWishlisted ? (
-          <View style={styles.wishlistBtn}>
+          <View
+            style={[
+              styles.wishlistBtn,
+              {backgroundColor: darkMode ? '#535353' : 'white'},
+            ]}>
             <TouchableOpacity onPress={() => RemoveFromWishlist()}>
               <Icon name="heart" size={23} color="red" />
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={styles.wishlistBtn}>
+          <View
+            style={[
+              styles.wishlistBtn,
+              {backgroundColor: darkMode ? '#535353' : 'white'},
+            ]}>
             <TouchableOpacity onPress={() => AddToWishlist()}>
               <Icon name="heart-o" size={23} color="red" />
             </TouchableOpacity>
@@ -194,42 +216,92 @@ const ProductDetail = ({navigation, route}: any) => {
         {/* <CustomCarousel images={item.images} />  */}
       </View>
       <SafeAreaView>
-        <ScrollView style={styles.contentContainer}>
+        <ScrollView
+          style={[
+            styles.contentContainer,
+            {backgroundColor: darkMode ? 'black' : 'white'},
+          ]}>
           <View style={styles.contentsubContainer}>
             <View style={styles.productInfo}>
               <View style={styles.productDetailContainer}>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.brand}>Brand: {item.brand}</Text>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Text
+                  style={[styles.title, {color: darkMode ? 'white' : 'black'}]}>
+                  {item.title}
+                </Text>
+                <Text
+                  style={[styles.brand, {color: darkMode ? 'white' : 'black'}]}>
+                  Brand: {item.brand}
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    // width: 'auto',
+                    // backgroundColor: 'transparent',
+                  }}>
                   <Rating
                     type="custom"
                     showRating={false}
                     readonly={true}
                     onFinishRating={finishedRating}
-                    ratingBackgroundColor="#00000000"
+                    ratingBackgroundColor="transparent"
                     style={styles.rating}
+                    tintColor={darkMode ? 'black' : 'white'}
                     fractions={1}
                     startingValue={item.rating}
-                    imageSize={15}
+                    imageSize={12}
                   />
                   <Text style={styles.ratingText}>(280 Review)</Text>
                 </View>
               </View>
-              <View style={styles.quantityContainer}>
+              <View
+                style={[
+                  styles.quantityContainer,
+                  {
+                    backgroundColor: darkMode ? 'black' : '#ececec',
+                    borderColor: darkMode ? 'white' : 'black',
+                    borderWidth: darkMode ? 1 : 0,
+                  },
+                ]}>
                 <TouchableOpacity onPress={decreaseQuantity}>
-                  <Text style={styles.quantityButton}>-</Text>
+                  <Text
+                    style={[
+                      styles.quantityButton,
+                      {color: darkMode ? 'white' : 'black'},
+                    ]}>
+                    -
+                  </Text>
                 </TouchableOpacity>
-                <Text style={styles.quantity}>{quantity}</Text>
+                <Text
+                  style={[
+                    styles.quantity,
+                    {color: darkMode ? 'white' : 'black'},
+                  ]}>
+                  {quantity}
+                </Text>
                 <TouchableOpacity onPress={increaseQuantity}>
-                  <Text style={styles.quantityButton}>+</Text>
+                  <Text
+                    style={[
+                      styles.quantityButton,
+                      {color: darkMode ? 'white' : 'black'},
+                    ]}>
+                    +
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
             <View style={styles.sizeContainer}>
-              <Text style={styles.othertitle}>Size</Text>
+              <Text
+                style={[
+                  styles.othertitle,
+                  {color: darkMode ? 'white' : 'black'},
+                ]}>
+                Size
+              </Text>
               <View style={styles.sizeButtonContainer}>
                 <CustomRadioButton
                   selected={selectedSize === 'S'}
+                  darkMode={darkMode}
                   onPress={() => {
                     setSelectedSize('S');
                     setQuantity(1);
@@ -238,6 +310,7 @@ const ProductDetail = ({navigation, route}: any) => {
                 </CustomRadioButton>
                 <CustomRadioButton
                   selected={selectedSize === 'M'}
+                  darkMode={darkMode}
                   onPress={() => {
                     setSelectedSize('M');
                     setQuantity(1);
@@ -246,6 +319,7 @@ const ProductDetail = ({navigation, route}: any) => {
                 </CustomRadioButton>
                 <CustomRadioButton
                   selected={selectedSize === 'L'}
+                  darkMode={darkMode}
                   onPress={() => {
                     setSelectedSize('L');
                     setQuantity(1);
@@ -254,6 +328,7 @@ const ProductDetail = ({navigation, route}: any) => {
                 </CustomRadioButton>
                 <CustomRadioButton
                   selected={selectedSize === 'XL'}
+                  darkMode={darkMode}
                   onPress={() => {
                     setSelectedSize('XL');
                     setQuantity(1);
@@ -262,6 +337,7 @@ const ProductDetail = ({navigation, route}: any) => {
                 </CustomRadioButton>
                 <CustomRadioButton
                   selected={selectedSize === 'XXL'}
+                  darkMode={darkMode}
                   onPress={() => {
                     setSelectedSize('XXL');
                     setQuantity(1);
@@ -271,14 +347,35 @@ const ProductDetail = ({navigation, route}: any) => {
               </View>
               <ColorSelect colors={colors} onSelectColor={handleColorSelect} />
             </View>
-            <Text style={styles.othertitle}>Description</Text>
-            <Text style={styles.description}>{item.description}</Text>
+            <Text
+              style={[
+                styles.othertitle,
+                {color: darkMode ? 'white' : 'black'},
+              ]}>
+              Description
+            </Text>
+            <Text
+              style={[
+                styles.description,
+                {color: darkMode ? 'white' : 'black'},
+              ]}>
+              {item.description}
+            </Text>
 
             <View style={styles.priceContainer}>
               <View style={styles.pricesubContainer}>
-                <Text style={styles.priceT}>Price</Text>
+                <Text
+                  style={[
+                    styles.priceT,
+                    {color: darkMode ? 'white' : 'black'},
+                  ]}>
+                  Price
+                </Text>
 
-                <Text style={styles.price}>${item.price}</Text>
+                <Text
+                  style={[styles.price, {color: darkMode ? 'white' : 'black'}]}>
+                  ${item.price}
+                </Text>
               </View>
               <CustomButtonComponent
                 onSubmit={addToCartFunction}
@@ -305,7 +402,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
     borderTopLeftRadius: 35,
     borderTopRightRadius: 35,
   },
@@ -326,7 +423,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     marginTop: 10,
-    color: 'black',
+    // color: 'black',
   },
   brand: {
     marginTop: 5,
@@ -348,7 +445,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 5,
     borderRadius: 15,
-    backgroundColor: '#ececec',
+    // backgroundColor: '#ececec',
     maxWidth: '20%',
   },
   quantityButton: {
@@ -374,7 +471,7 @@ const styles = StyleSheet.create({
   othertitle: {
     fontWeight: 'bold',
     fontSize: 18,
-    color: 'black',
+    // color: 'black',
     marginTop: 10,
   },
   description: {
@@ -438,11 +535,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     fontSize: 15,
   },
-  radioButtonSelected: {
-    borderColor: '#000',
-    backgroundColor: '#000',
-    fontWeight: 'bold',
-  },
+
   backBtn: {
     position: 'absolute',
     top: 1,
@@ -454,8 +547,8 @@ const styles = StyleSheet.create({
     bottom: 15,
     right: 20,
     zIndex: 990,
-    backgroundColor: 'white',
-    padding: 5,
+    // backgroundColor: 'white',
+    padding: 7,
     borderRadius: 30,
   },
   cartButton: {

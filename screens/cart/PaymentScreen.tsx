@@ -8,6 +8,7 @@ import {CommonActions} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {emptyCartafterOplaced} from '../../store/CartSlice';
 import {addOrders} from '../../store/OrderSlice';
+import {useTheme} from '../../context/ThemeContext';
 
 const PaymentScreen = ({navigation}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,6 +31,8 @@ const PaymentScreen = ({navigation}: any) => {
 
     navigation.navigate('Dashboard Screen');
   };
+
+  const {darkMode} = useTheme();
 
   const radioButtons = useMemo(
     () => [
@@ -92,7 +95,11 @@ const PaymentScreen = ({navigation}: any) => {
   };
 
   return (
-    <View style={styles.maincontainer}>
+    <View
+      style={[
+        styles.maincontainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       <CustomModal
         visible={modalVisible}
         onClose={handleContinueShopping}
@@ -102,43 +109,46 @@ const PaymentScreen = ({navigation}: any) => {
         loading={loading}
       />
       {/* <StepProgress currentStep={3} /> */}
-      <Text style={styles.heading}>Payment</Text>
+      <Text style={[styles.heading, {color: darkMode ? 'white' : 'black'}]}>
+        Payment
+      </Text>
       <RadioButtonGroup
         radioButtons={radioButtons}
         onPress={setSelectedId}
         selectedId={selectedId}
         LogoComponent={true}
+        darkMode={darkMode}
       />
       <CustomButtonComponent
         text="Add Card"
         color="transparent"
         onSubmit={handleAddCard}
-        textcolor="black"
+        textcolor={darkMode ? 'white' : 'black'}
         logo={'plus-square-o'}
         border="dashed"
       />
       <View style={styles.nextbtn}>
         <CustomButtonComponent
           text="Cancel"
-          color="transparent"
+          color={'transparent'}
           onSubmit={handleCancel}
-          textcolor="grey"
+          textcolor={darkMode ? 'white' : 'grey'}
           width="48%"
         />
         {selectedOption?.value == 'cod' ? (
           <CustomButtonComponent
             text="Confirm"
-            color="black"
+            color={darkMode ? 'white' : 'black'}
             onSubmit={handleCodConfirm}
-            textcolor="white"
+            textcolor={darkMode ? 'black' : 'white'}
             width="48%"
           />
         ) : (
           <CustomButtonComponent
             text="Next"
-            color="black"
+            color={darkMode ? 'white' : 'black'}
             onSubmit={handleNext}
-            textcolor="white"
+            textcolor={darkMode ? 'black' : 'white'}
             width="48%"
             disabled={selectedId ? false : true}
           />
@@ -150,7 +160,7 @@ const PaymentScreen = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   maincontainer: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     flex: 1,
     padding: 10,
     paddingHorizontal: 20,
@@ -166,7 +176,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 20,
     fontWeight: 'bold',
-    color: 'black',
+    // color: 'black',
   },
   radioGroupContainer: {
     flexDirection: 'column',

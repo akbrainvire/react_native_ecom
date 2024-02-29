@@ -5,8 +5,9 @@ import {useNavigation} from '@react-navigation/native';
 import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useTheme} from '../../context/ThemeContext';
 
-const CustomRadioButton = ({selected, onPress, children}: any) => (
+const CustomRadioButton = ({selected, onPress, darkMode, children}: any) => (
   <TouchableOpacity
     onPress={onPress}
     style={[styles.radioButton, selected && styles.radioButtonSelected]}>
@@ -17,6 +18,7 @@ const CustomRadioButton = ({selected, onPress, children}: any) => (
 const AddressScreen = ({route}: any) => {
   // const {cartItems} = route.params;
   // console.log(cartItems);
+  const {darkMode} = useTheme();
   const savedAddresses = useSelector(
     (state: any) => state.autheticate.userDetails.savedAddresses,
   );
@@ -45,22 +47,39 @@ const AddressScreen = ({route}: any) => {
 
   const AddressCard = ({address}: {address: any}) => (
     <TouchableOpacity onPress={() => handleAddressSelect(address.id)}>
-      <View style={styles.addressCard}>
-        <Text style={styles.name}>{address.fullName}</Text>
-        <Text>
+      <View
+        style={[
+          styles.addressCard,
+          {backgroundColor: darkMode ? 'black' : 'white'},
+        ]}>
+        <Text style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
+          {address.fullName}
+        </Text>
+        <Text style={{color: darkMode ? 'white' : 'black'}}>
           {address.houseNo}, {address.area}, {address.city}, {address.state} -{' '}
           {address.pincode}
         </Text>
-        <Text>{address.phoneNumber}</Text>
+        <Text style={{color: darkMode ? 'white' : 'black'}}>
+          {address.phoneNumber}
+        </Text>
       </View>
       <View style={styles.radiobuttonContainer}>
         <CustomRadioButton
+          darkMode={darkMode}
           selected={selectedAddressId === address.id}
           onPress={() => setSelectedAddressId(address.id)}>
           {selectedAddressId === address.id ? (
-            <Icon name="circle" size={20} color="#000000" />
+            <Icon
+              name="circle"
+              size={20}
+              color={darkMode ? 'white' : '#000000'}
+            />
           ) : (
-            <Icon name="circle-o" size={20} color="#dedede" />
+            <Icon
+              name="circle-o"
+              size={20}
+              color={darkMode ? '#bababa' : '#dedede'}
+            />
           )}
         </CustomRadioButton>
       </View>
@@ -68,12 +87,16 @@ const AddressScreen = ({route}: any) => {
   );
 
   return (
-    <View style={styles.maincontainer}>
+    <View
+      style={[
+        styles.maincontainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       <CustomButtonComponent
         text="Add a new address"
-        color="white"
+        color={darkMode ? '#242424' : 'white'}
         onSubmit={handleAddAddressNew}
-        textcolor="#007fc9"
+        textcolor={darkMode ? 'white' : '#007fc9'}
         logo="plus"
       />
       <FlatList
@@ -97,12 +120,12 @@ const AddressScreen = ({route}: any) => {
 
 const styles = StyleSheet.create({
   maincontainer: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     flex: 1,
     padding: 10,
   },
   addressCard: {
-    backgroundColor: '#ffffff',
+    // backgroundColor: '#ffffff',
     padding: 10,
     marginBottom: 10,
     borderRadius: 10,
@@ -111,7 +134,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: 'bold',
-    color: 'black',
+    // color: 'black',
   },
   nextbtn: {
     marginTop: 'auto',

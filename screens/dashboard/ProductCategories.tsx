@@ -17,6 +17,7 @@ import {
   filterCategoriesAction,
 } from '../../store/CategorySlice';
 import SearchCategories from './SearchCategories';
+import {useTheme} from '../../context/ThemeContext';
 
 const ProductCategories = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -32,14 +33,19 @@ const ProductCategories = () => {
   const handleCategoryPress = (categoryName: string) => {
     navigation.navigate('Products Screen', {categoryName});
   };
+  const {darkMode} = useTheme();
 
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
   return (
-    <View style={styles.mainContainer}>
-      <SearchCategories />
+    <View
+      style={[
+        styles.mainContainer,
+        {backgroundColor: darkMode ? '#101010' : 'white'},
+      ]}>
+      <SearchCategories darkMode={darkMode} />
       {loading ? (
         <ActivityIndicator size="large" color="#242424" />
       ) : (
@@ -47,7 +53,7 @@ const ProductCategories = () => {
           data={filterCategories.length > 0 ? filterCategories : categories}
           renderItem={({item}) => (
             <TouchableOpacity onPress={() => handleCategoryPress(item)}>
-              <Card item={item} />
+              <Card item={item} darkMode={darkMode} />
             </TouchableOpacity>
           )}
           keyExtractor={(item, index) => index.toString()}
@@ -62,7 +68,7 @@ const ProductCategories = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
 
   flatlistContainer: {

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {createContext, useContext, useEffect, useState} from 'react';
+import {createContext, useContext, useEffect, useMemo, useState} from 'react';
 
 export const ThemeContext = createContext({
   darkMode: false,
@@ -8,36 +8,46 @@ export const ThemeContext = createContext({
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({children}: {children: React.ReactNode}) => {
-  const [darkMode, setIsDarkMode] = useState(false);
-
-  useEffect(() => {
-    const fetchDarkModePreference = async () => {
-      try {
-        const value = await AsyncStorage.getItem('userOptions');
-        const parseValue = value ? JSON.parse(value) : '';
-        console.log(value, 'valje');
-        if (parseValue.darkMode !== null) {
-          setIsDarkMode(parseValue.darkMode === true);
-        }
-      } catch (error) {
-        console.error('Error loading dark mode preference:', error);
+  const [darkMode, setDarkMode] = useState(false);
+  const fetchDarkModePreference = async () => {
+    try {
+      const value = await AsyncStorage.getItem('userOptions');
+      const parseValue = value ? JSON.parse(value) : '';
+      console.log(value, 'valje');
+      if (parseValue.darkMode !== null) {
+        setDarkMode(parseValue.darkMode);
       }
-    };
-
-    fetchDarkModePreference();
-  }, []);
-
-  const theme = {
-    darkMode,
-    container: {
-      flex: 1,
-      backgroundColor: darkMode ? '#000000' : '#ffffff',
-    },
-    text: {
-      color: darkMode ? '#ffffff' : '#000000',
-    },
+    } catch (error) {
+      console.error('Error loading dark mode preference:', error);
+    }
   };
-  console.log(theme);
+  useEffect(() => {
+    fetchDarkModePreference();
+  }, [AsyncStorage]);
+
+  const toggleDarkMode = () => {
+    const newValue = !darkMode;
+    setDarkMode(newValue);
+    AsyncStorage.setItem(
+      'userOptions',
+      JSON.stringify({darkMode: newValue}),
+    ).catch(error => console.error('Error storing options:', error));
+  };
+
+  const theme = useMemo(() => {
+    return {
+      darkMode,
+      toggleDarkMode: toggleDarkMode,
+      mainContainerDarkMode: {
+        backgroundColor: 'black',
+        color: 'white',
+      },
+      textColor: {
+        color: 'white',
+      },
+    };
+  }, [darkMode]);
+  console.log(theme, 'themememe');
   return (
     <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
   );

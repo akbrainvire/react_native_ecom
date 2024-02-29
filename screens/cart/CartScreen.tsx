@@ -17,11 +17,12 @@ import CartSummary from '../../components/cart/CartSummary';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
+import {useTheme} from '../../context/ThemeContext';
 
 const CartScreen = ({navigation}: any) => {
   const dispatch = useDispatch();
   const {cartItems} = useSelector((state: any) => state.cart);
-
+  const {darkMode} = useTheme();
   // console.log(cartItems, 'cartitems');
 
   const handleRemoveFromCart = (id: any) => {
@@ -68,60 +69,137 @@ const CartScreen = ({navigation}: any) => {
   );
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={[
+        styles.container,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       {cartItems.length > 0 ? (
         cartItems.map((item: any, i: any) => (
           <View
             key={`${item.id}-${item.name}-${item.size}`}
-            style={styles.card}>
+            style={[
+              styles.card,
+              {
+                borderColor: darkMode ? 'white' : 'black',
+                borderWidth: darkMode ? 1 : 0,
+                borderRadius: 15,
+              },
+            ]}>
             <Image
               // source={require('../../assets/m3.jpg')}
               source={{uri: item.thumbnail}}
               style={styles.image}
               resizeMode="cover"
             />
-            <View style={styles.counterContainer}>
+            <View
+              style={[
+                styles.counterContainer,
+                {backgroundColor: darkMode ? 'black' : 'white'},
+              ]}>
               <TouchableOpacity onPress={() => handleRemoveFromCart(item.id)}>
-                <View style={styles.counterButton}>
-                  <Text style={styles.removeButton}>-</Text>
+                <View
+                  style={[
+                    styles.counterButton,
+                    {backgroundColor: darkMode ? 'black' : 'white'},
+                  ]}>
+                  <Text
+                    style={[
+                      styles.removeButton,
+                      {backgroundColor: darkMode ? 'black' : 'white'},
+                      {color: darkMode ? 'white' : 'black'},
+                    ]}>
+                    -
+                  </Text>
                 </View>
               </TouchableOpacity>
-              <Text style={styles.quantity}>{item.quantity}</Text>
+              <Text
+                style={[
+                  styles.quantity,
+                  {color: darkMode ? 'white' : 'black'},
+                ]}>
+                {item.quantity}
+              </Text>
               <TouchableOpacity onPress={() => handleIncreasetoCart(item)}>
-                <View style={styles.counterButton}>
-                  <Text style={styles.addButton}>+</Text>
+                <View
+                  style={[
+                    styles.counterButton,
+                    {backgroundColor: darkMode ? 'black' : 'white'},
+                  ]}>
+                  <Text
+                    style={[
+                      styles.addButton,
+                      {backgroundColor: darkMode ? 'black' : 'white'},
+                      {color: darkMode ? 'white' : 'black'},
+                    ]}>
+                    +
+                  </Text>
                 </View>
               </TouchableOpacity>
             </View>
             <View style={styles.removeButtonContainer}>
               <TouchableOpacity onPress={() => handleRemoveWhole(item.id)}>
-                <View style={styles.removeButtonIcon}>
-                  <Icon2 name="delete" size={18} color="#fff" />
+                <View
+                  style={[
+                    styles.removeButtonIcon,
+                    {backgroundColor: darkMode ? 'white' : 'black'},
+                  ]}>
+                  <Icon2
+                    name="delete"
+                    size={18}
+                    color={darkMode ? 'black' : '#fff'}
+                  />
                 </View>
               </TouchableOpacity>
             </View>
             <View style={styles.brandnamePriceContainer}>
               <View>
-                <Text style={styles.brand}>{item.brand}</Text>
+                <Text
+                  style={[styles.brand, {color: darkMode ? 'white' : 'black'}]}>
+                  {item.brand}
+                </Text>
                 <Text style={styles.name}>{item.name}</Text>
               </View>
               <View style={{alignItems: 'flex-end'}}>
-                <Text style={styles.totalPrice}>${item.totalPrice}</Text>
-                <Text style={styles.name}>Size: {item.size}</Text>
+                <Text
+                  style={[
+                    styles.totalPrice,
+                    {color: darkMode ? 'white' : 'black'},
+                  ]}>
+                  ${item.totalPrice}
+                </Text>
+                <Text
+                  style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
+                  Size: {item.size}
+                </Text>
               </View>
             </View>
           </View>
         ))
       ) : (
-        <Text style={styles.noproductcart}>No product in Cart</Text>
+        <Text
+          style={[styles.noproductcart, {color: darkMode ? 'white' : 'black'}]}>
+          No product in Cart
+        </Text>
       )}
       {cartItems.length > 0 ? (
-        <View style={styles.footer}>
+        <View
+          style={[
+            styles.footer,
+            {backgroundColor: darkMode ? 'black' : 'white'},
+          ]}>
           <View style={styles.totalContainer}>
-            <Text style={styles.totalText}>
+            <Text
+              style={[styles.totalText, {color: darkMode ? 'white' : 'black'}]}>
               Total ({cartItems.length} items)
             </Text>
-            <Text style={styles.totalPriceValue}>${totalSum}</Text>
+            <Text
+              style={[
+                styles.totalPriceValue,
+                {color: darkMode ? 'white' : 'black'},
+              ]}>
+              ${totalSum}
+            </Text>
           </View>
           <View style={styles.btnproceed}>
             <CustomButtonComponent
@@ -149,7 +227,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     paddingBottom: 20,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   card: {
     // backgroundColor: '#ffffff',
@@ -184,28 +262,28 @@ const styles = StyleSheet.create({
     gap: 2,
     marginVertical: 10,
     position: 'absolute',
-    backgroundColor: '#f6f6f6',
+    // backgroundColor: '#f6f6f6',
     borderRadius: 20,
     bottom: 55,
     left: 20,
   },
   counterButton: {
-    backgroundColor: '#f6f6f6',
+    // backgroundColor: '#f6f6f6',
     paddingHorizontal: 7,
     paddingVertical: 2,
     borderRadius: 20,
   },
   removeButton: {
     fontSize: 15,
-    color: 'black',
-    backgroundColor: '#f6f6f6',
+    // color: 'black',
+    // backgroundColor: '#f6f6f6',
     paddingHorizontal: 4,
     paddingVertical: 2,
   },
   addButton: {
     fontSize: 15,
-    color: 'black',
-    backgroundColor: '#f6f6f6',
+    // color: 'black',
+    // backgroundColor: '#f6f6f6',
     paddingHorizontal: 4,
     paddingVertical: 2,
     // borderTopRightRadius: 20,
@@ -220,7 +298,7 @@ const styles = StyleSheet.create({
     right: 30,
   },
   removeButtonIcon: {
-    backgroundColor: '#000000',
+    // backgroundColor: '#000000',
     borderRadius: 15,
     padding: 4,
   },
@@ -231,7 +309,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 5,
-    color: 'black',
+    // color: 'black',
   },
   name: {
     color: 'grey',
@@ -245,7 +323,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     marginTop: 'auto',
   },
   totalContainer: {

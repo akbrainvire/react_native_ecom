@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -16,22 +16,25 @@ import {TouchableOpacity} from 'react-native';
 import SettingCustomOption from './SettingCustomOption';
 import BasicModal from '../generic/BasicModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTheme} from '../../context/ThemeContext';
 
 const {height, width} = Dimensions.get('window');
 
 const PersonalDetails = ({navigation}: any) => {
   const [isOpen, setIsOpen] = useState(false);
+  const {darkMode, toggleDarkMode} = useTheme();
 
   const userDetails = useSelector(
     (state: any) => state.autheticate.userDetails,
   );
 
   const [options, setOptions] = useState({
-    language: null,
-    darkMode: null,
-    notification: null,
+    language: 'English',
+    darkMode: false,
+    notification: false,
   });
 
+  console.log(darkMode, options.darkMode);
   const dispatch = useDispatch();
 
   const handleSelect = (value: any) => {
@@ -42,38 +45,35 @@ const PersonalDetails = ({navigation}: any) => {
       };
     });
     setIsOpen(!isOpen);
-    // updateAsyncStorage();
   };
 
   const updateAsyncStorage = () => {
-    // console.log(options, 'siufhaiu');
-    console.log('first');
-    AsyncStorage.setItem('userOptions', JSON.stringify(options)).catch(error =>
-      console.error('Error storing options:', error),
-    );
+    // AsyncStorage.setItem('userOptions', JSON.stringify(options)).catch(error =>
+    //   console.error('Error storing options:', error),
+    // );
+
+    AsyncStorage.removeItem('userOptions');
+  };
+  const fetchData = async () => {
+    try {
+      const storedOptions = await AsyncStorage.getItem('userOptions');
+      if (storedOptions !== null) {
+        console.log(storedOptions, 'storeoption');
+        setOptions(JSON.parse(storedOptions));
+      } else {
+        console.log('No options found in AsyncStorage.');
+        updateAsyncStorage();
+      }
+    } catch (error) {
+      console.error('Error retrieving options from AsyncStorage:', error);
+    }
   };
 
-  // AsyncStorage.getItem('userOptions').then(res => console.log(res, 'response'));
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const storedOptions = await AsyncStorage.getItem('userOptions');
-        if (storedOptions !== null) {
-          setOptions(JSON.parse(storedOptions));
-        } else {
-          console.log('No options found in AsyncStorage.');
-        }
-      } catch (error) {
-        console.error('Error retrieving options from AsyncStorage:', error);
-      }
-    };
-
     fetchData();
-  }, []);
 
-  AsyncStorage.getItem('userOptions').then(storedOptions => {
-    // console.log(storedOptions);
-  });
+    // console.log(options, 'options');
+  }, []);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -88,12 +88,12 @@ const PersonalDetails = ({navigation}: any) => {
     if (type === 'language') {
       setIsOpen(true);
     } else if (type === 'notification') {
-      // console.log(options);
       setOptions((prev: any) => ({
         ...prev,
         notification: !prev.notification,
       }));
     } else if (type === 'darkMode') {
+      toggleDarkMode();
       setOptions((prev: any) => ({
         ...prev,
         darkMode: !prev.darkMode,
@@ -102,11 +102,17 @@ const PersonalDetails = ({navigation}: any) => {
       navigation.navigate('Help Center');
     }
   };
+  // AsyncStorage.getItem('userOptions').then(res => console.log(res, 'response'));
+  // console.log(options, 'hasufdhbwaie');
 
-  console.log(options, 'optajsbfkaseou');
+  // console.log(options.notification, 'optajsbfkaseou');
 
   return (
-    <ScrollView style={styles.mainContainer}>
+    <ScrollView
+      style={[
+        styles.mainContainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       <View style={styles.contentContainer}>
         <View style={styles.imageContainerMain}>
           <View style={styles.imageContainer}>
@@ -124,9 +130,11 @@ const PersonalDetails = ({navigation}: any) => {
         </View>
         <View style={styles.detailsContainer}>
           <View style={styles.row}>
-            <Text style={styles.label}>Name:</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkMode]}>
+              Name:
+            </Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
               value={`${
                 userDetails.username.charAt(0).toUpperCase() +
                 userDetails.username.slice(1)
@@ -135,32 +143,44 @@ const PersonalDetails = ({navigation}: any) => {
             />
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Age:</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkMode]}>
+              Age:
+            </Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
               value={userDetails.age.toString()}
               editable={false}
             />
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Gender:</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkMode]}>
+              Gender:
+            </Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
               value={userDetails.gender}
               editable={false}
             />
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Email:</Text>
+            <Text style={[styles.label, darkMode && styles.labelDarkMode]}>
+              Email:
+            </Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, {color: darkMode ? 'white' : 'white'}]}
               value={userDetails.email}
               editable={false}
             />
           </View>
         </View>
         <View style={styles.settingsContainer}>
-          <Text style={styles.settingsHeader}>Settings</Text>
+          <Text
+            style={[
+              styles.settingsHeader,
+              {color: darkMode ? 'white' : 'black'},
+            ]}>
+            Settings
+          </Text>
           <View style={styles.settingOptionContainer}>
             <SettingCustomOption
               logo="language"
@@ -184,7 +204,7 @@ const PersonalDetails = ({navigation}: any) => {
               // logo={userOptions.darkMode ? 'moon' : 'sunny'}
               logo={'moon'}
               onPress={() => handleOnPressSettingOption('darkMode')}
-              toggle={options.darkMode}
+              toggle={darkMode}
               isToggle={true}
               name={'Dark Mode'}
             />
@@ -216,7 +236,6 @@ const PersonalDetails = ({navigation}: any) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'white',
   },
   contentContainer: {
     // flexGrow: 1,
@@ -275,7 +294,14 @@ const styles = StyleSheet.create({
   },
   label: {
     width: 100,
-    color: '#b4b4b4',
+
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  labelDarkMode: {
+    color: 'white',
+    width: 100,
+
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -284,7 +310,6 @@ const styles = StyleSheet.create({
     height: 35,
     fontSize: 15,
     fontWeight: '500',
-    color: 'black',
     borderColor: '#ccc',
     borderBottomWidth: 1,
     paddingBottom: 0,
@@ -299,7 +324,7 @@ const styles = StyleSheet.create({
   settingsHeader: {
     fontSize: 24,
     fontWeight: '800',
-    color: 'black',
+
     marginBottom: 20,
   },
   settingOptionContainer: {

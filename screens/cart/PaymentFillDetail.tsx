@@ -8,6 +8,7 @@ import {CommonActions} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {emptyCartafterOplaced} from '../../store/CartSlice';
 import {addOrders} from '../../store/OrderSlice';
+import {useTheme} from '../../context/ThemeContext';
 
 const PaymentFillDetail = ({navigation, route}: any) => {
   console.log(route, 'route');
@@ -18,7 +19,7 @@ const PaymentFillDetail = ({navigation, route}: any) => {
   const [description, setDescription] = useState('');
   const dispatch = useDispatch();
   const orderItems = useSelector((state: any) => state.cart.cartItems);
-
+  const {darkMode} = useTheme();
   const handleContinueShopping = () => {
     setModalVisible(false);
 
@@ -50,29 +51,43 @@ const PaymentFillDetail = ({navigation, route}: any) => {
   };
 
   return (
-    <View style={styles.container}>
-      <PaymentFillForm paymentOption={selectedOption.value} />
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
+      <PaymentFillForm
+        paymentOption={selectedOption.value}
+        darkMode={darkMode}
+      />
       <CustomModal
         visible={modalVisible}
         onClose={handleContinueShopping}
         title={title}
         description={description}
-        LogoComponent={() => <Icon name="gpp-good" size={80} color="black" />}
+        LogoComponent={() => (
+          <Icon
+            name="gpp-good"
+            size={80}
+            color={darkMode ? 'white' : 'black'}
+          />
+        )}
         loading={loading}
+        darkMode={darkMode}
       />
       <View style={styles.nextbtn}>
         <CustomButtonComponent
           text="Cancel"
-          color="transparent"
+          color={'transparent'}
           onSubmit={handleCancel}
-          textcolor="grey"
+          textcolor={darkMode ? 'white' : 'grey'}
           width="48%"
         />
         <CustomButtonComponent
           text="Confirm"
-          color="black"
+          color={darkMode ? 'white' : 'black'}
           onSubmit={handleConfirm}
-          textcolor="white"
+          textcolor={darkMode ? 'black' : 'white'}
           width="48%"
         />
       </View>
@@ -85,7 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     paddingHorizontal: 20,
   },
 

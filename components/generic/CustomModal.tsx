@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
+import CustomActivityIndicator from './CustomActivityIndicator';
 
 const CustomModal = ({
   visible,
@@ -15,6 +16,7 @@ const CustomModal = ({
   description,
   LogoComponent,
   loading,
+  darkModal,
 }: any) => {
   return (
     <Modal
@@ -24,7 +26,7 @@ const CustomModal = ({
       onRequestClose={onClose}>
       <View style={styles.modalContainer}>
         {loading ? (
-          <ActivityIndicator size="large" color="#000000" />
+          <CustomActivityIndicator />
         ) : (
           <View style={styles.modalContent}>
             <View style={styles.modalLogo}>

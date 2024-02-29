@@ -1,17 +1,31 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 
-const Card = ({item}: any) => {
+const Card = ({item, darkMode}: any) => {
   return (
-    <View style={styles.cardContainer}>
+    <View style={[styles.cardContainer, {backgroundColor: 'trasparent'}]}>
       <Image
-        source={require('../../assets/PngItem_1369939.png')}
+        source={require('../../assets/product.jpg')}
         style={styles.image}
         resizeMode="cover"
       />
-      <View style={styles.overlay}>
-        <Text style={styles.productName}>{item.toUpperCase()}</Text>
-        <Text style={styles.productsCount}>358 Products</Text>
+      <View
+        style={[
+          styles.overlay,
+          {
+            backgroundColor: darkMode
+              ? '#000000ae'
+              : 'rgba(255, 255, 255, 0.678)',
+          },
+        ]}>
+        <Text
+          style={[styles.productName, {color: darkMode ? 'white' : 'black'}]}>
+          {item.toUpperCase()}
+        </Text>
+        <Text
+          style={[styles.productsCount, {color: darkMode ? 'white' : 'black'}]}>
+          358 Products
+        </Text>
       </View>
     </View>
   );
@@ -36,7 +50,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 1.84,
     elevation: 4,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
   },
   image: {
     width: '100%',
@@ -47,7 +61,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.678)', // Add opacity to overlay
+    // backgroundColor: 'rgba(255, 255, 255, 0.678)',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderTopLeftRadius: 10,

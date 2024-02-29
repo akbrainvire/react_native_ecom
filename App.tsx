@@ -8,6 +8,7 @@ import {SafeAreaView, StatusBar, View} from 'react-native';
 import NavigationRoute from './components/Navigation/NavigationRoute';
 import {ToastProvider} from 'react-native-toast-notifications';
 import {ThemeProvider} from './context/ThemeContext';
+import CustomStatusBar from './components/generic/CustomStatusBar';
 
 const App = () => {
   return (
@@ -28,12 +29,7 @@ const App = () => {
             offsetBottom={40}
             swipeEnabled={true}>
             <View style={{flex: 1}}>
-              <StatusBar
-                animated={true}
-                backgroundColor="#ffffff"
-                hidden={false}
-                barStyle={'dark-content'}
-              />
+              <CustomStatusBar />
               <NavigationRoute />
             </View>
           </ToastProvider>

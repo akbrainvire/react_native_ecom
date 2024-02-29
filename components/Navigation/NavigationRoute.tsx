@@ -36,6 +36,7 @@ import Settings from '../../screens/setting/Settings';
 import NotificationSetting from '../../screens/setting/NotificationSetting';
 import LanguageSetting from '../../screens/setting/LanguageSetting';
 import LogSignCarousel from '../../screens/default/LogSignCarousel';
+import CustomHeader from '../generic/CustomHeader';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -82,7 +83,7 @@ const NavigationRoute = () => {
         name="Login"
         component={LoginScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton />,
+          header: () => <CustomHeader headerLeft={<HeaderBackButton />} />,
           headerShown: true,
         })}
       />
@@ -90,7 +91,7 @@ const NavigationRoute = () => {
         name="Signup"
         component={SignupScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton />,
+          header: () => <CustomHeader headerLeft={<HeaderBackButton />} />,
           headerShown: true,
         })}
       />
@@ -99,15 +100,24 @@ const NavigationRoute = () => {
         component={LogSignCarousel}
         options={{
           headerShown: true,
-          headerTitle: 'Back',
-          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
+          header: () => (
+            <CustomHeader
+              headerTitle="Back"
+              headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+            />
+          ),
         }}
       />
       <Stack.Screen
         name="Error Screen"
         component={ErrorScreen}
         options={({navigation, route}) => ({
-          headerTitle: 'Error',
+          header: () => (
+            <CustomHeader
+              headerTitle="Error"
+              headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+            />
+          ),
         })}
       />
       <Stack.Screen
@@ -139,10 +149,14 @@ const NavigationRoute = () => {
         name="Cart Screen"
         component={CartScreen}
         options={({navigation, route}) => ({
-          headerTitle: 'Cart',
           headerShown: true,
-          headerRight: () => (
-            <CartHeaderRight paddingRight={20} color={'#afafaf'} />
+          header: () => (
+            <CustomHeader
+              headerTitle="Cart"
+              headerRight={
+                <CartHeaderRight paddingRight={20} color={'#afafaf'} />
+              }
+            />
           ),
         })}
       />
@@ -171,10 +185,14 @@ const NavigationRoute = () => {
         name="Profile Screen"
         component={ProfileScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
-          headerRight: () => <ProfileHeaderRight />,
+          header: () => (
+            <CustomHeader
+              headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+              headerRight={<ProfileHeaderRight />}
+            />
+          ),
+
           headerShown: true,
-          headerTitle: '',
         })}
       />
 
@@ -184,7 +202,21 @@ const NavigationRoute = () => {
 
   const StackThatWillHaveBottomTab = () => {
     return (
-      <Tab.Navigator tabBar={props => <CustomTabBar {...props} />}>
+      <Tab.Navigator
+        // sceneContainerStyle={{
+        //   height: 100,
+        //   backgroundColor: 'yel',
+        // }}
+        // screenOptions={{
+        //   tabBarStyle: {
+        //     borderTopLeftRadius: 20,
+        //     borderTopRightRadius: 20,
+        //     height: 60,
+        //     borderWidth: 2,
+        //     borderColor: 'red',
+        //   },
+        // }}
+        tabBar={props => <CustomTabBar {...props} />}>
         <Tab.Screen
           name="Home"
           component={HomeStack}
@@ -272,49 +304,73 @@ const NavigationRoute = () => {
         name="AddressScreen"
         component={AddressScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={10} />,
-          headerTitle: 'Select delivery address',
+          header: () => (
+            <CustomHeader
+              headerTitle="Select delivery address"
+              headerLeft={<HeaderBackButton paddinghorizontal={10} />}
+            />
+          ),
         })}
       />
       <Stack.Screen
         name="NewAddressForm"
         component={NewAddressForm}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={10} />,
-          headerTitle: 'Enter new delivery address',
+          header: () => (
+            <CustomHeader
+              headerTitle="Enter new delivery address"
+              headerLeft={<HeaderBackButton paddinghorizontal={10} />}
+            />
+          ),
         })}
       />
       <Stack.Screen
         name="OrderSummary"
         component={OrderSummaryScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={10} />,
-          headerTitle: 'Order summary',
+          header: () => (
+            <CustomHeader
+              headerTitle="Order summary"
+              headerLeft={<HeaderBackButton paddinghorizontal={10} />}
+            />
+          ),
         })}
       />
       <Stack.Screen
         name="PaymentScreen"
         component={PaymentScreen}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
+          header: () => (
+            <CustomHeader
+              headerTitle="Select Payment Option"
+              headerLeft={<HeaderBackButton paddinghorizontal={10} />}
+            />
+          ),
           headerShown: true,
-          headerTitle: 'Select Payment Option',
         })}
       />
       <Stack.Screen
         name="AddNewCard"
         component={AddNewCard}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
+          header: () => (
+            <CustomHeader
+              headerTitle="Add new card"
+              headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+            />
+          ),
           headerShown: true,
-          headerTitle: 'Add new card',
         })}
       />
       <Stack.Screen
         name="PaymentFillDetail"
         component={PaymentFillDetail}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
+          header: () => (
+            <CustomHeader
+              headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+            />
+          ),
           headerShown: true,
           headerTitle: '',
         })}
@@ -332,8 +388,11 @@ const NavigationRoute = () => {
         name="Personal Details"
         component={PersonalDetails}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={10} />,
-          // headerRight: () => <ProfileHeaderRight />,
+          header: () => (
+            <CustomHeader
+              headerLeft={<HeaderBackButton paddinghorizontal={10} />}
+            />
+          ),
           headerShown: true,
           headerTitle: '',
         })}
@@ -342,17 +401,25 @@ const NavigationRoute = () => {
         name="My Favourites"
         component={MyFavourites}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
-
-          headerTitle: 'Wishlist',
+          header: () => (
+            <CustomHeader
+              headerTitle="Wishlist"
+              headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+            />
+          ),
         })}
       />
       <Stack.Screen
         name="My Orders"
         component={MyOrders}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
-          headerRight: () => <ProfileHeaderRight />,
+          header: () => (
+            <CustomHeader
+              headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+              headerRight={<ProfileHeaderRight />}
+            />
+          ),
+
           headerShown: true,
           headerTitle: '',
         })}
@@ -362,9 +429,13 @@ const NavigationRoute = () => {
         name="Settings"
         component={SettingTabNavigator}
         options={({navigation, route}) => ({
-          headerLeft: props => <HeaderBackButton paddinghorizontal={20} />,
+          // header: () => (
+          //   <CustomHeader
+          // headerTitle= 'Settings'
+          //     headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+          //   />
+          // ),
           headerShown: false,
-          headerTitle: 'Settings',
         })}
       />
 
@@ -372,7 +443,7 @@ const NavigationRoute = () => {
         name="Error Screen"
         component={ErrorScreen}
         options={({navigation, route}) => ({
-          headerTitle: 'Error',
+          header: () => <CustomHeader headerTitle="Error" />,
         })}
       />
 

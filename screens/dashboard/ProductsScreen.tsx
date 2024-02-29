@@ -17,6 +17,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackButton from '../../components/generic/HeaderBackButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchProductsReq} from '../../sagas/productSaga';
+import CustomActivityIndicator from '../../components/generic/CustomActivityIndicator';
+import {useTheme} from '../../context/ThemeContext';
 
 const ProductsScreen = ({route}: any) => {
   const {categoryName} = route.params;
@@ -26,6 +28,7 @@ const ProductsScreen = ({route}: any) => {
   const navigation = useNavigation<any>();
   const [filteredProducts, setFilteredProducts] = useState([]);
   // const [categoryProducts, setCategoryProducts] = useState<any[]>([]);
+  const {darkMode} = useTheme();
 
   const {categoryProducts, loading} = useSelector(
     (state: any) => state.products,
@@ -80,7 +83,11 @@ const ProductsScreen = ({route}: any) => {
   // console.log(categoryProducts);
 
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={[
+        styles.mainContainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       <View style={styles.headerContainer}>
         <HeaderBackButton />
         <View
@@ -89,28 +96,46 @@ const ProductsScreen = ({route}: any) => {
             {
               width: searchExpanded ? 300 : 47,
               borderWidth: searchExpanded ? 1 : 0,
+              borderColor: 'white',
             },
           ]}>
           <TouchableOpacity onPress={() => toggleSearchExpanded()}>
             <Icon
               name="search-circle"
               size={45}
-              color="#000"
+              color={darkMode ? 'white' : '#000'}
               style={styles.icon}
             />
           </TouchableOpacity>
           <TextInput
-            style={styles.input}
+            style={[
+              styles.input,
+              {
+                color: darkMode ? 'white' : 'black',
+                backgroundColor: darkMode ? 'black' : 'white',
+              },
+            ]}
             placeholder="Search product..."
             onChangeText={handleSearch}
+            placeholderTextColor={darkMode ? 'white' : 'black'}
           />
         </View>
       </View>
       {loading ? (
-        <ActivityIndicator size="large" color="#242424" />
+        <CustomActivityIndicator />
       ) : (
-        <View style={styles.container}>
-          <Text style={styles.categoryName}>{categoryName.toUpperCase()}</Text>
+        <View
+          style={[
+            styles.container,
+            {backgroundColor: darkMode ? 'black' : 'white'},
+          ]}>
+          <Text
+            style={[
+              styles.categoryName,
+              {color: darkMode ? 'white' : 'black'},
+            ]}>
+            {categoryName.toUpperCase()}
+          </Text>
 
           <FlatList
             data={searchTerm !== '' ? filteredProducts : categoryProducts}
@@ -126,9 +151,27 @@ const ProductsScreen = ({route}: any) => {
                     onError={() => console.log('Failed to load image')}
                   />
                   <View style={styles.productInfo}>
-                    <Text style={styles.name}>{item.title}</Text>
-                    <Text style={styles.title}>{item.brand}</Text>
-                    <Text style={styles.price}>Price: ${item.price}</Text>
+                    <Text
+                      style={[
+                        styles.name,
+                        {color: darkMode ? 'white' : 'black'},
+                      ]}>
+                      {item.title}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.title,
+                        {color: darkMode ? 'white' : 'black'},
+                      ]}>
+                      {item.brand}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.price,
+                        {color: darkMode ? 'white' : 'black'},
+                      ]}>
+                      Price: ${item.price}
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -146,14 +189,14 @@ const width = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     // paddingVertical: 20,
   },
   searchContainer: {
     // borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'transparent',
     borderColor: '#000',
     borderRadius: 50,
     marginRight: 5,
@@ -173,11 +216,11 @@ const styles = StyleSheet.create({
     borderRadius: 50,
 
     paddingHorizontal: 5,
-    backgroundColor: '#ffffff',
+    // backgroundColor: '#ffffff',
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     width: '100%',
     // alignItems: 'center',
     // justifyContent: 'center',
@@ -211,7 +254,7 @@ const styles = StyleSheet.create({
   categoryName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
+    // color: '#000',
     marginVertical: 10,
     marginHorizontal: 20,
   },
@@ -231,7 +274,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontWeight: 'bold',
-    color: 'black',
+    // color: 'black',
     textAlign: 'center',
   },
 });

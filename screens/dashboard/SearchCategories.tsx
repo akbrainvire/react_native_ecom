@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {filterCategoriesAction} from '../../store/CategorySlice';
 import {TextInput} from 'react-native';
-const SearchCategories = () => {
+const SearchCategories = ({darkMode}: any) => {
   const {categories, filterCategories, loading} = useSelector(
     (state: any) => state.category,
   );
@@ -24,12 +24,32 @@ const SearchCategories = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: darkMode ? 'black' : '#efefef',
+          borderWidth: darkMode ? 1 : 0,
+          borderColor: 'white',
+        },
+      ]}>
       <TouchableOpacity onPress={() => handleSearch(searchTerm)}>
-        <Icon name="search" size={20} color="#000" style={styles.icon} />
+        <Icon
+          name="search"
+          size={20}
+          color={darkMode ? 'white' : '#000'}
+          style={styles.icon}
+        />
       </TouchableOpacity>
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          {
+            backgroundColor: darkMode ? 'black' : '#efefef',
+            color: darkMode ? 'white' : 'black',
+          },
+        ]}
+        placeholderTextColor={darkMode ? 'white' : 'grey'}
         placeholder="Search categories..."
         onChangeText={handleSearch}
       />
@@ -41,7 +61,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#efefef',
+    // borderWidth: 1,
+    // backgroundColor: '#efefef',
     borderRadius: 50,
     paddingHorizontal: 10,
     marginHorizontal: 20,
@@ -56,7 +77,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 50,
     paddingHorizontal: 5,
-    backgroundColor: '#efefef',
+    // backgroundColor: '#efefef',
   },
 });
 export default SearchCategories;

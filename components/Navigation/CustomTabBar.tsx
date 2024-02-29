@@ -1,9 +1,15 @@
 import {StyleSheet, View} from 'react-native';
 import {TabButton} from './TabBarCustomButton';
+import {useTheme} from '../../context/ThemeContext';
 
 export const CustomTabBar = ({state, descriptors, navigation}: any) => {
+  const {darkMode} = useTheme();
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={[
+        styles.mainContainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       {state.routes.map((route: any, index: any) => {
         const {options} = descriptors[route.key];
         const label =
@@ -33,6 +39,7 @@ export const CustomTabBar = ({state, descriptors, navigation}: any) => {
             label={label}
             isFocused={isFocused}
             onPress={onPress}
+            darkMode={darkMode}
           />
         );
       })}
@@ -51,15 +58,15 @@ const styles = StyleSheet.create({
       width: 0,
       height: 10,
     },
-
+    // position: 'absolute',
     shadowOpacity: 0.1,
     shadowRadius: 10.0,
     elevation: 30,
     paddingVertical: 10,
-    bottom: 0,
+    // bottom: 0,
     width: '100%',
     zIndex: 0,
     borderTopWidth: 0,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
   },
 });
