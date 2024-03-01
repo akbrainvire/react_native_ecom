@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import {TabButton} from './TabBarCustomButton';
 import {useTheme} from '../../context/ThemeContext';
 
@@ -47,6 +47,7 @@ export const CustomTabBar = ({state, descriptors, navigation}: any) => {
   );
 };
 
+const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
   mainContainer: {
     flexDirection: 'row',
@@ -64,8 +65,9 @@ const styles = StyleSheet.create({
     elevation: 30,
     paddingVertical: 10,
     // bottom: 0,
+    marginTop: -height * 0.02,
     width: '100%',
-    zIndex: 0,
+    // zIndex: 0,
     borderTopWidth: 0,
     // backgroundColor: 'white',
   },

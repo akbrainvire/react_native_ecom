@@ -4,11 +4,18 @@ import {colors} from '../../theme/theme';
 import CustomKeyboardAvoidingView from '../generic/CustomKeyboardAvoidingView';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
+import {useTheme} from '../../context/ThemeContext';
 
 const Form = ({value}: {value: string}) => {
+  const {darkMode, colors} = useTheme();
+
   return (
     <CustomKeyboardAvoidingView>
-      <View style={styles.mainContainer}>
+      <View
+        style={[
+          styles.mainContainer,
+          {backgroundColor: darkMode ? colors.black : colors.white},
+        ]}>
         <View style={styles.logomodelcontainer}>
           <Image
             source={require('../../assets/logo.png')}
@@ -17,9 +24,9 @@ const Form = ({value}: {value: string}) => {
         </View>
         {/* <View> */}
         {value === 'login' ? (
-          <LoginForm />
+          <LoginForm darkMode={darkMode} colors={colors} />
         ) : value === 'signup' ? (
-          <SignupForm />
+          <SignupForm darkMode={darkMode} colors={colors} />
         ) : null}
         {/* </View> */}
       </View>
@@ -30,7 +37,7 @@ const Form = ({value}: {value: string}) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
 
     paddingHorizontal: 10,
   },

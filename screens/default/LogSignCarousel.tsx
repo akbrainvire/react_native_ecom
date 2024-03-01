@@ -10,10 +10,11 @@ import {FlatList} from 'react-native-gesture-handler';
 import {Image} from 'react-native-elements';
 import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useTheme} from '../../context/ThemeContext';
 
-const {width: windowWidth, height: windowHeight} = Dimensions.get('screen');
+const {width: windowWidth, height: windowHeight} = Dimensions.get('window');
 
-const Slide = React.memo(({data}: any) => {
+const Slide = React.memo(({data, darkMode}: any) => {
   // console.log(data);
 
   return (
@@ -23,7 +24,7 @@ const Slide = React.memo(({data}: any) => {
           source={data.image}
           style={{
             width: windowWidth * 0.9,
-            height: windowHeight * 0.5,
+            height: windowHeight * 0.6,
             // transform: [{skewY: '-4deg'}],
             borderTopLeftRadius: 50,
             borderTopRightRadius: 50,
@@ -45,22 +46,37 @@ const Slide = React.memo(({data}: any) => {
           // alignItems: 'center',
         }}>
         <Text
-          style={{fontSize: 28, fontWeight: 'bold', color: 'black'}}
+          style={{
+            fontSize: 28,
+            fontWeight: 'bold',
+            color: darkMode ? 'white' : 'black',
+          }}
           numberOfLines={2}>
           {data.title}
         </Text>
-        <Text style={{fontSize: 14}} numberOfLines={2}>
+        <Text
+          style={{fontSize: 14, color: darkMode ? '#d3d3d3' : 'grey'}}
+          numberOfLines={2}>
           {data.subtitle}
         </Text>
       </View>
     </View>
   );
 });
-const NextBtn = ({onSubmit, complete}: any) => {
+const NextBtn = ({onSubmit, complete, darkMode}: any) => {
   return (
     <TouchableOpacity style={styles.button} onPress={() => onSubmit()}>
-      <View style={[styles.buttonstyle, complete && styles.completedBtn]}>
-        <Icon name={'arrow-right'} size={30} color={'white'} />
+      <View
+        style={[
+          styles.buttonstyle,
+          {backgroundColor: darkMode ? 'white' : 'black'},
+          complete && styles.completedBtn,
+        ]}>
+        <Icon
+          name={'arrow-right'}
+          size={30}
+          color={darkMode ? 'black' : 'white'}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -73,7 +89,7 @@ const LogSignCarousel = ({navigation, route}: any) => {
   const flatListRef = useRef<FlatList | null>(null);
   const [activeIndex, setactiveIndex] = useState(0);
   const [complete, setComplete] = useState(false);
-
+  const {darkMode} = useTheme();
   const slideList = [
     {
       id: 1,
@@ -141,13 +157,17 @@ const LogSignCarousel = ({navigation, route}: any) => {
 
   // console.log(activeIndex);
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={[
+        styles.mainContainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       <FlatList
         ref={flatListRef}
         data={slideList}
         style={{flex: 1}}
         renderItem={({item}) => {
-          return <Slide data={item} />;
+          return <Slide data={item} darkMode={darkMode} />;
         }}
         pagingEnabled
         horizontal
@@ -179,12 +199,23 @@ const LogSignCarousel = ({navigation, route}: any) => {
               onPress={() => handlePageChange(index)}
               style={[
                 index === activeIndex ? styles.selectedCircle : styles.dot,
-                // {backgroundColor: index === activeIndex ? 'white' : 'grey'},
+                {
+                  backgroundColor:
+                    index === activeIndex
+                      ? darkMode
+                        ? 'white'
+                        : 'black'
+                      : '#e1e1e1',
+                },
               ]}></TouchableOpacity>
           ))}
         </View>
         <View style={styles.nextBtn}>
-          <NextBtn onSubmit={handleNext} complete={complete} />
+          <NextBtn
+            onSubmit={handleNext}
+            darkMode={darkMode}
+            complete={complete}
+          />
         </View>
       </View>
     </View>
@@ -208,7 +239,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: windowWidth * 0.9,
     borderTopRightRadius: 300,
-    height: windowHeight * 0.5,
+    height: windowHeight * 0.6,
     borderBottomRightRadius: 290,
   },
   dotContainer: {
@@ -224,7 +255,7 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 15,
     marginHorizontal: 3,
-    backgroundColor: '#e1e1e1',
+    // backgroundColor: '#e1e1e1',
     // borderWidth: 2,
     padding: 1,
     // borderColor: 'black',
@@ -236,7 +267,7 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 15,
     marginHorizontal: 3,
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
     padding: 1,
   },
   dotandBtnContainer: {
@@ -256,7 +287,7 @@ const styles = StyleSheet.create({
     height: 55,
     width: 55,
     borderRadius: 40,
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
   },
   completedBtn: {
     backgroundColor: '#00d824',

@@ -18,12 +18,13 @@ import {
 } from '../../store/CategorySlice';
 import SearchCategories from './SearchCategories';
 import {useTheme} from '../../context/ThemeContext';
+import CustomActivityIndicator from '../../components/generic/CustomActivityIndicator';
 
 const ProductCategories = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   // const [categories, setCategories] = useState<any[]>([]);
   // const [filtercategories, setfilterCategories] = useState<any[]>([]);
-  const {categories, filterCategories, loading} = useSelector(
+  const {categories, filterCategories, searchValue, loading} = useSelector(
     (state: any) => state.category,
   );
   const navigation = useNavigation<any>();
@@ -47,18 +48,33 @@ const ProductCategories = () => {
       ]}>
       <SearchCategories darkMode={darkMode} />
       {loading ? (
-        <ActivityIndicator size="large" color="#242424" />
+        <CustomActivityIndicator />
       ) : (
         <FlatList
-          data={filterCategories.length > 0 ? filterCategories : categories}
+          data={searchValue !== '' ? filterCategories : categories}
           renderItem={({item}) => (
-            <TouchableOpacity onPress={() => handleCategoryPress(item)}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => handleCategoryPress(item)}>
               <Card item={item} darkMode={darkMode} />
             </TouchableOpacity>
           )}
           keyExtractor={(item, index) => index.toString()}
           contentContainerStyle={styles.flatlistContainer}
           numColumns={2}
+          ListEmptyComponent={
+            <Text
+              style={{
+                color: 'grey',
+                fontSize: 16,
+                marginTop: 'auto',
+                marginBottom: 'auto',
+                textAlign: 'center',
+                fontWeight: 'bold',
+              }}>
+              No such product category available
+            </Text>
+          }
         />
       )}
     </View>

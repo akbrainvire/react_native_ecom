@@ -119,7 +119,10 @@ const OrderSummaryScreen = ({route}: any) => {
                 darkMode={darkMode}
               />
             </View>
-            <Text style={styles.heading}>Cart Items</Text>
+            <Text
+              style={[styles.heading, {color: darkMode ? 'white' : 'black'}]}>
+              Cart Items
+            </Text>
           </View>
         }
         ListFooterComponent={

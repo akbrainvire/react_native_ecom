@@ -108,9 +108,9 @@ const AddressScreen = ({route}: any) => {
       <View style={styles.nextbtn}>
         <CustomButtonComponent
           text="Confirm Address"
-          color="black"
+          color={darkMode ? 'white' : 'black'}
           onSubmit={handleNext}
-          textcolor="white"
+          textcolor={darkMode ? 'black' : 'white'}
           disabled={selectedAddressId ? false : true}
         />
       </View>

@@ -16,7 +16,6 @@ const CustomModal = ({
   description,
   LogoComponent,
   loading,
-  darkModal,
 }: any) => {
   return (
     <Modal

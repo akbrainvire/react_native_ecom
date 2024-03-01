@@ -7,14 +7,14 @@ import {
   Alert,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {colors} from '../../theme/theme';
 import CustomButtonComponent from '../generic/CustomButtonComponent';
 import HorizontalLineWithText from '../generic/HorizontalLinewithText';
 import {useDispatch, useSelector} from 'react-redux';
 import {authorize} from '../../store/AuthenticSlice';
 import {useNavigation} from '@react-navigation/native';
+import CustomActivityIndicator from '../generic/CustomActivityIndicator';
 
-const LoginForm = () => {
+const LoginForm = ({colors, darkMode}: any) => {
   const navigation = useNavigation<any>();
   const [formInput, setFormInput] = useState<any>({
     username: '',
@@ -68,10 +68,18 @@ const LoginForm = () => {
       });
       const data = await response.json();
 
+      console.log(data, 'datalogin');
       if (data.message) {
         setError(prev => ({...prev, general: data.message}));
       } else {
-        const pushData = {...data, savedAddresses: []};
+        const pushData = {
+          ...data,
+          username: data.firstName + ' ' + data.lastName,
+          name: data.firstName + ' ' + data.lastName,
+          age: 25,
+          savedAddresses: [],
+          image: require('../../assets/logo/21306920_on8o_9ifb_210803.jpg'),
+        };
         dispatch(authorize(pushData));
         navigation.navigate('TabStack');
       }
@@ -92,24 +100,61 @@ const LoginForm = () => {
   return (
     <>
       {loading ? (
-        <ActivityIndicator size="large" color="#000000" />
+        <CustomActivityIndicator />
       ) : (
         <>
-          <Text style={{fontSize: 20, color: 'black'}}>
+          <Text
+            style={{
+              fontSize: 20,
+              color: darkMode ? colors.white : colors.black,
+            }}>
             To login please write username{' '}
-            <Text style={{fontWeight: 'bold'}}>kminchelle</Text> and password{' '}
-            <Text style={{fontWeight: 'bold'}}>0lelplR</Text>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                color: darkMode ? colors.white : colors.black,
+              }}>
+              kminchelle
+            </Text>{' '}
+            and password{' '}
+            <Text
+              style={{
+                fontWeight: 'bold',
+                color: darkMode ? colors.white : colors.black,
+              }}>
+              0lelplR
+            </Text>
           </Text>
 
           <View style={styles.welcomeContainer}>
-            <Text style={styles.headerStyle}>Welcome!</Text>
-            <Text style={styles.headerDesStyle}>
+            <Text
+              style={[
+                styles.headerStyle,
+                {color: darkMode ? colors.white : colors.black},
+              ]}>
+              Welcome!
+            </Text>
+            <Text
+              style={[
+                styles.headerDesStyle,
+                {
+                  borderColor: darkMode ? colors.white : colors.black,
+                  color: colors.grey,
+                },
+              ]}>
               please login or sign up to continue our app
             </Text>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                {
+                  borderColor: darkMode ? colors.white : colors.black,
+                  color: darkMode ? colors.white : colors.black,
+                },
+              ]}
+              placeholderTextColor={darkMode ? colors.grey : colors.black}
               onChangeText={value => {
                 setFormInput((prev: any) => ({...prev, username: value}));
                 checkForError();
@@ -123,7 +168,14 @@ const LoginForm = () => {
             )}
 
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                {
+                  borderColor: darkMode ? colors.white : colors.black,
+                  color: darkMode ? colors.white : colors.black,
+                },
+              ]}
+              placeholderTextColor={darkMode ? colors.grey : colors.black}
               onChangeText={value =>
                 setFormInput((prev: any) => ({...prev, password: value}))
               }
@@ -141,9 +193,9 @@ const LoginForm = () => {
 
           <CustomButtonComponent
             text={'Login'}
-            color={colors.elementBackground}
+            color={darkMode ? colors.white : colors.black}
             onSubmit={handleLogin}
-            textcolor={colors.white}
+            textcolor={darkMode ? colors.black : colors.white}
           />
 
           <HorizontalLineWithText text="OR" />
@@ -186,7 +238,7 @@ const styles = StyleSheet.create({
   textInput: {
     width: '100%',
     borderWidth: 1,
-    borderColor: colors.brownshade,
+
     borderRadius: 10,
     borderTopWidth: 0,
     borderLeftWidth: 0,
@@ -215,7 +267,6 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   headerDesStyle: {
-    color: colors.lightbrown,
     fontSize: 18,
   },
   errorText: {

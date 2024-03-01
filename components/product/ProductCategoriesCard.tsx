@@ -31,11 +31,11 @@ const Card = ({item, darkMode}: any) => {
   );
 };
 
-const {width} = Dimensions.get('window');
+const {width} = Dimensions.get('screen');
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: width / 2.35,
+    width: width / 2.34,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#e8e8e8',

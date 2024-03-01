@@ -14,12 +14,13 @@ import Icon2 from 'react-native-vector-icons/MaterialIcons';
 import {removeFromWishlist} from '../../../store/WishlistedSlice';
 import {addToCart} from '../../../store/CartSlice';
 import {useToast} from 'react-native-toast-notifications';
+import {useTheme} from '../../../context/ThemeContext';
 
 const MyFavourites = () => {
   const wishlisted = useSelector((state: any) => state.wishlist.wishlisted);
   const dispatch = useDispatch();
   const toast = useToast();
-
+  const {darkMode} = useTheme();
   const renderRightActions = (
     progress: Animated.AnimatedInterpolation<any>,
     dragAnimatedValue: Animated.AnimatedInterpolation<any>,
@@ -71,12 +72,29 @@ const MyFavourites = () => {
 
   const renderItem = ({item}: {item: any}) => (
     // <Swipeable renderRightActions={renderRightActions}>
-    <View style={styles.cardContainer}>
+    <View
+      style={[
+        styles.cardContainer,
+        {
+          backgroundColor: darkMode ? 'black' : 'white',
+          borderColor: darkMode ? 'white' : 'black',
+          borderWidth: darkMode ? 1 : 0,
+        },
+      ]}>
       <Image source={{uri: item.thumbnail}} style={styles.thumbnail} />
       <View style={styles.detailsContainer}>
-        <Text style={styles.brand}>{item.brand}</Text>
-        <Text numberOfLines={2} style={styles.name}>
-          {item.title}
+        <Text style={[styles.brand, {color: darkMode ? 'white' : 'black'}]}>
+          {item.brand}
+        </Text>
+        <Text
+          numberOfLines={2}
+          style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
+          {item.name}
+        </Text>
+        <Text
+          numberOfLines={2}
+          style={[styles.brand, {color: darkMode ? 'white' : 'black'}]}>
+          ${item.price}
         </Text>
       </View>
       <View style={styles.removeButtonContainer}>
@@ -87,16 +105,31 @@ const MyFavourites = () => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity
-        style={styles.addToCartButton}
+        style={[
+          styles.addToCartButton,
+          {backgroundColor: darkMode ? 'white' : 'black'},
+        ]}
         onPress={() => HandleAddtoCart(item.id, item)}>
-        <Text style={styles.addToCartButtonText}>Add to Cart</Text>
+        <Text
+          style={[
+            styles.addToCartButtonText,
+            {color: darkMode ? 'black' : 'white'},
+          ]}>
+          Add to Cart
+        </Text>
       </TouchableOpacity>
     </View>
     // </Swipeable>
   );
 
+  console.log(wishlisted);
+
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={[
+        styles.mainContainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       {wishlisted.length > 0 ? (
         <FlatList
           data={wishlisted}
@@ -105,7 +138,10 @@ const MyFavourites = () => {
           contentContainerStyle={styles.listContainer}
         />
       ) : (
-        <Text style={styles.noProducts}>No items available</Text>
+        <Text
+          style={[styles.noProducts, {color: darkMode ? 'white' : 'black'}]}>
+          No items available
+        </Text>
       )}
     </View>
   );
@@ -114,7 +150,7 @@ const MyFavourites = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     padding: 10,
   },
   listContainer: {

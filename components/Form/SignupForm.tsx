@@ -15,8 +15,9 @@ import {useNavigation} from '@react-navigation/native';
 import {authorize} from '../../store/AuthenticSlice';
 import CustomModal from '../generic/CustomModal';
 import Icon from 'react-native-vector-icons/AntDesign';
+import CustomActivityIndicator from '../generic/CustomActivityIndicator';
 
-const SignupForm = () => {
+const SignupForm = ({darkMode, colors}: any) => {
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state.autheticate);
 
@@ -156,16 +157,31 @@ const SignupForm = () => {
   return (
     <View style={styles.mainContainer}>
       {loading ? (
-        <ActivityIndicator size="large" color="#000000" />
+        <CustomActivityIndicator />
       ) : (
         <View style={styles.maincontainerLoaded}>
           <View style={styles.welcomeContainer}>
-            <Text style={styles.headerStyle}>Sign Up</Text>
-            <Text style={styles.headerDesStyle}>Create a new account</Text>
+            <Text
+              style={[
+                styles.headerStyle,
+                {color: darkMode ? colors.white : colors.black},
+              ]}>
+              Sign Up
+            </Text>
+            <Text
+              style={[
+                styles.headerDesStyle,
+                {color: darkMode ? colors.white : colors.black},
+              ]}>
+              Create a new account
+            </Text>
           </View>
           <View style={[styles.inputContainer]}>
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                {color: darkMode ? colors.white : colors.black},
+              ]}
               onChangeText={value => {
                 OnHandleChange(value, 'name');
                 checkForError();
@@ -173,13 +189,18 @@ const SignupForm = () => {
               onBlur={() => HandleErrorOnBlur()}
               placeholder="Enter Name"
               value={formInput.name}
+              placeholderTextColor={colors.grey}
             />
             {error.name !== '' && (
               <Text style={styles.errorText}>{error.name}</Text>
             )}
 
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                ,
+                {color: darkMode ? colors.white : colors.black},
+              ]}
               onChangeText={value => {
                 OnHandleChange(value, 'email');
                 checkForError();
@@ -187,13 +208,18 @@ const SignupForm = () => {
               onBlur={() => HandleErrorOnBlur()}
               placeholder="Enter Email"
               value={formInput.email}
+              placeholderTextColor={colors.grey}
             />
             {error.email !== '' && (
               <Text style={styles.errorText}>{error.email}</Text>
             )}
 
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                ,
+                {color: darkMode ? colors.white : colors.black},
+              ]}
               onChangeText={value => {
                 OnHandleChange(value, 'password');
                 checkForError();
@@ -201,13 +227,18 @@ const SignupForm = () => {
               onBlur={() => HandleErrorOnBlur()}
               placeholder="Enter Password"
               value={formInput.password}
+              placeholderTextColor={colors.grey}
             />
             {error.password !== '' && (
               <Text style={styles.errorText}>{error.password}</Text>
             )}
 
             <TextInput
-              style={styles.textInput}
+              style={[
+                styles.textInput,
+                ,
+                {color: darkMode ? colors.white : colors.black},
+              ]}
               onChangeText={value => {
                 OnHandleChange(value, 'confirmpassword');
                 checkForError();
@@ -215,6 +246,7 @@ const SignupForm = () => {
               onBlur={() => HandleErrorOnBlur()}
               placeholder="Confirm Password"
               value={formInput.confirmpassword}
+              placeholderTextColor={colors.grey}
             />
             {error.confirmpassword !== '' && (
               <Text style={styles.errorText}>{error.confirmpassword}</Text>
@@ -233,9 +265,9 @@ const SignupForm = () => {
             <View style={styles.signupBtnContainer}>
               <CustomButtonComponent
                 text={'Sign Up'}
-                color={colors.elementBackground}
+                color={darkMode ? colors.white : colors.black}
                 onSubmit={handleSignup}
-                textcolor={colors.white}
+                textcolor={darkMode ? colors.black : colors.white}
               />
             </View>
           </View>

@@ -7,18 +7,29 @@ import {logout} from '../../store/AuthenticSlice';
 import {Image} from 'react-native-elements';
 import ProfileOptions from '../../components/profile/ProfileOptions';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useTheme} from '../../context/ThemeContext';
 
-const Card = ({name, email, image}: any) => {
+const Card = ({name, email, image, darkMode}: any) => {
   return (
-    <View style={styles.cardContainer}>
+    <View
+      style={[
+        styles.cardContainer,
+        {
+          backgroundColor: darkMode ? 'black' : 'white',
+          borderColor: darkMode ? 'grey' : 'black',
+          borderWidth: darkMode ? 1 : 0,
+        },
+      ]}>
       <View style={styles.imageContainer}>
         <Image source={image} style={styles.image} />
       </View>
       <View style={styles.namemailContainer}>
-        <Text style={styles.name}>
+        <Text style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
           {name.charAt(0).toUpperCase() + name.slice(1)}
         </Text>
-        <Text style={styles.email}>{email}</Text>
+        <Text style={[styles.email, {color: darkMode ? 'white' : 'black'}]}>
+          {email}
+        </Text>
       </View>
     </View>
   );
@@ -27,6 +38,7 @@ const ProfileScreen = ({navigation}: any) => {
   const userDetails = useSelector(
     (state: any) => state.autheticate.userDetails,
   );
+  const {darkMode} = useTheme();
 
   console.log(userDetails, 'autheticate');
   const dispatch = useDispatch();
@@ -61,7 +73,7 @@ const ProfileScreen = ({navigation}: any) => {
       id: 4,
 
       name: 'Shipping Address',
-      logo: 'truck',
+      logo: 'openid',
       route: 'Shipping Address',
     },
     {
@@ -75,7 +87,7 @@ const ProfileScreen = ({navigation}: any) => {
       id: 6,
 
       name: 'Settings',
-      logo: 'gears',
+      logo: 'sun-o',
       route: 'Settings',
     },
   ];
@@ -103,21 +115,40 @@ const ProfileScreen = ({navigation}: any) => {
   ];
   console.log(userDetails.image, 'userimage');
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Card
           name={userDetails.username}
           email={userDetails.email}
           image={userDetails.image}
+          darkMode={darkMode}
         />
-        <ProfileOptions options={options} navigation={navigation} />
-        <ProfileOptions options={options2} navigation={navigation} />
+        <ProfileOptions
+          options={options}
+          navigation={navigation}
+          darkMode={darkMode}
+        />
+        <ProfileOptions
+          options={options2}
+          navigation={navigation}
+          darkMode={darkMode}
+        />
         <CustomButtonComponent
-          color="black"
-          textcolor="white"
+          color={darkMode ? 'white' : 'black'}
+          textcolor={darkMode ? 'black' : 'white'}
           onSubmit={handleLogout}
           text="Logout"
-          LogoComponent={() => <Icon size={28} color="white" name="logout" />}
+          LogoComponent={() => (
+            <Icon
+              size={28}
+              color={darkMode ? 'black' : 'white'}
+              name="logout"
+            />
+          )}
           logoComp={true}
         />
       </ScrollView>
@@ -128,7 +159,7 @@ const ProfileScreen = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   scrollContent: {
     padding: 20,

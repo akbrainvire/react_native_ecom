@@ -14,12 +14,14 @@ export const categorySlice = createSlice({
   initialState: {
     categories: [],
     filterCategories: [],
+    searchValue: '',
     loading: false,
     error: '',
   },
   reducers: {
     filterCategoriesAction: (state: any, action: any) => {
       if (action.payload !== '') {
+        state.searchValue = action.payload;
         const filteredCategories = state.categories.filter(
           (category: any) =>
             category.toLowerCase().indexOf(action.payload.toLowerCase()) !== -1,
@@ -27,6 +29,7 @@ export const categorySlice = createSlice({
 
         state.filterCategories = filteredCategories;
       } else {
+        state.searchValue = '';
         state.filterCategories = [];
       }
     },

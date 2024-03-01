@@ -16,6 +16,7 @@ const SearchCategories = ({darkMode}: any) => {
 
   const handleSearch = (value: any) => {
     setSearchTerm(value);
+    console.log(value);
     dispatch(filterCategoriesAction(value));
     const filteredCategories = categories.filter(
       (category: any) =>

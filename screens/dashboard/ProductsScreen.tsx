@@ -96,7 +96,7 @@ const ProductsScreen = ({route}: any) => {
             {
               width: searchExpanded ? 300 : 47,
               borderWidth: searchExpanded ? 1 : 0,
-              borderColor: 'white',
+              borderColor: darkMode ? 'white' : 'black',
             },
           ]}>
           <TouchableOpacity onPress={() => toggleSearchExpanded()}>

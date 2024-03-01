@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   Image,
+  Dimensions,
 } from 'react-native';
 
 const FirstScreenNoLogin = ({navigation}: any) => {
@@ -55,6 +56,8 @@ const FirstScreenNoLogin = ({navigation}: any) => {
     </View>
   );
 };
+
+const {height, width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -111,8 +114,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    top: 300,
-    left: 85,
+    top: height * 0.35,
+    left: width * 0.3,
     // borderWidth: 1,
     // borderColor: 'white',
     paddingVertical: 10,
@@ -121,8 +124,8 @@ const styles = StyleSheet.create({
     // backgroundColor: colors.elementBackground,
   },
   logoModel: {
-    height: 150,
-    width: 200,
+    height: height * 0.15,
+    width: width * 0.4,
   },
 });
 

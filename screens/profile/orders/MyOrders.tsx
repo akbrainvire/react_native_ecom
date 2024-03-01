@@ -2,45 +2,101 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {Image} from 'react-native-elements';
 import {useSelector} from 'react-redux';
+import {useTheme} from '../../../context/ThemeContext';
 
 const MyOrders = () => {
   const [tab, setTab] = useState('ongoing');
   const orders = useSelector((state: any) => state.orders.orders);
 
+  const {darkMode} = useTheme();
+
   const renderItem = ({item}: {item: any}) => (
-    <View style={styles.card}>
+    <View
+      style={[
+        styles.card,
+        {
+          backgroundColor: darkMode ? 'black' : 'white',
+          borderWidth: darkMode ? 1 : 0,
+          borderColor: darkMode ? 'white' : 'black',
+        },
+      ]}>
       <View style={styles.thumbnailContainer}>
         <Image source={{uri: item.thumbnail}} style={styles.thumbnail} />
       </View>
       <View style={styles.detailsContainer}>
-        <Text style={styles.name}>
+        <Text style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
           {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
         </Text>
-        <Text style={styles.textporderDetail} numberOfLines={1}>
+        <Text
+          style={[
+            styles.textporderDetail,
+            {color: darkMode ? 'white' : 'black'},
+          ]}
+          numberOfLines={1}>
           Quantity: {item.quantity}
         </Text>
-        <Text style={styles.textporderDetail}>{item.brand}</Text>
-        <Text style={styles.textporderDetail}>Size: {item.size}</Text>
-        <Text style={styles.textporderDetail}>Color: {item.color}</Text>
+        <Text
+          style={[
+            styles.textporderDetail,
+            {color: darkMode ? 'white' : 'black'},
+          ]}>
+          {item.brand}
+        </Text>
+        <Text
+          style={[
+            styles.textporderDetail,
+            {color: darkMode ? 'white' : 'black'},
+          ]}>
+          Size: {item.size}
+        </Text>
+        <Text
+          style={[
+            styles.textporderDetail,
+            {color: darkMode ? 'white' : 'black'},
+          ]}>
+          Color: {item.color}
+        </Text>
       </View>
-      <Text style={styles.totalPrice}>${item.totalPrice}</Text>
+      <Text style={[styles.totalPrice, {color: darkMode ? 'white' : 'black'}]}>
+        ${item.totalPrice}
+      </Text>
     </View>
   );
 
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={[
+        styles.mainContainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       <View style={styles.header}>
         <View style={styles.headerHeading}>
-          <Text style={styles.headerHeadingText}>My Orders</Text>
+          <Text
+            style={[
+              styles.headerHeadingText,
+              {color: darkMode ? 'white' : 'black'},
+            ]}>
+            My Orders
+          </Text>
         </View>
         <View style={styles.headertabOptions}>
           <Text
-            style={tab === 'ongoing' ? styles.activeTab : styles.tab}
+            style={[
+              styles.tab,
+              tab === 'ongoing'
+                ? {color: darkMode ? 'white' : 'black'}
+                : {color: '#929292'},
+            ]}
             onPress={() => setTab('ongoing')}>
             Ongoing
           </Text>
           <Text
-            style={tab === 'completed' ? styles.activeTab : styles.tab}
+            style={[
+              styles.tab,
+              tab === 'completed'
+                ? {color: darkMode ? 'white' : 'black'}
+                : {color: '#929292'},
+            ]}
             onPress={() => setTab('completed')}>
             Completed
           </Text>
@@ -75,23 +131,14 @@ const styles = StyleSheet.create({
   },
   tab: {
     fontSize: 16,
-    color: '#929292',
+    // color: '#929292',
     borderColor: '#929292',
     borderWidth: 1,
     borderRadius: 10,
     padding: 4,
     paddingHorizontal: 10,
   },
-  activeTab: {
-    fontSize: 16,
-    color: 'white',
-    fontWeight: 'bold',
-    // borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: 'black',
-    paddingHorizontal: 10,
-    padding: 4,
-  },
+
   textporderDetail: {
     fontSize: 12,
     color: '#9f9f9f',
@@ -99,7 +146,7 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    // backgroundColor: '#ffffff',
     borderRadius: 10,
     marginBottom: 15,
     marginHorizontal: 20,

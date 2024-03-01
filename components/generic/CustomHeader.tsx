@@ -7,10 +7,12 @@ const CustomHeader = ({
   headerLeft,
   headerRight,
   headerTitle,
+  paddingHorizontalonTitle,
 }: {
   headerLeft?: ReactNode;
   headerRight?: ReactNode;
   headerTitle?: string;
+  paddingHorizontalonTitle?: number;
 }) => {
   const {darkMode} = useTheme();
   return (
@@ -23,7 +25,11 @@ const CustomHeader = ({
         {headerLeft && <View style={styles.headerLeftComp}>{headerLeft}</View>}
         {headerTitle && (
           <Text
-            style={[styles.headerTitle, {color: darkMode ? 'white' : 'black'}]}>
+            style={[
+              styles.headerTitle,
+              {color: darkMode ? 'white' : 'black'},
+              {paddingHorizontal: paddingHorizontalonTitle},
+            ]}>
             {headerTitle}
           </Text>
         )}
@@ -55,7 +61,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    paddingLeft: 10,
+    // paddingLeft: 10,
   },
 });
 

@@ -153,6 +153,7 @@ const NavigationRoute = () => {
           header: () => (
             <CustomHeader
               headerTitle="Cart"
+              paddingHorizontalonTitle={20}
               headerRight={
                 <CartHeaderRight paddingRight={20} color={'#afafaf'} />
               }
@@ -171,8 +172,12 @@ const NavigationRoute = () => {
         name="Notification Screen"
         component={NotificationScreen}
         options={({navigation, route}) => ({
-          headerTitle: '',
-          headerShown: false,
+          header: () => (
+            <CustomHeader
+              headerTitle="Notification"
+              paddingHorizontalonTitle={20}
+            />
+          ),
         })}
       />
     </Stack.Navigator>
@@ -234,12 +239,10 @@ const NavigationRoute = () => {
         <Tab.Screen
           name="Notification"
           component={NotificationStack}
-          options={
-            {
-              // headerShown: false,
-              // tabBarBadge: notification > 0 ? notification : undefined,
-            }
-          }
+          options={{
+            headerShown: false,
+            // tabBarBadge: notification > 0 ? notification : undefined,
+          }}
         />
         <Tab.Screen
           name="Profile"

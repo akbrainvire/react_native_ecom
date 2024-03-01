@@ -17,15 +17,18 @@ import SettingCustomOption from './SettingCustomOption';
 import BasicModal from '../generic/BasicModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTheme} from '../../context/ThemeContext';
+import SingleRadioButton from './SingleRadioButton';
 
 const {height, width} = Dimensions.get('window');
 
 const PersonalDetails = ({navigation}: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const {darkMode, toggleDarkMode} = useTheme();
-
   const userDetails = useSelector(
     (state: any) => state.autheticate.userDetails,
+  );
+  const [selectedGenderId, setselectedGenderId] = useState(
+    userDetails.gender.toLowerCase() === 'female' ? 2 : 1,
   );
 
   const [options, setOptions] = useState({
@@ -106,6 +109,10 @@ const PersonalDetails = ({navigation}: any) => {
   // console.log(options, 'hasufdhbwaie');
 
   // console.log(options.notification, 'optajsbfkaseou');
+  const handleGender = (value: any) => {
+    setselectedGenderId(value);
+    console.log(value);
+  };
 
   return (
     <ScrollView
@@ -152,22 +159,48 @@ const PersonalDetails = ({navigation}: any) => {
               editable={false}
             />
           </View>
-          <View style={styles.row}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              marginTop: 10,
+            }}>
             <Text style={[styles.label, darkMode && styles.labelDarkMode]}>
               Gender:
             </Text>
-            <TextInput
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: 5,
+              }}>
+              <SingleRadioButton
+                button={{id: 1, value: 'Male'}}
+                darkMode={darkMode}
+                selectedId={selectedGenderId}
+                handleGender={handleGender}
+              />
+              <SingleRadioButton
+                button={{id: 2, value: 'Female'}}
+                darkMode={darkMode}
+                selectedId={selectedGenderId}
+                handleGender={handleGender}
+              />
+            </View>
+            {/* <TextInput
               style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
               value={userDetails.gender}
               editable={false}
-            />
+            /> */}
           </View>
           <View style={styles.row}>
             <Text style={[styles.label, darkMode && styles.labelDarkMode]}>
               Email:
             </Text>
             <TextInput
-              style={[styles.input, {color: darkMode ? 'white' : 'white'}]}
+              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
               value={userDetails.email}
               editable={false}
             />

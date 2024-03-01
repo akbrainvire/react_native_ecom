@@ -65,15 +65,8 @@ const PaymentFillDetail = ({navigation, route}: any) => {
         onClose={handleContinueShopping}
         title={title}
         description={description}
-        LogoComponent={() => (
-          <Icon
-            name="gpp-good"
-            size={80}
-            color={darkMode ? 'white' : 'black'}
-          />
-        )}
+        LogoComponent={() => <Icon name="gpp-good" size={80} color={'black'} />}
         loading={loading}
-        darkMode={darkMode}
       />
       <View style={styles.nextbtn}>
         <CustomButtonComponent

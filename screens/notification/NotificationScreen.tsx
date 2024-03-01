@@ -3,8 +3,9 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FlatList} from 'react-native-gesture-handler';
 import {markasread} from '../../store/NotificationSlice';
+import {useTheme} from '../../context/ThemeContext';
 
-const NotificationCard = ({title, message, time, id}: any) => {
+const NotificationCard = ({title, message, time, id, darkMode}: any) => {
   const dispatch = useDispatch();
 
   const handleMarkAsRead = (id: any) => {
@@ -12,19 +13,41 @@ const NotificationCard = ({title, message, time, id}: any) => {
   };
 
   return (
-    <View style={styles.card}>
+    <View
+      style={[
+        styles.card,
+        {
+          backgroundColor: darkMode ? 'black' : 'white',
+          borderColor: darkMode ? 'white' : 'black',
+          borderWidth: darkMode ? 1 : 0,
+        },
+      ]}>
       <View style={styles.header}>
         <Image source={require('../../assets/logo.png')} style={styles.logo} />
         <View style={styles.messageContainer}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.message} numberOfLines={2} ellipsizeMode="tail">
+          <Text style={[styles.title, {color: darkMode ? 'white' : 'black'}]}>
+            {title}
+          </Text>
+          <Text
+            style={[styles.message, {color: darkMode ? 'white' : 'black'}]}
+            numberOfLines={2}
+            ellipsizeMode="tail">
             {message}
           </Text>
         </View>
       </View>
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => handleMarkAsRead(id)}>
-          <Text style={styles.markAsReadButton}>Mark as read</Text>
+          <Text
+            style={[
+              styles.markAsReadButton,
+              {
+                color: darkMode ? 'white' : 'black',
+                borderColor: darkMode ? 'white' : 'black',
+              },
+            ]}>
+            Mark as read
+          </Text>
         </TouchableOpacity>
         <Text style={styles.time}>{time}</Text>
       </View>
@@ -37,8 +60,13 @@ const NotificationScreen = () => {
     (state: any) => state.notification.notifications,
   );
 
+  const {darkMode} = useTheme();
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       {notifications.length > 0 ? (
         <FlatList
           data={notifications}
@@ -48,12 +76,15 @@ const NotificationScreen = () => {
               message={item.message}
               time={item.time}
               id={item.id}
+              darkMode={darkMode}
             />
           )}
           keyExtractor={item => item.id.toString()}
         />
       ) : (
-        <Text>No notifications</Text>
+        <Text style={{color: darkMode ? 'white' : 'black'}}>
+          No notifications
+        </Text>
       )}
     </View>
   );
@@ -62,12 +93,12 @@ const NotificationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   card: {
     marginHorizontal: 20,
     marginVertical: 10,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     borderRadius: 10,
     padding: 10,
     marginBottom: 10,
@@ -103,11 +134,11 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   markAsReadButton: {
-    color: '#000000',
+    // color: '#000000',
     fontWeight: 'bold',
     borderWidth: 1,
 
-    borderColor: '#000000',
+    // borderColor: '#000000',
     paddingVertical: 5,
     paddingHorizontal: 5,
     borderRadius: 10,

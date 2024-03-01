@@ -21,13 +21,13 @@ const RadioButtonGroup = ({
               borderColor: darkMode ? 'white' : 'black',
             },
             // {borderColor: darkMode ? 'black' : 'white'},
+            {backgroundColor: darkMode ? 'black' : 'white'},
             selectedId === button.value
               ? {
                   backgroundColor: darkMode ? 'white' : 'black',
                   borderRadius: 14,
                 }
               : null,
-            // {backgroundColor: darkMode ? 'black' : 'white'},
           ]}
           onPress={() => onPress(button.value)}>
           <View style={styles.logoLabelContainer}>
@@ -50,7 +50,7 @@ const RadioButtonGroup = ({
           <View
             style={[
               styles.radioButtonCircle,
-              {borderColor: 'white'},
+              {borderColor: darkMode ? 'white' : 'black'},
               selectedId === button.value && {
                 borderColor: darkMode ? 'black' : 'white',
               },
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
 
     // backgroundColor: '#fff',
-    // shadowColor: '#c4c1c1',
+    shadowColor: '#c4c1c1',
     shadowOffset: {
       width: 0,
       height: 2,

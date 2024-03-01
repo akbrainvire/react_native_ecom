@@ -204,13 +204,17 @@ const CartScreen = ({navigation}: any) => {
           <View style={styles.btnproceed}>
             <CustomButtonComponent
               LogoComponent={() => (
-                <Icon name="chevron-forward-outline" size={24} color="#fff" />
+                <Icon
+                  name="chevron-forward-outline"
+                  size={24}
+                  color={darkMode ? 'black' : '#fff'}
+                />
               )}
               logoComp={true}
               text="Proceed to Checkout"
-              color="black"
+              color={darkMode ? 'white' : 'black'}
               onSubmit={handleProceedCheckout}
-              textcolor="white"
+              textcolor={darkMode ? 'black' : 'white'}
               width="100%"
             />
           </View>

@@ -9,9 +9,13 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ProfileOptions = ({options, navigation}: any) => {
+const ProfileOptions = ({options, navigation, darkMode}: any) => {
   return (
-    <View style={styles.mainContainer}>
+    <View
+      style={[
+        styles.mainContainer,
+        {backgroundColor: darkMode ? 'black' : 'white'},
+      ]}>
       {options.map((item: any) => (
         <TouchableOpacity
           key={item.id}
@@ -20,8 +24,16 @@ const ProfileOptions = ({options, navigation}: any) => {
           <View style={styles.logoContainer}>
             <Icon name={item.logo} size={20} color="#000" style={styles.logo} />
           </View>
-          <Text style={styles.optionName}>{item.name}</Text>
-          <Icon name="angle-right" size={20} color="#000" style={styles.icon} />
+          <Text
+            style={[styles.optionName, {color: darkMode ? 'white' : 'black'}]}>
+            {item.name}
+          </Text>
+          <Icon
+            name="angle-right"
+            size={20}
+            color={darkMode ? 'white' : 'black'}
+            style={styles.icon}
+          />
         </TouchableOpacity>
       ))}
     </View>
@@ -46,7 +58,7 @@ const styles = StyleSheet.create({
     // borderBottomColor: '#ccc',
   },
   logoContainer: {
-    width: 39,
+    width: 30,
     padding: 5,
     height: 30,
     borderRadius: 10,
@@ -55,11 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 10,
   },
-  logo: {
-    marginLeft: 4,
-    width: '100%',
-    height: '100%',
-  },
+  logo: {},
   optionName: {
     flex: 1,
     fontSize: 16,

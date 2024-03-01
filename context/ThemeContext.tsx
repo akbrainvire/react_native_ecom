@@ -38,6 +38,13 @@ export const ThemeProvider = ({children}: {children: React.ReactNode}) => {
     return {
       darkMode,
       toggleDarkMode: toggleDarkMode,
+      colors: {
+        white: 'white',
+        black: 'black',
+        grey: '#b7b7b7',
+        lightwhite: '#eaeaea',
+        blue: '#3a9dff',
+      },
       mainContainerDarkMode: {
         backgroundColor: 'black',
         color: 'white',
