@@ -97,7 +97,7 @@ const ProfileScreen = ({navigation}: any) => {
       id: 6,
       name: `FAQ's`,
       logo: 'question-circle-o',
-      route: 'FAQ',
+      route: 'ChatGPTSupport',
     },
     {
       id: 7,

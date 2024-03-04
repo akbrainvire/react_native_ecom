@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 import {useSelector} from 'react-redux';
 import {useTheme} from '../../context/ThemeContext';
+import {ScrollView} from 'react-native';
 
 const CartItem = ({item, darkMode}: any) => (
   <View style={styles.container}>
@@ -75,8 +76,6 @@ const OrderSummaryScreen = ({route}: any) => {
       ]}>
       <FlatList
         data={cartItems}
-        renderItem={({item}) => <CartItem item={item} darkMode={darkMode} />}
-        keyExtractor={item => item.id.toString()}
         ListHeaderComponent={
           <View>
             <Text
@@ -125,6 +124,9 @@ const OrderSummaryScreen = ({route}: any) => {
             </Text>
           </View>
         }
+        showsVerticalScrollIndicator={false}
+        renderItem={({item}) => <CartItem item={item} darkMode={darkMode} />}
+        keyExtractor={item => item.id.toString()}
         ListFooterComponent={
           <View style={styles.footerContainer}>
             <View style={styles.nextbtn}>
@@ -144,18 +146,18 @@ const OrderSummaryScreen = ({route}: any) => {
                   ${totalSum}
                 </Text>
               </View>
-              <View style={styles.nextbtnContainer}>
-                <CustomButtonComponent
-                  text="Next"
-                  color={darkMode ? 'white' : 'black'}
-                  onSubmit={handleNext}
-                  textcolor={darkMode ? 'black' : 'white'}
-                />
-              </View>
             </View>
           </View>
         }
       />
+      <View style={styles.nextbtnContainer}>
+        <CustomButtonComponent
+          text="Next"
+          color={darkMode ? 'white' : 'black'}
+          onSubmit={handleNext}
+          textcolor={darkMode ? 'black' : 'white'}
+        />
+      </View>
     </View>
   );
 };

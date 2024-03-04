@@ -192,7 +192,7 @@ const ProductDetail = ({navigation, route}: any) => {
           <CartHeaderRight />
         </View>
 
-        <Carousel
+        {/* <Carousel
           ref={carouselRef}
           data={item.images}
           renderItem={({item}: any) => (
@@ -211,9 +211,9 @@ const ProductDetail = ({navigation, route}: any) => {
           sliderWidth={Dimensions.get('window').width}
           itemWidth={Dimensions.get('window').width}
           itemHeight={Dimensions.get('window').height * 0.5}></Carousel>
-        {renderPagination()}
+        {renderPagination()} */}
         {/* </View> */}
-        {/* <CustomCarousel images={item.images} />  */}
+        <CustomCarousel images={item.images} />
       </View>
       <SafeAreaView>
         <ScrollView

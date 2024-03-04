@@ -19,6 +19,7 @@ import {
 import SearchCategories from './SearchCategories';
 import {useTheme} from '../../context/ThemeContext';
 import CustomActivityIndicator from '../../components/generic/CustomActivityIndicator';
+import {RefreshControl} from 'react-native';
 
 const ProductCategories = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -40,6 +41,10 @@ const ProductCategories = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
+  const onRefresh = () => {
+    dispatch(fetchCategories());
+  };
+
   return (
     <View
       style={[
@@ -59,6 +64,9 @@ const ProductCategories = () => {
               <Card item={item} darkMode={darkMode} />
             </TouchableOpacity>
           )}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={onRefresh} />
+          }
           keyExtractor={(item, index) => index.toString()}
           contentContainerStyle={styles.flatlistContainer}
           numColumns={2}

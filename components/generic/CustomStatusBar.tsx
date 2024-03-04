@@ -2,7 +2,7 @@ import {View, Text, StatusBar} from 'react-native';
 import React from 'react';
 import {useTheme} from '../../context/ThemeContext';
 
-const CustomStatusBar = () => {
+const CustomStatusBar = ({route}: any) => {
   const {darkMode} = useTheme();
   return (
     <StatusBar

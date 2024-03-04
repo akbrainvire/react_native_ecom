@@ -37,6 +37,8 @@ import NotificationSetting from '../../screens/setting/NotificationSetting';
 import LanguageSetting from '../../screens/setting/LanguageSetting';
 import LogSignCarousel from '../../screens/default/LogSignCarousel';
 import CustomHeader from '../generic/CustomHeader';
+import ChatGPTSupport from '../chatgpt/ChatBotOAI';
+import OrderDetail from '../../screens/profile/orders/OrderDetail';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -283,6 +285,12 @@ const NavigationRoute = () => {
       />
 
       <Stack.Screen
+        name="FirstScreenNoLogin"
+        component={FirstScreenNoLogin}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
         name="Products Screen"
         component={ProductsScreen}
         options={({navigation, route}) => ({
@@ -427,6 +435,18 @@ const NavigationRoute = () => {
           headerTitle: '',
         })}
       />
+      <Stack.Screen
+        name="Order Detail"
+        component={OrderDetail}
+        options={({navigation, route}) => ({
+          header: () => (
+            <CustomHeader
+              headerTitle=""
+              headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+            />
+          ),
+        })}
+      />
 
       <Stack.Screen
         name="Settings"
@@ -448,6 +468,12 @@ const NavigationRoute = () => {
         options={({navigation, route}) => ({
           header: () => <CustomHeader headerTitle="Error" />,
         })}
+      />
+
+      <Stack.Screen
+        name="ChatGPTSupport"
+        component={ChatGPTSupport}
+        options={{headerShown: false}}
       />
 
       {/* <Stack.Screen name="Cart" component={CartTabNavigator} /> */}

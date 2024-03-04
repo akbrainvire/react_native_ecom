@@ -15,8 +15,8 @@ const CustomCarousel = ({images}: {images: string[]}) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handlePageChange = (index: number) => {
-    setActiveIndex(index);
     flatListRef.current?.scrollToIndex({index, animated: true});
+    // console.log(index);
   };
 
   const handleAutoplay = () => {
@@ -36,6 +36,7 @@ const CustomCarousel = ({images}: {images: string[]}) => {
         data={images}
         horizontal
         pagingEnabled
+        scrollEnabled
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
@@ -43,9 +44,11 @@ const CustomCarousel = ({images}: {images: string[]}) => {
         )}
         onScroll={event => {
           const {contentOffset} = event.nativeEvent;
-          const index = Math.floor(contentOffset.x / width);
+          const index = Math.floor((contentOffset.x + 0.001) / width);
           setActiveIndex(index);
+          // handlePageChange(index);
         }}
+        decelerationRate={'fast'}
       />
 
       <View style={styles.dotContainer}>

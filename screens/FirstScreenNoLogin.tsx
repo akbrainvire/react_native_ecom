@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated} from 'react-native';
 import {
   View,
   ImageBackground,
@@ -27,20 +28,59 @@ const FirstScreenNoLogin = ({navigation}: any) => {
     //   id: 'signup',
     // });
   };
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      delay: 1000,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
+  const backGroundImages = [
+    {
+      image: require('../assets/m5.jpg'),
+    },
+    {
+      image: require('../assets/m1.jpg'),
+    },
+    {
+      image: require('../assets/m2.jpg'),
+    },
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentImageIndex(
+        (prevIndex: any) => (prevIndex + 1) % backGroundImages.length,
+      );
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <View style={styles.container}>
+      {/* <StatusBar
+        animated={true}
+        backgroundColor={'black'}
+        hidden={false}
+        barStyle={'light-content'}
+      /> */}
       <ImageBackground
-        source={require('../assets/m1.jpg')}
+        source={backGroundImages[currentImageIndex].image}
         style={styles.backgroundImage}>
         <View style={styles.overlay} />
-        <View style={styles.logomodelcontainer}>
+        <Animated.View style={[styles.logomodelcontainer, {opacity: fadeAnim}]}>
           <Image
             source={require('../assets/logo.png')}
             style={styles.logoModel}
           />
-        </View>
-        <View style={styles.contentContainer}>
+        </Animated.View>
+        <Animated.View style={[styles.contentContainer, {opacity: fadeAnim}]}>
           <TouchableOpacity
             style={styles.buttonLogin}
             onPress={goToLoginScreen}>
@@ -51,7 +91,7 @@ const FirstScreenNoLogin = ({navigation}: any) => {
             onPress={goToSignupScreen}>
             <Text style={styles.buttonTextSignup}>Signup</Text>
           </TouchableOpacity>
-        </View>
+        </Animated.View>
       </ImageBackground>
     </View>
   );
@@ -65,7 +105,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.473)', // Adjust the alpha value for the desired transparency
+    backgroundColor: 'rgba(0, 0, 0, 0.315)', // Adjust the alpha value for the desired transparency
   },
   backgroundImage: {
     flex: 1,
@@ -115,7 +155,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     top: height * 0.35,
-    left: width * 0.3,
+    left: width * 0.28,
     // borderWidth: 1,
     // borderColor: 'white',
     paddingVertical: 10,
@@ -125,7 +165,7 @@ const styles = StyleSheet.create({
   },
   logoModel: {
     height: height * 0.15,
-    width: width * 0.4,
+    width: width * 0.45,
   },
 });
 

@@ -19,6 +19,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchProductsReq} from '../../sagas/productSaga';
 import CustomActivityIndicator from '../../components/generic/CustomActivityIndicator';
 import {useTheme} from '../../context/ThemeContext';
+import {RefreshControl} from 'react-native-gesture-handler';
 
 const ProductsScreen = ({route}: any) => {
   const {categoryName} = route.params;
@@ -51,6 +52,10 @@ const ProductsScreen = ({route}: any) => {
 
     dispatch(fetchProductsReq({categoryName}));
   }, [dispatch, categoryName]);
+
+  const onRefresh = () => {
+    dispatch(fetchProductsReq({categoryName}));
+  };
 
   useEffect(() => {
     if (searchTerm !== '') {
@@ -140,6 +145,9 @@ const ProductsScreen = ({route}: any) => {
           <FlatList
             data={searchTerm !== '' ? filteredProducts : categoryProducts}
             numColumns={2}
+            refreshControl={
+              <RefreshControl onRefresh={onRefresh} refreshing={loading} />
+            }
             renderItem={({item}) => (
               <View style={styles.productContainer}>
                 <TouchableOpacity

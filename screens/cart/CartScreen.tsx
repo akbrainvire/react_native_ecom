@@ -70,10 +70,8 @@ const CartScreen = ({navigation}: any) => {
 
   return (
     <ScrollView
-      style={[
-        styles.container,
-        {backgroundColor: darkMode ? 'black' : 'white'},
-      ]}>
+      style={[{backgroundColor: darkMode ? 'black' : 'white'}]}
+      contentContainerStyle={styles.mainContainer}>
       {cartItems.length > 0 ? (
         cartItems.map((item: any, i: any) => (
           <View
@@ -216,6 +214,7 @@ const CartScreen = ({navigation}: any) => {
               onSubmit={handleProceedCheckout}
               textcolor={darkMode ? 'black' : 'white'}
               width="100%"
+              marginTop="auto"
             />
           </View>
         </View>
@@ -227,10 +226,13 @@ const CartScreen = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  mainContainer: {
     padding: 10,
     paddingBottom: 20,
+    // flexShrink: 1,
+  },
+  container: {
+    // flex: 1,
     // backgroundColor: '#fff',
   },
   card: {
@@ -328,7 +330,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     // backgroundColor: '#fff',
-    marginTop: 'auto',
+    // marginTop: 'auto',
   },
   totalContainer: {
     flexDirection: 'row',
@@ -362,8 +364,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   btnproceed: {
-    marginTop: 'auto',
     flexDirection: 'row',
+    flex: 1,
+    // marginTop: 'auto',
+    // paddingBottom: 20,
   },
 });
 

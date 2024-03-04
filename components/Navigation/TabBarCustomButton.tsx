@@ -3,7 +3,7 @@ import {Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
 
 export const TabButton = ({label, isFocused, onPress, darkMode}: any) => {
-  // console.log(label, 'isFocused');
+  // console.log(isFocused, 'isFocused');
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -20,7 +20,7 @@ export const TabButton = ({label, isFocused, onPress, darkMode}: any) => {
               justifyContent: 'space-between',
               alignItems: 'center',
 
-              borderRadius: 20,
+              borderRadius: 40,
             },
             {backgroundColor: darkMode ? 'black' : '#e7e7e7'},
           ]}>

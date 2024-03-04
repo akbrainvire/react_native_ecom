@@ -4,63 +4,72 @@ import {Image} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {useTheme} from '../../../context/ThemeContext';
 
-const MyOrders = () => {
+const MyOrders = ({navigation}: any) => {
   const [tab, setTab] = useState('ongoing');
   const orders = useSelector((state: any) => state.orders.orders);
 
   const {darkMode} = useTheme();
 
+  const navigateToOrderDetail = (item: any) => {
+    navigation.navigate('Order Detail', {item: item});
+  };
+
   const renderItem = ({item}: {item: any}) => (
-    <View
-      style={[
-        styles.card,
-        {
-          backgroundColor: darkMode ? 'black' : 'white',
-          borderWidth: darkMode ? 1 : 0,
-          borderColor: darkMode ? 'white' : 'black',
-        },
-      ]}>
-      <View style={styles.thumbnailContainer}>
-        <Image source={{uri: item.thumbnail}} style={styles.thumbnail} />
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => navigateToOrderDetail(item)}>
+      <View
+        style={[
+          styles.card,
+          {
+            backgroundColor: darkMode ? 'black' : 'white',
+            borderWidth: darkMode ? 1 : 0,
+            borderColor: darkMode ? 'white' : 'black',
+          },
+        ]}>
+        <View style={styles.thumbnailContainer}>
+          <Image source={{uri: item.thumbnail}} style={styles.thumbnail} />
+        </View>
+        <View style={styles.detailsContainer}>
+          <Text style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
+            {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+          </Text>
+          <Text
+            style={[
+              styles.textporderDetail,
+              {color: darkMode ? 'white' : 'black'},
+            ]}
+            numberOfLines={1}>
+            Quantity: {item.quantity}
+          </Text>
+          <Text
+            style={[
+              styles.textporderDetail,
+              {color: darkMode ? 'white' : 'black'},
+            ]}>
+            {item.brand}
+          </Text>
+          <Text
+            style={[
+              styles.textporderDetail,
+              {color: darkMode ? 'white' : 'black'},
+            ]}>
+            Size: {item.size}
+          </Text>
+          <Text
+            style={[
+              styles.textporderDetail,
+              {color: darkMode ? 'white' : 'black'},
+            ]}>
+            Color: {item.color}
+          </Text>
+        </View>
+        <Text
+          style={[styles.totalPrice, {color: darkMode ? 'white' : 'black'}]}>
+          ${item.totalPrice}
+        </Text>
       </View>
-      <View style={styles.detailsContainer}>
-        <Text style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
-          {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
-        </Text>
-        <Text
-          style={[
-            styles.textporderDetail,
-            {color: darkMode ? 'white' : 'black'},
-          ]}
-          numberOfLines={1}>
-          Quantity: {item.quantity}
-        </Text>
-        <Text
-          style={[
-            styles.textporderDetail,
-            {color: darkMode ? 'white' : 'black'},
-          ]}>
-          {item.brand}
-        </Text>
-        <Text
-          style={[
-            styles.textporderDetail,
-            {color: darkMode ? 'white' : 'black'},
-          ]}>
-          Size: {item.size}
-        </Text>
-        <Text
-          style={[
-            styles.textporderDetail,
-            {color: darkMode ? 'white' : 'black'},
-          ]}>
-          Color: {item.color}
-        </Text>
-      </View>
-      <Text style={[styles.totalPrice, {color: darkMode ? 'white' : 'black'}]}>
-        ${item.totalPrice}
-      </Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (

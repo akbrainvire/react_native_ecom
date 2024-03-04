@@ -15,7 +15,8 @@ const CustomButtonComponent = ({
   border,
   disabled = false,
   isOnlyLogo,
-}: any) => {
+}: // marginTop,
+any) => {
   const styles = StyleSheet.create({
     button: {
       width: width ? width : 'auto',
@@ -38,6 +39,7 @@ const CustomButtonComponent = ({
       alignItems: 'center',
       gap: isOnlyLogo ? 0 : 15,
       width: isOnlyLogo ? 80 : 'auto',
+      // marginTop: marginTop ? marginTop : null,
     },
     textstyle: {
       color: textcolor,
