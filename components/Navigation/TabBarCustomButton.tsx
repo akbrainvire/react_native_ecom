@@ -1,9 +1,10 @@
-import {TouchableOpacity, View} from 'react-native';
+import {Dimensions, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
 
 export const TabButton = ({label, isFocused, onPress, darkMode}: any) => {
   // console.log(isFocused, 'isFocused');
+  // const {width} = Dimensions.get('window');
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -42,9 +43,11 @@ export const TabButton = ({label, isFocused, onPress, darkMode}: any) => {
                   color: 'black',
                   paddingHorizontal: 5,
                   fontWeight: 'bold',
+                  // width: width * 0.13,
                 },
                 {color: darkMode ? 'white' : 'black'},
-              ]}>
+              ]}
+              numberOfLines={1}>
               {label}
             </Text>
           </View>

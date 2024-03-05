@@ -1,25 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-  FlatList,
-} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import Card from '../../components/product/ProductCategoriesCard';
-import categoriesJson from '../../categories.json';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  fetchCategories,
-  filterCategoriesAction,
-} from '../../store/CategorySlice';
+import {fetchCategories} from '../../store/CategorySlice';
 import SearchCategories from './SearchCategories';
 import {useTheme} from '../../context/ThemeContext';
 import CustomActivityIndicator from '../../components/generic/CustomActivityIndicator';
 import {RefreshControl} from 'react-native';
+import {Animated} from 'react-native';
 
 const ProductCategories = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -43,6 +32,22 @@ const ProductCategories = () => {
 
   const onRefresh = () => {
     dispatch(fetchCategories());
+    fade.setValue(0.6);
+    triggerAnimation();
+  };
+
+  const fade = useRef(new Animated.Value(0.6)).current;
+
+  useEffect(() => {
+    triggerAnimation();
+  }, [loading]);
+
+  const triggerAnimation = () => {
+    Animated.timing(fade, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
   };
 
   return (
@@ -56,14 +61,28 @@ const ProductCategories = () => {
         <CustomActivityIndicator />
       ) : (
         <FlatList
+          // onScroll={Animated.event(
+          //   [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          //   {useNativeDriver: true},
+          // )}
           data={searchValue !== '' ? filterCategories : categories}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => handleCategoryPress(item)}>
-              <Card item={item} darkMode={darkMode} />
-            </TouchableOpacity>
-          )}
+          renderItem={({item, index}) => {
+            // const inputRange = [-1, 0, 100 * index, 100 * (index + 2)];
+
+            // const scale = scrollY.interpolate({
+            //   inputRange,
+            //   outputRange: [1, 1, 1, 0],
+            // });
+            return (
+              <Animated.View style={{transform: [{scaleY: fade}]}}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => handleCategoryPress(item)}>
+                  <Card item={item} darkMode={darkMode} />
+                </TouchableOpacity>
+              </Animated.View>
+            );
+          }}
           refreshControl={
             <RefreshControl refreshing={loading} onRefresh={onRefresh} />
           }

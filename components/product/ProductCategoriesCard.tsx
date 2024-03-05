@@ -1,9 +1,17 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  Animated,
+} from 'react-native';
 
 const Card = ({item, darkMode}: any) => {
   return (
-    <View style={[styles.cardContainer, {backgroundColor: 'trasparent'}]}>
+    <Animated.View
+      style={[styles.cardContainer, {backgroundColor: 'trasparent'}]}>
       <Image
         source={require('../../assets/product.jpg')}
         style={styles.image}
@@ -27,7 +35,7 @@ const Card = ({item, darkMode}: any) => {
           358 Products
         </Text>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

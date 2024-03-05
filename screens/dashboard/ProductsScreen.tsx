@@ -9,8 +9,9 @@ import {
   TextInput,
   Dimensions,
   Keyboard,
+  Animated,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import productsJson from '../../products.json';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -87,6 +88,20 @@ const ProductsScreen = ({route}: any) => {
 
   // console.log(categoryProducts);
 
+  const {height, width} = Dimensions.get('window');
+
+  const drop = useRef(new Animated.Value(-height * 0.4)).current;
+
+  useEffect(() => {
+    if (loading !== true) {
+      Animated.spring(drop, {
+        toValue: 0,
+        stiffness: 100,
+        damping: 10,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [loading]);
   return (
     <View
       style={[
@@ -149,7 +164,11 @@ const ProductsScreen = ({route}: any) => {
               <RefreshControl onRefresh={onRefresh} refreshing={loading} />
             }
             renderItem={({item}) => (
-              <View style={styles.productContainer}>
+              <Animated.View
+                style={[
+                  styles.productContainer,
+                  {transform: [{translateY: drop}]},
+                ]}>
                 <TouchableOpacity
                   key={item.id}
                   onPress={() => handleCategoryPress(item)}>
@@ -182,7 +201,7 @@ const ProductsScreen = ({route}: any) => {
                     </Text>
                   </View>
                 </TouchableOpacity>
-              </View>
+              </Animated.View>
             )}
             keyExtractor={(item, index) => index.toString()}
           />

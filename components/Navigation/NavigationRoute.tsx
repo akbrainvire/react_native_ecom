@@ -85,7 +85,11 @@ const NavigationRoute = () => {
         name="Login"
         component={LoginScreen}
         options={({navigation, route}) => ({
-          header: () => <CustomHeader headerLeft={<HeaderBackButton />} />,
+          header: () => (
+            <CustomHeader
+              headerLeft={<HeaderBackButton paddinghorizontal={5} />}
+            />
+          ),
           headerShown: true,
         })}
       />
@@ -93,7 +97,11 @@ const NavigationRoute = () => {
         name="Signup"
         component={SignupScreen}
         options={({navigation, route}) => ({
-          header: () => <CustomHeader headerLeft={<HeaderBackButton />} />,
+          header: () => (
+            <CustomHeader
+              headerLeft={<HeaderBackButton paddinghorizontal={5} />}
+            />
+          ),
           headerShown: true,
         })}
       />

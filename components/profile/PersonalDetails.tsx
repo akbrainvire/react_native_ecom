@@ -35,6 +35,7 @@ const PersonalDetails = ({navigation}: any) => {
     language: 'English',
     darkMode: false,
     notification: false,
+    isAppLock: false,
   });
 
   console.log(darkMode, options.darkMode);
@@ -51,11 +52,14 @@ const PersonalDetails = ({navigation}: any) => {
   };
 
   const updateAsyncStorage = () => {
-    // AsyncStorage.setItem('userOptions', JSON.stringify(options)).catch(error =>
-    //   console.error('Error storing options:', error),
-    // );
+    AsyncStorage.setItem('userOptions', JSON.stringify(options)).catch(error =>
+      console.error('Error storing options:', error),
+    );
 
-    AsyncStorage.removeItem('userOptions');
+    // AsyncStorage.removeItem('userOptions');
+    // AsyncStorage.getItem('userOptions').then(res =>
+    //   console.log(res, 'useroptionsss'),
+    // );
   };
   const fetchData = async () => {
     try {
@@ -100,6 +104,12 @@ const PersonalDetails = ({navigation}: any) => {
       setOptions((prev: any) => ({
         ...prev,
         darkMode: !prev.darkMode,
+      }));
+    } else if (type === 'isAppLock') {
+      // toggleDarkMode();
+      setOptions((prev: any) => ({
+        ...prev,
+        isAppLock: !prev.isAppLock,
       }));
     } else if (type === 'helpcenter') {
       navigation.navigate('Help Center');
@@ -240,6 +250,14 @@ const PersonalDetails = ({navigation}: any) => {
               toggle={darkMode}
               isToggle={true}
               name={'Dark Mode'}
+            />
+            <SettingCustomOption
+              // logo={userOptions.darkMode ? 'moon' : 'sunny'}
+              logo={'lock-closed'}
+              onPress={() => handleOnPressSettingOption('isAppLock')}
+              toggle={options.isAppLock}
+              isToggle={true}
+              name={'App Lock'}
             />
             <SettingCustomOption
               logo="help-circle-sharp"

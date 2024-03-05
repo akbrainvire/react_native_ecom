@@ -24,7 +24,9 @@ const MyFavourites = () => {
   const renderRightActions = (
     progress: Animated.AnimatedInterpolation<any>,
     dragAnimatedValue: Animated.AnimatedInterpolation<any>,
+    id: any,
   ) => {
+    console.log(progress, dragAnimatedValue);
     const opacity = dragAnimatedValue.interpolate({
       inputRange: [-50, 0],
       outputRange: [1, 0],
@@ -36,8 +38,8 @@ const MyFavourites = () => {
           <Text style={styles.deleteConfirmationText}>Are you sure?</Text>
         </View> */}
         <Animated.View style={[styles.deleteButton, {opacity}]}>
-          <TouchableOpacity>
-            <Text style={styles.deleteButtonText}>Delete</Text>
+          <TouchableOpacity onPress={() => handleRemoveWishlist(id)}>
+            <Icon2 name="delete" size={43} color="#fff" />
           </TouchableOpacity>
         </Animated.View>
       </View>
@@ -71,55 +73,58 @@ const MyFavourites = () => {
   };
 
   const renderItem = ({item}: {item: any}) => (
-    // <Swipeable renderRightActions={renderRightActions}>
-    <View
-      style={[
-        styles.cardContainer,
-        {
-          backgroundColor: darkMode ? 'black' : 'white',
-          borderColor: darkMode ? 'white' : 'black',
-          borderWidth: darkMode ? 1 : 0,
-        },
-      ]}>
-      <Image source={{uri: item.thumbnail}} style={styles.thumbnail} />
-      <View style={styles.detailsContainer}>
-        <Text style={[styles.brand, {color: darkMode ? 'white' : 'black'}]}>
-          {item.brand}
-        </Text>
-        <Text
-          numberOfLines={2}
-          style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
-          {item.name}
-        </Text>
-        <Text
-          numberOfLines={2}
-          style={[styles.brand, {color: darkMode ? 'white' : 'black'}]}>
-          ${item.price}
-        </Text>
-      </View>
-      <View style={styles.removeButtonContainer}>
-        <TouchableOpacity onPress={() => handleRemoveWishlist(item.id)}>
-          <View style={styles.removeButtonIcon}>
-            <Icon2 name="delete" size={18} color="#fff" />
-          </View>
+    <Swipeable
+      renderRightActions={(progress, dragAnimatedValue) =>
+        renderRightActions(progress, dragAnimatedValue, item.id)
+      }>
+      <View
+        style={[
+          styles.cardContainer,
+          {
+            backgroundColor: darkMode ? 'black' : 'white',
+            borderColor: darkMode ? 'white' : 'black',
+            borderWidth: darkMode ? 1 : 0,
+          },
+        ]}>
+        <Image source={{uri: item.thumbnail}} style={styles.thumbnail} />
+        <View style={styles.detailsContainer}>
+          <Text style={[styles.brand, {color: darkMode ? 'white' : 'black'}]}>
+            {item.brand}
+          </Text>
+          <Text
+            numberOfLines={2}
+            style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
+            {item.name}
+          </Text>
+          <Text
+            numberOfLines={2}
+            style={[styles.brand, {color: darkMode ? 'white' : 'black'}]}>
+            ${item.price}
+          </Text>
+        </View>
+        <View style={styles.removeButtonContainer}>
+          <TouchableOpacity onPress={() => handleRemoveWishlist(item.id)}>
+            <View style={styles.removeButtonIcon}>
+              <Icon2 name="delete" size={18} color="#fff" />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={[
+            styles.addToCartButton,
+            {backgroundColor: darkMode ? 'white' : 'black'},
+          ]}
+          onPress={() => HandleAddtoCart(item.id, item)}>
+          <Text
+            style={[
+              styles.addToCartButtonText,
+              {color: darkMode ? 'black' : 'white'},
+            ]}>
+            Add to Cart
+          </Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        style={[
-          styles.addToCartButton,
-          {backgroundColor: darkMode ? 'white' : 'black'},
-        ]}
-        onPress={() => HandleAddtoCart(item.id, item)}>
-        <Text
-          style={[
-            styles.addToCartButtonText,
-            {color: darkMode ? 'black' : 'white'},
-          ]}>
-          Add to Cart
-        </Text>
-      </TouchableOpacity>
-    </View>
-    // </Swipeable>
+    </Swipeable>
   );
 
   console.log(wishlisted);
@@ -222,12 +227,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     color: 'white',
   },
+
   swipedRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    backgroundColor: 'white',
-    paddingRight: 15,
+    // backgroundColor: 'white',
+    // paddingRight: 15,
     borderRadius: 8,
   },
   swipedConfirmationContainer: {
@@ -235,10 +241,16 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   deleteButton: {
-    marginLeft: 10,
+    height: '85%',
+    marginRight: 15,
     padding: 10,
-    backgroundColor: 'blue',
+    backgroundColor: 'red',
     borderRadius: 8,
+    width: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // marginHorizontal: 15,
+    marginVertical: 10,
   },
   deleteButtonText: {
     color: 'white',
