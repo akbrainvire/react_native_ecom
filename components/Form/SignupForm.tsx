@@ -16,6 +16,7 @@ import {authorize} from '../../store/AuthenticSlice';
 import CustomModal from '../generic/CustomModal';
 import Icon from 'react-native-vector-icons/AntDesign';
 import CustomActivityIndicator from '../generic/CustomActivityIndicator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignupForm = ({darkMode, colors}: any) => {
   const dispatch = useDispatch();
@@ -132,6 +133,9 @@ const SignupForm = ({darkMode, colors}: any) => {
             savedAddresses: [],
             image: require('../../assets/logo/icon-5359553_640.jpg'),
           };
+          AsyncStorage.setItem('isAuthorized', JSON.stringify(true)).catch(
+            error => console.error('Error storing options:', error),
+          );
           dispatch(authorize(data));
           navigation.navigate('SuccessfulPage');
         } else {

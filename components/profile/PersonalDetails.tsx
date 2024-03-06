@@ -83,6 +83,7 @@ const PersonalDetails = ({navigation}: any) => {
   }, []);
 
   const handleLogout = () => {
+    AsyncStorage.removeItem('isAuthorized');
     dispatch(logout());
 
     navigation.navigate('FirstScreenNoLogin');

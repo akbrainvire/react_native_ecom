@@ -39,6 +39,7 @@ import LogSignCarousel from '../../screens/default/LogSignCarousel';
 import CustomHeader from '../generic/CustomHeader';
 import ChatGPTSupport from '../chatgpt/ChatBotOAI';
 import OrderDetail from '../../screens/profile/orders/OrderDetail';
+import VideoPlayerScreen from '../../screens/videoplayer/VideoPlayerScreen';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -412,10 +413,27 @@ const NavigationRoute = () => {
               headerLeft={<HeaderBackButton paddinghorizontal={10} />}
             />
           ),
+
           headerShown: true,
           headerTitle: '',
         })}
       />
+
+      <Stack.Screen
+        name="VideoPlayer"
+        component={VideoPlayerScreen}
+        options={({navigation, route}) => ({
+          header: () => (
+            <CustomHeader
+              headerLeft={<HeaderBackButton paddinghorizontal={10} />}
+            />
+          ),
+
+          headerShown: true,
+          headerTitle: '',
+        })}
+      />
+
       <Stack.Screen
         name="My Favourites"
         component={MyFavourites}

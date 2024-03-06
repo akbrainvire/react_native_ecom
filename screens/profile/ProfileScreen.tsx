@@ -8,6 +8,7 @@ import {Image} from 'react-native-elements';
 import ProfileOptions from '../../components/profile/ProfileOptions';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useTheme} from '../../context/ThemeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Card = ({name, email, image, darkMode}: any) => {
   return (
@@ -43,6 +44,8 @@ const ProfileScreen = ({navigation}: any) => {
   console.log(userDetails, 'autheticate');
   const dispatch = useDispatch();
   const handleLogout = () => {
+    AsyncStorage.removeItem('isAuthorized');
+
     dispatch(logout());
 
     navigation.navigate('FirstScreenNoLogin');
@@ -79,9 +82,9 @@ const ProfileScreen = ({navigation}: any) => {
     {
       id: 5,
 
-      name: 'My Card',
+      name: 'Video Player',
       logo: 'credit-card-alt',
-      route: 'My Card',
+      route: 'VideoPlayer',
     },
     {
       id: 6,

@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {authorize} from '../../store/AuthenticSlice';
 import {useNavigation} from '@react-navigation/native';
 import CustomActivityIndicator from '../generic/CustomActivityIndicator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginForm = ({colors, darkMode}: any) => {
   const navigation = useNavigation<any>();
@@ -80,6 +81,9 @@ const LoginForm = ({colors, darkMode}: any) => {
           savedAddresses: [],
           image: require('../../assets/logo/21306920_on8o_9ifb_210803.jpg'),
         };
+        AsyncStorage.setItem('isAuthorized', JSON.stringify(true)).catch(
+          error => console.error('Error storing options:', error),
+        );
         dispatch(authorize(pushData));
         navigation.navigate('TabStack');
       }
