@@ -60,7 +60,7 @@ const OrderSummaryScreen = ({route}: any) => {
   const {darkMode} = useTheme();
 
   const handleNext = () => {
-    navigation.navigate('PaymentScreen');
+    navigation.navigate('PaymentScreen', {address: selectedAddress});
   };
 
   const totalSum = cartItems.reduce(

@@ -9,14 +9,16 @@ import {useDispatch, useSelector} from 'react-redux';
 import {emptyCartafterOplaced} from '../../store/CartSlice';
 import {addOrders} from '../../store/OrderSlice';
 import {useTheme} from '../../context/ThemeContext';
+import {generateRandomOrderId} from '../../helper/order';
 
-const PaymentScreen = ({navigation}: any) => {
+const PaymentScreen = ({navigation, route}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const dispatch = useDispatch();
   const orderItems = useSelector((state: any) => state.cart.cartItems);
+  const {address} = route.params;
   const handleContinueShopping = () => {
     setModalVisible(false);
     // This is to reset the stack when order is placed and redirected to dashoard page when clicked on continue shopping
@@ -26,7 +28,14 @@ const PaymentScreen = ({navigation}: any) => {
         routes: [{name: 'TabStack'}],
       }),
     );
-    dispatch(addOrders(orderItems));
+    const orderItemsWithOrderId = orderItems.map((item: any) => ({
+      ...item,
+      orderId: generateRandomOrderId(),
+      address: address,
+      orderDate: Date.now(),
+    }));
+    // console.log(orderItemsWithOrderId, 'orderitemswithorderid');
+    dispatch(addOrders(orderItemsWithOrderId));
     dispatch(emptyCartafterOplaced());
 
     navigation.navigate('Dashboard Screen');
@@ -74,7 +83,10 @@ const PaymentScreen = ({navigation}: any) => {
     button => button.value === selectedId,
   );
   const handleNext = () => {
-    navigation.navigate('PaymentFillDetail', {selectedOption: selectedOption});
+    navigation.navigate('PaymentFillDetail', {
+      selectedOption: selectedOption,
+      address: address,
+    });
   };
 
   const handleCancel = () => {

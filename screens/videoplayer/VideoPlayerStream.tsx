@@ -1,19 +1,41 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useState, useRef} from 'react';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import Video from 'react-native-video';
 
 const VideoPlayerStream = ({item}: any) => {
-  console.log(item);
+  const videoRef = useRef<any>(null);
+
+  const handleOnProgress = (data: any) => {
+    // console.log(data);
+  };
+
+  const {width, height} = Dimensions.get('window');
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       <Video
-        source={{
-          uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-        }}
-        style={{position: 'absolute', top: 0, left: 0, bottom: 0, right: 0}}
+        ref={videoRef}
+        source={{uri: item.sources[0]}}
+        style={styles.video}
+        controls={true}
+        onProgress={handleOnProgress}
+        poster={`https://fastly.picsum.photos/id/${width}/${height * 0.4}`}
       />
     </View>
   );
 };
+
+const {width, height} = Dimensions.get('window');
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  video: {
+    width: width,
+    height: height * 0.4,
+    position: 'relative',
+  },
+});
 
 export default VideoPlayerStream;

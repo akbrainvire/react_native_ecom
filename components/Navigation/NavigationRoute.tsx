@@ -40,6 +40,7 @@ import CustomHeader from '../generic/CustomHeader';
 import ChatGPTSupport from '../chatgpt/ChatBotOAI';
 import OrderDetail from '../../screens/profile/orders/OrderDetail';
 import VideoPlayerScreen from '../../screens/videoplayer/VideoPlayerScreen';
+import OrderMapFullView from '../../screens/profile/orders/OrderMapFullView';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -469,6 +470,19 @@ const NavigationRoute = () => {
             <CustomHeader
               headerTitle=""
               headerLeft={<HeaderBackButton paddinghorizontal={20} />}
+            />
+          ),
+        })}
+      />
+
+      <Stack.Screen
+        name="OrderMapFullView"
+        component={OrderMapFullView}
+        options={({navigation, route}) => ({
+          header: () => (
+            <CustomHeader
+              headerTitle="Delivery Location"
+              headerLeft={<HeaderBackButton paddinghorizontal={10} />}
             />
           ),
         })}

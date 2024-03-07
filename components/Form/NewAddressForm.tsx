@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     // backgroundColor: 'black',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 25,
     alignItems: 'center',
     marginBottom: 20,
   },

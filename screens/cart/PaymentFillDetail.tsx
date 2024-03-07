@@ -9,10 +9,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {emptyCartafterOplaced} from '../../store/CartSlice';
 import {addOrders} from '../../store/OrderSlice';
 import {useTheme} from '../../context/ThemeContext';
-
+import {generateRandomOrderId} from '../../helper/order';
 const PaymentFillDetail = ({navigation, route}: any) => {
   console.log(route, 'route');
-  const {selectedOption} = route.params;
+  const {selectedOption, address} = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState('');
@@ -30,7 +30,16 @@ const PaymentFillDetail = ({navigation, route}: any) => {
         routes: [{name: 'TabStack'}],
       }),
     );
-    dispatch(addOrders(orderItems));
+    console.log(orderItems, 'rofauie');
+
+    const orderItemsWithOrderId = orderItems.map((item: any) => ({
+      ...item,
+      orderId: generateRandomOrderId(),
+      address: address,
+      orderDate: Date.now().toLocaleString(),
+    }));
+    // console.log(orderItemsWithOrderId, 'orderitemswithorderid');
+    dispatch(addOrders(orderItemsWithOrderId));
 
     dispatch(emptyCartafterOplaced());
     navigation.navigate('Dashboard Screen');

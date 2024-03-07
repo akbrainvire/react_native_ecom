@@ -1,12 +1,18 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const HorizontalLineWithText = ({text}: {text: string}) => {
+const HorizontalLineWithText = ({
+  text,
+  color,
+}: {
+  text?: string;
+  color?: string;
+}) => {
   return (
     <View style={styles.container}>
-      <View style={styles.line} />
-      <Text style={styles.text}>{text}</Text>
-      <View style={styles.line} />
+      <View style={[styles.line, {backgroundColor: color ? color : 'grey'}]} />
+      {text && <Text style={[styles.text]}>{text}</Text>}
+      <View style={[styles.line, {backgroundColor: color ? color : 'grey'}]} />
     </View>
   );
 };

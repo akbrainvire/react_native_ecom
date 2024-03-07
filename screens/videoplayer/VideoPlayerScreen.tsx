@@ -48,8 +48,9 @@ const VideoPlayerScreen = () => {
       onPress={() => handleVideoSelect(item)}
       style={styles.videoItem}>
       <Image
-        source={require('../../assets/logo/gpaylogo.png')}
+        source={require('../../assets/logo/icon-5359553_640.jpg')}
         style={styles.thumbnail}
+        resizeMode="contain"
       />
       <Text style={{color: darkMode ? colors.white : colors.black}}>
         {item.title}
