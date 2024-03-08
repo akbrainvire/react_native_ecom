@@ -2,6 +2,7 @@ import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import React from 'react';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useTheme} from '../../../context/ThemeContext';
+import {Image} from 'react-native-elements';
 
 const OrderMapFullView = ({route}: any) => {
   const {darkMode, colors} = useTheme();
@@ -29,8 +30,12 @@ const OrderMapFullView = ({route}: any) => {
               longitude: region.longitude,
             }}
             title={address.city}
-            description={'Delivery Location'}
-          />
+            description={'Delivery Location'}>
+            {/* <Image
+                source={require('../../../assets/logo/location.png')}
+                style={{width: 40, height: 40}}
+                /> */}
+          </Marker>
         </MapView>
       </View>
     </View>

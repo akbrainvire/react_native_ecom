@@ -1,15 +1,42 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {Image} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import {useTheme} from '../../../context/ThemeContext';
+import moment from 'moment';
 
 const MyOrders = ({navigation}: any) => {
   const [tab, setTab] = useState('ongoing');
   const orders = useSelector((state: any) => state.orders.orders);
+  const [onGoing, setOnGoing] = useState<any>([]);
+  const [completed, setCompleted] = useState<any>([]);
+
+  // console.log(orders, 'orders');
+
+  let currentDate = moment();
+
+  const checkOnGoingorCompleted = () => {
+    for (let i = 0; i < orders.length; i++) {
+      const orderDeliverDate = moment(
+        orders[i].orderDetails.orderDelivered.date,
+        'MMMM D, YYYY',
+      );
+
+      console.log('first', orders[i]);
+      if (orderDeliverDate > currentDate) {
+        setOnGoing((prev: any) => [...prev, orders[i]]);
+      } else {
+        setCompleted((prev: any) => [...prev, orders[i]]);
+      }
+    }
+  };
+  console.log(onGoing, 'ongoing array');
 
   const {darkMode} = useTheme();
 
+  useEffect(() => {
+    checkOnGoingorCompleted();
+  }, [orders]);
   const navigateToOrderDetail = (item: any) => {
     navigation.navigate('Order Detail', {item: item});
   };
@@ -113,10 +140,23 @@ const MyOrders = ({navigation}: any) => {
       </View>
       {orders.length > 0 ? (
         <FlatList
-          // data={orders.filter((order: any) => tab === 'ongoing' ? order.status === 'ongoing' : order.status === 'completed')}
-          data={orders}
+          data={tab === 'ongoing' ? onGoing : completed}
+          // data={orders}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
+          ListEmptyComponent={
+            <Text
+              style={{
+                color: 'grey',
+                fontSize: 16,
+                marginTop: 'auto',
+                marginBottom: 'auto',
+                textAlign: 'center',
+                fontWeight: 'bold',
+              }}>
+              No product available
+            </Text>
+          }
         />
       ) : (
         <Text style={styles.noProducts}>No items available</Text>

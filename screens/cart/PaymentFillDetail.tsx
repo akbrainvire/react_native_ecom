@@ -10,6 +10,7 @@ import {emptyCartafterOplaced} from '../../store/CartSlice';
 import {addOrders} from '../../store/OrderSlice';
 import {useTheme} from '../../context/ThemeContext';
 import {generateRandomOrderId} from '../../helper/order';
+import moment from 'moment';
 const PaymentFillDetail = ({navigation, route}: any) => {
   console.log(route, 'route');
   const {selectedOption, address} = route.params;
@@ -32,15 +33,44 @@ const PaymentFillDetail = ({navigation, route}: any) => {
     );
     console.log(orderItems, 'rofauie');
 
-    const orderItemsWithOrderId = orderItems.map((item: any) => ({
-      ...item,
-      orderId: generateRandomOrderId(),
-      address: address,
-      orderDate: Date.now().toLocaleString(),
-    }));
-    // console.log(orderItemsWithOrderId, 'orderitemswithorderid');
-    dispatch(addOrders(orderItemsWithOrderId));
+    const currentDate = moment();
 
+    const twoDaysAfter = moment(currentDate).add(2, 'days');
+
+    const fourDaysAfter = moment(currentDate).add(4, 'days');
+
+    const orderItemsWithOrderId = orderItems.map((item: any) => {
+      const orderId = generateRandomOrderId();
+
+      const orderDate = moment().format('LL');
+
+      return {
+        ...item,
+        orderId: orderId,
+        address: address,
+        orderDate: orderDate,
+        orderDetails: {
+          orderPlaced: {
+            date: currentDate.format('LL'),
+            time: currentDate.format('LT'),
+          },
+          orderShipped: {
+            date: twoDaysAfter.format('LL'),
+            time: twoDaysAfter.format('LT'),
+          },
+          orderOutforDelivery: {
+            date: fourDaysAfter.format('LL'),
+            time: fourDaysAfter.format('LT'),
+          },
+          orderDelivered: {
+            date: fourDaysAfter.format('LL'),
+            time: fourDaysAfter.format('LT'),
+          },
+        },
+      };
+    });
+
+    dispatch(addOrders(orderItemsWithOrderId));
     dispatch(emptyCartafterOplaced());
     navigation.navigate('Dashboard Screen');
   };

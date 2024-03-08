@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import React from 'react';
 import {useTheme} from '../../../context/ThemeContext';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -6,39 +6,27 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import HorizontalLineWithText from '../../../components/generic/HorizontalLinewithText';
 import CustomButtonComponent from '../../../components/generic/CustomButtonComponent';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import OrderStepper from './OrderStepper';
+import moment from 'moment';
+import CustomMarker from './CustomMarker';
+import {Image} from 'react-native-elements';
 
+const {height, width} = Dimensions.get('window');
 const OrderDetail = ({navigation, route}: any) => {
-  console.log(route.params.item, 'item');
+  console.log(route.params.item.orderDetails, 'item');
 
-  const ODate = new Date(route.params.item.orderDate);
+  let uptoDate = route.params.item.orderDetails.orderPlaced.date;
 
-  const orderDate =
-    ODate.getDate() +
-    ' ' +
-    ODate.toLocaleString('default', {month: 'long'}) +
-    ' ' +
-    ODate.getFullYear();
+  const orderPlacedDat = moment(uptoDate, 'MMMM D, YYYY');
 
-  let uptoDate = '';
+  const orderPlacedDate = moment(orderPlacedDat);
 
-  function checkforDate(orderDate: any) {
-    const currentDate = new Date();
+  console.log(orderPlacedDate.format('LL'));
 
-    const orderDateObj = new Date(ODate);
+  const twoDaysLaterDate = moment(orderPlacedDate).add(2, 'days');
+  const isMorethanTwoDays = orderPlacedDate > twoDaysLaterDate;
+  console.log(twoDaysLaterDate.format());
 
-    orderDateObj.setDate(orderDateObj.getDate() + 2);
-
-    uptoDate =
-      orderDateObj.getDate() +
-      ' ' +
-      orderDateObj.toLocaleString('default', {month: 'long'}) +
-      ' ' +
-      orderDateObj.getFullYear();
-    return currentDate.getTime() > orderDateObj.getTime();
-  }
-
-  const isMoreThanTwoDaysLater = checkforDate(orderDate);
-  console.log(isMoreThanTwoDaysLater);
   const {darkMode, colors} = useTheme();
 
   const address = route.params.item.address;
@@ -81,47 +69,7 @@ const OrderDetail = ({navigation, route}: any) => {
         styles.mainContainer,
         {backgroundColor: darkMode ? colors.black : colors.white},
       ]}>
-      <View>
-        <Text
-          style={{
-            fontSize: 18,
-            color: darkMode ? colors.white : colors.black,
-            fontWeight: 'bold',
-          }}>
-          Order id : {route.params.item.orderId.toUpperCase()}
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            color: darkMode ? colors.grey : colors.grey,
-            // fontWeight: 'bold',
-          }}>
-          {`${address.city} - ${address.state}`}
-        </Text>
-      </View>
-      <View style={styles.container}>
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          onPress={handleMapFullView}
-          style={styles.map}
-          loadingEnabled={true}
-          zoomEnabled={false}
-          scrollEnabled={false}
-          showsScale={false}
-          showsTraffic={false}
-          mapType="standard"
-          region={handleGetRegion()}>
-          <Marker
-            coordinate={{
-              latitude: handleGetRegion()?.latitude || 0,
-              longitude: handleGetRegion()?.longitude || 0,
-            }}
-            title={address.city}
-            description={'Delivery Location'}
-          />
-        </MapView>
-      </View>
-      <View style={styles.sectionContainer}>
+      <View style={{height: height * 0.3}}>
         <View>
           <Text
             style={{
@@ -129,36 +77,55 @@ const OrderDetail = ({navigation, route}: any) => {
               color: darkMode ? colors.white : colors.black,
               fontWeight: 'bold',
             }}>
-            Collection Point
+            Order id : {route.params.item.orderId.toUpperCase()}
           </Text>
           <Text
-            numberOfLines={2}
             style={{
               fontSize: 14,
               color: darkMode ? colors.grey : colors.grey,
               // fontWeight: 'bold',
             }}>
-            {`${address.houseNo},${address.area},${address.city},${address.pincode},${address.state}`}
+            {`${address.city} - ${address.state}`}
           </Text>
         </View>
-        <View
-          style={[
-            styles.iconContainer,
-            {backgroundColor: darkMode ? colors.white : colors.black},
-          ]}>
-          <Icon
-            name="location-arrow"
-            size={18}
-            color={darkMode ? 'black' : '#ffffff'}
-            style={{transform: [{rotate: '260deg'}]}}
-          />
+        <View style={[styles.container]}>
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            onPress={handleMapFullView}
+            style={styles.map}
+            loadingEnabled={true}
+            zoomEnabled={false}
+            scrollEnabled={false}
+            showsScale={false}
+            showsTraffic={false}
+            mapType="standard"
+            region={handleGetRegion()}>
+            <Marker
+              coordinate={{
+                latitude: handleGetRegion()?.latitude || 0,
+                longitude: handleGetRegion()?.longitude || 0,
+              }}
+              title={address.city}
+              description={'Delivery Location'}>
+              {/* <Image
+                source={require('../../../assets/logo/location.png')}
+                style={{width: 40, height: 40}}
+              /> */}
+            </Marker>
+          </MapView>
         </View>
       </View>
-      <HorizontalLineWithText color="#d8d8d8" />
-
-      {!isMoreThanTwoDaysLater && (
-        <View style={styles.changePickContainer}>
-          <View style={{flex: 1}}>
+      <View style={{height: !isMorethanTwoDays ? height * 0.18 : 0.1}}>
+        <View style={[styles.sectionContainer]}>
+          <View>
+            <Text
+              style={{
+                fontSize: 18,
+                color: darkMode ? colors.white : colors.black,
+                fontWeight: 'bold',
+              }}>
+              Collection Point
+            </Text>
             <Text
               numberOfLines={2}
               style={{
@@ -166,26 +133,67 @@ const OrderDetail = ({navigation, route}: any) => {
                 color: darkMode ? colors.grey : colors.grey,
                 // fontWeight: 'bold',
               }}>
-              {`You can change pick-up location time for your order by ${uptoDate} `}
+              {`${address.houseNo},${address.area},${address.city},${address.pincode},${address.state}`}
             </Text>
           </View>
-          <TouchableOpacity
-            onPress={handleChangePickupAddress}
+          <View
             style={[
-              styles.button,
+              styles.iconContainer,
               {backgroundColor: darkMode ? colors.white : colors.black},
             ]}>
-            <Text
-              numberOfLines={1}
-              style={{
-                fontSize: 12,
-                color: darkMode ? colors.black : colors.white,
-              }}>
-              Change
-            </Text>
-          </TouchableOpacity>
+            <Icon
+              name="location-arrow"
+              size={18}
+              color={darkMode ? 'black' : '#ffffff'}
+              style={{transform: [{rotate: '260deg'}]}}
+            />
+          </View>
         </View>
-      )}
+        <HorizontalLineWithText color="#d8d8d8" />
+
+        {!isMorethanTwoDays && (
+          <View style={styles.changePickContainer}>
+            <View style={{flex: 1}}>
+              <Text
+                numberOfLines={2}
+                style={{
+                  fontSize: 14,
+                  color: darkMode ? colors.grey : colors.grey,
+                  // fontWeight: 'bold',
+                }}>
+                {`You can change pick-up location time for your order by ${twoDaysLaterDate.format(
+                  'LL',
+                )} `}
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={handleChangePickupAddress}
+              style={[
+                styles.button,
+                {backgroundColor: darkMode ? colors.white : colors.black},
+              ]}>
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontSize: 12,
+                  color: darkMode ? colors.black : colors.white,
+                }}>
+                Change
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+      <View
+        style={{
+          // flex: 1,
+          // justifyContent: 'center',
+          // alignItems: 'center',
+          // flexDirection: 'row',
+          height: height * 0.52,
+        }}>
+        <OrderStepper orderDetails={route.params.item.orderDetails} />
+      </View>
     </View>
   );
 };
@@ -212,14 +220,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 20,
+    // paddingVertical: 20,
   },
   changePickContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    paddingVertical: 20,
+    // paddingVertical: 20,
   },
   button: {
     padding: 7,
