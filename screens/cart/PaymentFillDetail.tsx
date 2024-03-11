@@ -11,6 +11,7 @@ import {addOrders} from '../../store/OrderSlice';
 import {useTheme} from '../../context/ThemeContext';
 import {generateRandomOrderId} from '../../helper/order';
 import moment from 'moment';
+import {City} from 'country-state-city';
 const PaymentFillDetail = ({navigation, route}: any) => {
   console.log(route, 'route');
   const {selectedOption, address} = route.params;
@@ -39,10 +40,29 @@ const PaymentFillDetail = ({navigation, route}: any) => {
 
     const fourDaysAfter = moment(currentDate).add(4, 'days');
 
+    const GetRandomCity = () => {
+      const cities = City.getCitiesOfCountry(address.country.isoCode);
+
+      let randBetweenOneAndFifty = Math.floor(
+        Math.random() * (cities?.length || 0),
+      );
+      // console.log(cities, 'allcities');
+      return cities && cities[randBetweenOneAndFifty];
+    };
+
     const orderItemsWithOrderId = orderItems.map((item: any) => {
       const orderId = generateRandomOrderId();
 
       const orderDate = moment().format('LL');
+
+      const randomCity = GetRandomCity()?.name;
+
+      const orderInfo = {
+        orderPlacedCity: randomCity,
+        orderShippedCity: randomCity,
+        orderOutforDeliveryCity: address.city.name,
+        orderDeliveredCity: address.city.name,
+      };
 
       return {
         ...item,
@@ -67,6 +87,7 @@ const PaymentFillDetail = ({navigation, route}: any) => {
             time: fourDaysAfter.format('LT'),
           },
         },
+        orderInfo: orderInfo,
       };
     });
 

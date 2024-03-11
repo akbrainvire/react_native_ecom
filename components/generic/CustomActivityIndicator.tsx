@@ -2,10 +2,14 @@ import {View, Text, ActivityIndicator} from 'react-native';
 import React from 'react';
 import {useTheme} from '../../context/ThemeContext';
 
-const CustomActivityIndicator = () => {
+const CustomActivityIndicator = ({animating}: {animating?: boolean}) => {
   const {darkMode} = useTheme();
   return (
-    <ActivityIndicator size="large" color={darkMode ? 'white' : '#242424'} />
+    <ActivityIndicator
+      animating={animating}
+      size="large"
+      color={darkMode ? 'white' : '#242424'}
+    />
   );
 };
 

@@ -1,26 +1,44 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {addAddressForUser} from '../../store/AuthenticSlice';
 import CustomKeyboardAvoidingView from '../generic/CustomKeyboardAvoidingView';
 import {useTheme} from '../../context/ThemeContext';
+import CustomDropdown from '../generic/CustomDropDown';
+import {Country, State, City} from 'country-state-city';
 
 const NewAddressForm = ({navigation}: any) => {
-  const {darkMode} = useTheme();
+  const {darkMode, colors} = useTheme();
   const dispatch = useDispatch();
+  const [countries, setCountries] = useState<any>([]);
+  const [states, setStates] = useState<any>([]);
+
+  const [cities, setCities] = useState<any>([]);
+
+  useEffect(() => {
+    setCountries(Country.getAllCountries());
+  }, []);
 
   const [addressDetails, setAddressDetails] = useState({
     fullName: '',
     phoneNumber: '',
     pincode: '',
-    state: '',
-    city: '',
+    country: {
+      name: '',
+    },
+    state: {
+      name: '',
+    },
+    city: {
+      name: '',
+    },
     houseNo: '',
     area: '',
     type: 'home',
@@ -30,6 +48,7 @@ const NewAddressForm = ({navigation}: any) => {
     fullName: '',
     phoneNumber: '',
     pincode: '',
+    country: '',
     state: '',
     city: '',
     houseNo: '',
@@ -48,6 +67,7 @@ const NewAddressForm = ({navigation}: any) => {
       fullName: '',
       phoneNumber: '',
       pincode: '',
+      country: '',
       state: '',
       city: '',
       houseNo: '',
@@ -62,10 +82,13 @@ const NewAddressForm = ({navigation}: any) => {
     if (!addressDetails.pincode.trim()) {
       validationErrors.pincode = 'Pincode is required';
     }
-    if (!addressDetails.state.trim()) {
+    if (!addressDetails.country.name.trim()) {
+      validationErrors.country = 'Country is required';
+    }
+    if (!addressDetails.state.name.trim()) {
       validationErrors.state = 'State is required';
     }
-    if (!addressDetails.city.trim()) {
+    if (!addressDetails.city.name.trim()) {
       validationErrors.city = 'City is required';
     }
     if (!addressDetails.houseNo.trim()) {
@@ -94,18 +117,24 @@ const NewAddressForm = ({navigation}: any) => {
       dispatch(
         addAddressForUser({
           ...addressDetails,
-          id: `${addressDetails.city}-${addressDetails.houseNo}-${addressDetails.area}`,
+          id: `${addressDetails.city.name}-${addressDetails.houseNo}-${addressDetails.area}`,
         }),
       );
-      console.log('enter');
       navigation.navigate('AddressScreen');
       // Reset form
       setAddressDetails({
         fullName: '',
         phoneNumber: '',
         pincode: '',
-        state: '',
-        city: '',
+        country: {
+          name: '',
+        },
+        state: {
+          name: '',
+        },
+        city: {
+          name: '',
+        },
         houseNo: '',
         area: '',
         type: 'home',
@@ -114,6 +143,7 @@ const NewAddressForm = ({navigation}: any) => {
         fullName: '',
         phoneNumber: '',
         pincode: '',
+        country: '',
         state: '',
         city: '',
         houseNo: '',
@@ -124,111 +154,196 @@ const NewAddressForm = ({navigation}: any) => {
     }
   };
 
+  const handleCountrySelect = (option: any) => {
+    setStates(
+      State.getStatesOfCountry(option.isoCode).map((state: any) => {
+        return {...state, countryCode: option.isoCode};
+      }),
+    );
+    setAddressDetails(prev => {
+      return {
+        ...prev,
+        country: {...option},
+        state: {
+          name: '',
+        },
+      };
+    });
+  };
+
+  const handleStateSelect = (option: any) => {
+    setAddressDetails(prev => {
+      return {
+        ...prev,
+        state: {...option},
+        city: {
+          name: '',
+        },
+      };
+    });
+    setCities(City.getCitiesOfState(option.countryCode, option.isoCode));
+  };
+
+  const handleCitySelect = (option: any) => {
+    setAddressDetails(prev => {
+      return {
+        ...prev,
+        city: {...option},
+      };
+    });
+  };
+
   return (
-    <CustomKeyboardAvoidingView>
-      <View
-        style={[
-          styles.container,
-          {backgroundColor: darkMode ? 'black' : 'white'},
-        ]}>
-        <View style={styles.row}>
-          <View style={styles.half}>
-            <TextInput
-              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
-              placeholder="Full Name"
-              value={addressDetails.fullName}
-              onChangeText={text => handleChange('fullName', text)}
-              placeholderTextColor={darkMode ? '#dedede' : 'grey'}
-            />
-            {errors.fullName && (
-              <Text style={styles.error}>{errors.fullName}</Text>
-            )}
-          </View>
-          <View style={styles.half}>
-            <TextInput
-              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
-              placeholder="Phone Number"
-              value={addressDetails.phoneNumber}
-              onChangeText={text => handleChange('phoneNumber', text)}
-              keyboardType="phone-pad"
-              placeholderTextColor={darkMode ? '#dedede' : 'grey'}
-            />
-            {errors.phoneNumber && (
-              <Text style={styles.error}>{errors.phoneNumber}</Text>
-            )}
-          </View>
+    // <CustomKeyboardAvoidingView>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: darkMode ? colors.black : colors.white},
+      ]}>
+      <View style={styles.row}>
+        <View style={styles.half}>
+          <TextInput
+            style={[
+              styles.input,
+              {color: darkMode ? colors.white : colors.black},
+            ]}
+            placeholder="Full Name"
+            value={addressDetails.fullName}
+            onChangeText={text => handleChange('fullName', text)}
+            placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+          />
+          {errors.fullName && (
+            <Text style={styles.error}>{errors.fullName}</Text>
+          )}
         </View>
-        <View style={styles.row}>
-          <View style={styles.half}>
-            <TextInput
-              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
-              placeholder="State"
-              value={addressDetails.state}
-              onChangeText={text => handleChange('state', text)}
-              placeholderTextColor={darkMode ? '#dedede' : 'grey'}
-            />
-            {errors.state && <Text style={styles.error}>{errors.state}</Text>}
-          </View>
-          <View style={styles.half}>
-            <TextInput
-              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
-              placeholder="City"
-              value={addressDetails.city}
-              onChangeText={text => handleChange('city', text)}
-              placeholderTextColor={darkMode ? '#dedede' : 'grey'}
-            />
-            {errors.city && <Text style={styles.error}>{errors.city}</Text>}
-          </View>
+        <View style={styles.half}>
+          <TextInput
+            style={[
+              styles.input,
+              {color: darkMode ? colors.white : colors.black},
+            ]}
+            placeholder="Phone Number"
+            value={addressDetails.phoneNumber}
+            onChangeText={text => handleChange('phoneNumber', text)}
+            keyboardType="phone-pad"
+            placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+          />
+          {errors.phoneNumber && (
+            <Text style={styles.error}>{errors.phoneNumber}</Text>
+          )}
         </View>
-        <View style={styles.row}>
-          <View style={styles.half}>
-            <TextInput
-              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
-              placeholder="House No."
-              value={addressDetails.houseNo}
-              onChangeText={text => handleChange('houseNo', text)}
-              placeholderTextColor={darkMode ? '#dedede' : 'grey'}
-            />
-            {errors.houseNo && (
-              <Text style={styles.error}>{errors.houseNo}</Text>
-            )}
-          </View>
-          <View style={styles.half}>
-            <TextInput
-              style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
-              placeholder="Pincode"
-              value={addressDetails.pincode}
-              onChangeText={text => handleChange('pincode', text)}
-              placeholderTextColor={darkMode ? '#dedede' : 'grey'}
-            />
-            {errors.pincode && (
-              <Text style={styles.error}>{errors.pincode}</Text>
-            )}
-          </View>
-        </View>
-        <TextInput
-          style={[styles.inputArea, {color: darkMode ? 'white' : 'black'}]}
-          placeholder="Area"
-          value={addressDetails.area}
-          multiline={true}
-          // maxLength={200}
-          onChangeText={text => handleChange('area', text)}
-          placeholderTextColor={darkMode ? '#dedede' : 'grey'}
-        />
-        {errors.area && <Text style={styles.error}>{errors.area}</Text>}
-        <TouchableOpacity
-          style={[
-            styles.button,
-            {backgroundColor: darkMode ? 'white' : 'black'},
-          ]}
-          onPress={handleSubmit}>
-          <Text
-            style={[styles.buttonText, {color: darkMode ? 'black' : 'white'}]}>
-            Save Address
-          </Text>
-        </TouchableOpacity>
       </View>
-    </CustomKeyboardAvoidingView>
+      <View style={[{marginBottom: 20, backgroundColor: colors.black}]}>
+        {/* <TextInput
+            style={[{color: darkMode ?colors.white : 'black'}]}
+            placeholder="Country"
+            value={addressDetails.country}
+            onChangeText={text => handleChange('country', text)}
+            placeholderTextColor={darkMode ? '#dedede' : 'grey'}
+          /> */}
+        <CustomDropdown
+          placeholder={'Country'}
+          options={countries}
+          onSelect={(option: any) => handleCountrySelect(option)}
+          disabled={false}
+          value={addressDetails.country.name}
+        />
+        {errors.country && <Text style={styles.error}>{errors.country}</Text>}
+      </View>
+      <View style={styles.row}>
+        <View style={styles.half}>
+          {/* <TextInput
+            style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
+            placeholder="State"
+            value={addressDetails.state}
+            onChangeText={text => handleChange('state', text)}
+            placeholderTextColor={darkMode ? '#dedede' : 'grey'}
+          />*/}
+
+          <CustomDropdown
+            placeholder={'State'}
+            options={states}
+            onSelect={(option: any) => handleStateSelect(option)}
+            disabled={addressDetails.country.name == ''}
+            value={addressDetails.state.name}
+          />
+          {errors.state && <Text style={styles.error}>{errors.state}</Text>}
+        </View>
+        <View style={styles.half}>
+          {/* <TextInput
+            style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
+            placeholder="City"
+            value={addressDetails.city}
+            onChangeText={text => handleChange('city', text)}
+            placeholderTextColor={darkMode ? '#dedede' : 'grey'}
+          /> */}
+          <CustomDropdown
+            placeholder={'City'}
+            options={cities}
+            onSelect={(option: any) => handleCitySelect(option)}
+            disabled={addressDetails.state.name == ''}
+            value={addressDetails.city.name}
+          />
+          {errors.city && <Text style={styles.error}>{errors.city}</Text>}
+        </View>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.half}>
+          <TextInput
+            style={[
+              styles.input,
+              {color: darkMode ? colors.white : colors.grey},
+            ]}
+            placeholder="House No."
+            value={addressDetails.houseNo}
+            onChangeText={text => handleChange('houseNo', text)}
+            placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+          />
+          {errors.houseNo && <Text style={styles.error}>{errors.houseNo}</Text>}
+        </View>
+        <View style={styles.half}>
+          <TextInput
+            style={[
+              styles.input,
+              {color: darkMode ? colors.white : colors.grey},
+            ]}
+            placeholder="Pincode"
+            value={addressDetails.pincode}
+            onChangeText={text => handleChange('pincode', text)}
+            placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+          />
+          {errors.pincode && <Text style={styles.error}>{errors.pincode}</Text>}
+        </View>
+      </View>
+      <TextInput
+        style={[
+          styles.inputArea,
+          {color: darkMode ? colors.white : colors.black},
+        ]}
+        placeholder="Area"
+        value={addressDetails.area}
+        multiline={true}
+        // maxLength={200}
+        onChangeText={text => handleChange('area', text)}
+        placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+      />
+      {errors.area && <Text style={styles.error}>{errors.area}</Text>}
+      <TouchableOpacity
+        style={[
+          styles.button,
+          {backgroundColor: darkMode ? colors.white : colors.black},
+        ]}
+        onPress={handleSubmit}>
+        <Text
+          style={[
+            styles.buttonText,
+            {color: darkMode ? colors.black : colors.white},
+          ]}>
+          Save Address
+        </Text>
+      </TouchableOpacity>
+    </View>
+    // </CustomKeyboardAvoidingView>
   );
 };
 
@@ -241,7 +356,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 20,
   },
   half: {
     flex: 1,

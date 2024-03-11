@@ -29,7 +29,7 @@ const OrderMapFullView = ({route}: any) => {
               latitude: region.latitude,
               longitude: region.longitude,
             }}
-            title={address.city}
+            title={address.city.name}
             description={'Delivery Location'}>
             {/* <Image
                 source={require('../../../assets/logo/location.png')}

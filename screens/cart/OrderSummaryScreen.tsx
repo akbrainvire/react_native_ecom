@@ -99,12 +99,12 @@ const OrderSummaryScreen = ({route}: any) => {
               />
               <AddressText
                 label="City : "
-                data={selectedAddress.city}
+                data={selectedAddress.city.name}
                 darkMode={darkMode}
               />
               <AddressText
                 label="State : "
-                data={selectedAddress.state}
+                data={selectedAddress.state.name}
                 darkMode={darkMode}
               />
               <AddressText

@@ -8,9 +8,6 @@ import CustomButtonComponent from '../../../components/generic/CustomButtonCompo
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import OrderStepper from './OrderStepper';
 import moment from 'moment';
-import CustomMarker from './CustomMarker';
-import {Image} from 'react-native-elements';
-
 const {height, width} = Dimensions.get('window');
 const OrderDetail = ({navigation, route}: any) => {
   console.log(route.params.item.orderDetails, 'item');
@@ -24,42 +21,29 @@ const OrderDetail = ({navigation, route}: any) => {
   console.log(orderPlacedDate.format('LL'));
 
   const twoDaysLaterDate = moment(orderPlacedDate).add(2, 'days');
-  const isMorethanTwoDays = orderPlacedDate > twoDaysLaterDate;
+  const isLessthanTwoDays = twoDaysLaterDate > orderPlacedDate;
+
   console.log(twoDaysLaterDate.format());
+  console.log(orderPlacedDate > twoDaysLaterDate, 'isMorethanTwoDays');
 
   const {darkMode, colors} = useTheme();
 
   const address = route.params.item.address;
-  const handleGetRegion = () => {
-    if (address.city.toLowerCase() === 'bhopal') {
-      return {
-        latitude: 23.259933,
-        longitude: 77.412613,
-        latitudeDelta: 0.015,
-        longitudeDelta: 0.0121,
-      };
-    } else if (address.city.toLowerCase() === 'los angeles') {
-      return {
-        longitude: -118.29282466216695,
-        latitude: 34.10557397560494,
-        latitudeDelta: 0.015,
-        longitudeDelta: 0.0121,
-      };
-    } else if (address.city.toLowerCase() === 'mumbai') {
-      return {
-        longitude: 72.87155525913757,
-        latitude: 19.074390352431653,
-        latitudeDelta: 0.015,
-        longitudeDelta: 0.0121,
-      };
-    }
-  };
+
+  // console.log(address, 'route');
 
   const handleChangePickupAddress = () => {};
 
+  const orderInfo = route.params.item.orderInfo;
+
   const handleMapFullView = () => {
     navigation.navigate('OrderMapFullView', {
-      region: handleGetRegion(),
+      region: {
+        longitude: parseFloat(address.city.longitude),
+        latitude: parseFloat(address.city.latitude),
+        latitudeDelta: 0.015,
+        longitudeDelta: 0.0121,
+      },
       address: address,
     });
   };
@@ -85,7 +69,7 @@ const OrderDetail = ({navigation, route}: any) => {
               color: darkMode ? colors.grey : colors.grey,
               // fontWeight: 'bold',
             }}>
-            {`${address.city} - ${address.state}`}
+            {`${address.country.name} - ${address.state.name}`}
           </Text>
         </View>
         <View style={[styles.container]}>
@@ -99,13 +83,18 @@ const OrderDetail = ({navigation, route}: any) => {
             showsScale={false}
             showsTraffic={false}
             mapType="standard"
-            region={handleGetRegion()}>
+            region={{
+              longitude: parseFloat(address.city.longitude),
+              latitude: parseFloat(address.city.latitude),
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
+            }}>
             <Marker
               coordinate={{
-                latitude: handleGetRegion()?.latitude || 0,
-                longitude: handleGetRegion()?.longitude || 0,
+                latitude: parseFloat(address.city.latitude),
+                longitude: parseFloat(address.city.longitude),
               }}
-              title={address.city}
+              title={address.city.name}
               description={'Delivery Location'}>
               {/* <Image
                 source={require('../../../assets/logo/location.png')}
@@ -115,9 +104,9 @@ const OrderDetail = ({navigation, route}: any) => {
           </MapView>
         </View>
       </View>
-      <View style={{height: !isMorethanTwoDays ? height * 0.18 : 0.1}}>
+      <View style={{height: isLessthanTwoDays ? height * 0.18 : height * 0.1}}>
         <View style={[styles.sectionContainer]}>
-          <View>
+          <View style={{width: width * 0.8}}>
             <Text
               style={{
                 fontSize: 18,
@@ -131,15 +120,19 @@ const OrderDetail = ({navigation, route}: any) => {
               style={{
                 fontSize: 14,
                 color: darkMode ? colors.grey : colors.grey,
+
                 // fontWeight: 'bold',
               }}>
-              {`${address.houseNo},${address.area},${address.city},${address.pincode},${address.state}`}
+              {`${address.houseNo},${address.area},${address.city.name},${address.pincode},${address.state.name}, ${address.country.name}`}
             </Text>
           </View>
           <View
             style={[
               styles.iconContainer,
-              {backgroundColor: darkMode ? colors.white : colors.black},
+              {
+                backgroundColor: darkMode ? colors.white : colors.black,
+                width: 'auto',
+              },
             ]}>
             <Icon
               name="location-arrow"
@@ -151,7 +144,7 @@ const OrderDetail = ({navigation, route}: any) => {
         </View>
         <HorizontalLineWithText color="#d8d8d8" />
 
-        {!isMorethanTwoDays && (
+        {isLessthanTwoDays && (
           <View style={styles.changePickContainer}>
             <View style={{flex: 1}}>
               <Text
@@ -192,7 +185,10 @@ const OrderDetail = ({navigation, route}: any) => {
           // flexDirection: 'row',
           height: height * 0.52,
         }}>
-        <OrderStepper orderDetails={route.params.item.orderDetails} />
+        <OrderStepper
+          orderDetails={route.params.item.orderDetails}
+          orderInfo={orderInfo}
+        />
       </View>
     </View>
   );
@@ -218,6 +214,7 @@ const styles = StyleSheet.create({
   },
   sectionContainer: {
     flexDirection: 'row',
+    gap: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
     // paddingVertical: 20,

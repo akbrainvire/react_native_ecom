@@ -30,12 +30,17 @@ const MyOrders = ({navigation}: any) => {
       }
     }
   };
-  console.log(onGoing, 'ongoing array');
+  console.log(onGoing, 'ongoing');
 
   const {darkMode} = useTheme();
 
   useEffect(() => {
     checkOnGoingorCompleted();
+
+    return () => {
+      setOnGoing([]);
+      setCompleted([]);
+    };
   }, [orders]);
   const navigateToOrderDetail = (item: any) => {
     navigation.navigate('Order Detail', {item: item});

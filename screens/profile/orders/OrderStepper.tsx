@@ -2,7 +2,13 @@ import {View, Text, StyleSheet, FlatList, Animated} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import moment from 'moment';
 import {useTheme} from '../../../context/ThemeContext';
-const OrderStepper = ({orderDetails}: {orderDetails: any}) => {
+const OrderStepper = ({
+  orderDetails,
+  orderInfo,
+}: {
+  orderDetails: any;
+  orderInfo: any;
+}) => {
   let testorder = {
     orderDelivered: {date: 'March 12, 2024', time: '12:51 PM'},
     orderOutforDelivery: {date: 'March 12, 2024', time: '12:51 PM'},
@@ -13,6 +19,7 @@ const OrderStepper = ({orderDetails}: {orderDetails: any}) => {
   const {darkMode, colors} = useTheme();
   const [stepsCompleted, setstepsCompleted] = useState(1);
 
+  console.log(orderDetails, 'orderdetails');
   const lineAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -22,10 +29,11 @@ const OrderStepper = ({orderDetails}: {orderDetails: any}) => {
         duration: 3000,
         useNativeDriver: false,
       }).start();
-      if (orderDetails.hasOwnProperty('orderPlaced')) {
-        continue;
-      }
+
       if (orderDetails.hasOwnProperty(orderKey)) {
+        if (orderKey === 'orderPlaced') {
+          continue;
+        }
         const order = orderDetails[orderKey];
         const orderDate = moment(`${order.date} ${order.time}`, 'LL LT');
         if (moment().isAfter(orderDate)) {
@@ -35,31 +43,35 @@ const OrderStepper = ({orderDetails}: {orderDetails: any}) => {
         }
       }
     }
+
+    return () => {
+      setstepsCompleted(1);
+    };
   }, []);
   const data = [
     {
       date: orderDetails.orderPlaced.date,
       time: orderDetails.orderPlaced.time,
       thing: 'Order Placed',
-      location: 'Mumbai',
+      location: orderInfo.orderPlacedCity,
     },
     {
       date: orderDetails.orderShipped.date,
       time: orderDetails.orderShipped.time,
-      location: 'Mumbai',
+      location: orderInfo.orderShippedCity,
 
       thing: 'Order Shipped',
     },
     {
       date: orderDetails.orderOutforDelivery.date,
       time: orderDetails.orderOutforDelivery.time,
-      location: 'Bhopal',
+      location: orderInfo.orderOutforDeliveryCity,
       thing: 'Order out for Delivery',
     },
     {
       date: orderDetails.orderDelivered.date,
       time: orderDetails.orderDelivered.time,
-      location: 'Bhopal',
+      location: orderInfo.orderDeliveredCity,
       thing: 'Order Delivered',
     },
   ];

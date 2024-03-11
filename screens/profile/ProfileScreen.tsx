@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import CustomButtonComponent from '../../components/generic/CustomButtonComponent';
 
 import {useDispatch, useSelector} from 'react-redux';
@@ -9,8 +9,10 @@ import ProfileOptions from '../../components/profile/ProfileOptions';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {useTheme} from '../../context/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomActivityIndicator from '../../components/generic/CustomActivityIndicator';
 
 const Card = ({name, email, image, darkMode}: any) => {
+  const [loading, setLoading] = useState(false);
   return (
     <View
       style={[
@@ -22,7 +24,13 @@ const Card = ({name, email, image, darkMode}: any) => {
         },
       ]}>
       <View style={styles.imageContainer}>
-        <Image source={image} style={styles.image} />
+        <Image
+          source={image}
+          style={styles.image}
+          onLoadStart={() => setLoading(true)}
+          onLoadEnd={() => setLoading(false)}
+        />
+        {loading && <CustomActivityIndicator />}
       </View>
       <View style={styles.namemailContainer}>
         <Text style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>

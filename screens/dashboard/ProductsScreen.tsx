@@ -31,6 +31,7 @@ const ProductsScreen = ({route}: any) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   // const [categoryProducts, setCategoryProducts] = useState<any[]>([]);
   const {darkMode} = useTheme();
+  // const [loadingImage, setLoadingImage] = useState(false);
 
   const {categoryProducts, loading} = useSelector(
     (state: any) => state.products,
@@ -172,11 +173,19 @@ const ProductsScreen = ({route}: any) => {
                 <TouchableOpacity
                   key={item.id}
                   onPress={() => handleCategoryPress(item)}>
-                  <Image
-                    source={{uri: item.thumbnail}}
-                    style={styles.thumbnail}
-                    onError={() => console.log('Failed to load image')}
-                  />
+                  <View>
+                    <Image
+                      source={{uri: item.thumbnail}}
+                      // onLoadStart={() => setLoadingImage(true)}
+                      // onLoadEnd={() => setLoadingImage(false)}
+                      style={styles.thumbnail}
+                      onError={() => console.log('Failed to load image')}
+                    />
+                    {/* {loadingImage && (
+                      <CustomActivityIndicator animating={loadingImage} />
+                    )} */}
+                  </View>
+
                   <View style={styles.productInfo}>
                     <Text
                       style={[

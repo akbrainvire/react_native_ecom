@@ -56,8 +56,8 @@ const AddressScreen = ({route}: any) => {
           {address.fullName}
         </Text>
         <Text style={{color: darkMode ? 'white' : 'black'}}>
-          {address.houseNo}, {address.area}, {address.city}, {address.state} -{' '}
-          {address.pincode}
+          {address.houseNo}, {address.area}, {address.city.name},{' '}
+          {address.state.name} - {address.pincode}
         </Text>
         <Text style={{color: darkMode ? 'white' : 'black'}}>
           {address.phoneNumber}
