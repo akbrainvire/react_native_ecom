@@ -292,7 +292,7 @@ const NewAddressForm = ({navigation}: any) => {
           <TextInput
             style={[
               styles.input,
-              {color: darkMode ? colors.white : colors.grey},
+              {color: darkMode ? colors.white : colors.black},
             ]}
             placeholder="House No."
             value={addressDetails.houseNo}
@@ -305,7 +305,7 @@ const NewAddressForm = ({navigation}: any) => {
           <TextInput
             style={[
               styles.input,
-              {color: darkMode ? colors.white : colors.grey},
+              {color: darkMode ? colors.white : colors.black},
             ]}
             placeholder="Pincode"
             value={addressDetails.pincode}

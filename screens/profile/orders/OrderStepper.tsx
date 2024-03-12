@@ -149,7 +149,7 @@ const OrderStepper = ({
             />
           )}
         </View>
-        <View style={{paddingLeft: 20}}>
+        <View style={{paddingLeft: 30}}>
           <OneAndTwo one={item.thing} two={item.location} />
         </View>
       </View>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   },
   stepContainer: {
     flexDirection: 'row',
-    // alignItems: 'center',
+    alignItems: 'center',
     // justifyContent: 'space-between',
     flex: 1,
     // padding: 20,
@@ -206,9 +206,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     height: 30,
-    paddingRight: 30,
-    position: 'absolute',
-    left: 130,
+    // paddingRight: 30,
+    // position: 'absolute',
+    // left: 130,
   },
 });
 

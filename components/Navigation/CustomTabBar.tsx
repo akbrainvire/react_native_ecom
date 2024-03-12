@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     elevation: 30,
     paddingVertical: 10,
     // bottom: 0,
-    marginTop: -height * 0.02,
+    marginTop: -height * 0.03,
     width: '100%',
     // zIndex: 0,
     borderTopWidth: 0,

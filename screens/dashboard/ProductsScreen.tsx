@@ -178,6 +178,7 @@ const ProductsScreen = ({route}: any) => {
                       source={{uri: item.thumbnail}}
                       // onLoadStart={() => setLoadingImage(true)}
                       // onLoadEnd={() => setLoadingImage(false)}
+                      progressiveRenderingEnabled={true}
                       style={styles.thumbnail}
                       onError={() => console.log('Failed to load image')}
                     />

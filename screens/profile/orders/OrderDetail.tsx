@@ -139,6 +139,7 @@ const OrderDetail = ({navigation, route}: any) => {
               size={18}
               color={darkMode ? 'black' : '#ffffff'}
               style={{transform: [{rotate: '260deg'}]}}
+              onPress={handleMapFullView}
             />
           </View>
         </View>
