@@ -14,6 +14,7 @@ import {authorize} from '../../store/AuthenticSlice';
 import {useNavigation} from '@react-navigation/native';
 import CustomActivityIndicator from '../generic/CustomActivityIndicator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const LoginForm = ({colors, darkMode}: any) => {
   const navigation = useNavigation<any>();
@@ -31,6 +32,7 @@ const LoginForm = ({colors, darkMode}: any) => {
     general: '', // General error message for invalid credentials
   });
   const [isFormValid, setIsFormValid] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     setError(prevError => ({...prevError, general: ''}));
@@ -150,43 +152,55 @@ const LoginForm = ({colors, darkMode}: any) => {
             </Text>
           </View>
           <View style={styles.inputContainer}>
-            <TextInput
-              style={[
-                styles.textInput,
-                {
-                  borderColor: darkMode ? colors.white : colors.black,
-                  color: darkMode ? colors.white : colors.black,
-                },
-              ]}
-              placeholderTextColor={darkMode ? colors.grey : colors.black}
-              onChangeText={value => {
-                setFormInput((prev: any) => ({...prev, username: value}));
-                checkForError();
-              }}
-              // onBlur={checkForError}
-              placeholder="Enter username"
-              value={formInput.username}
-            />
-            {error.username !== '' && (
-              <Text style={styles.errorText}>{error.username}</Text>
-            )}
+            <View>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  {
+                    borderColor: darkMode ? colors.white : colors.black,
+                    color: darkMode ? colors.white : colors.black,
+                  },
+                ]}
+                placeholderTextColor={darkMode ? colors.grey : colors.black}
+                onChangeText={value => {
+                  setFormInput((prev: any) => ({...prev, username: value}));
+                  checkForError();
+                }}
+                // onBlur={checkForError}
+                placeholder="Enter username"
+                value={formInput.username}
+              />
+              {error.username !== '' && (
+                <Text style={styles.errorText}>{error.username}</Text>
+              )}
+            </View>
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  {
+                    borderColor: darkMode ? colors.white : colors.black,
+                    color: darkMode ? colors.white : colors.black,
+                  },
+                ]}
+                placeholderTextColor={darkMode ? colors.grey : colors.black}
+                onChangeText={value =>
+                  setFormInput((prev: any) => ({...prev, password: value}))
+                }
+                secureTextEntry={!showPassword}
+                onBlur={checkForError}
+                placeholder="Enter Password"
+                value={formInput.password}
+              />
 
-            <TextInput
-              style={[
-                styles.textInput,
-                {
-                  borderColor: darkMode ? colors.white : colors.black,
-                  color: darkMode ? colors.white : colors.black,
-                },
-              ]}
-              placeholderTextColor={darkMode ? colors.grey : colors.black}
-              onChangeText={value =>
-                setFormInput((prev: any) => ({...prev, password: value}))
-              }
-              onBlur={checkForError}
-              placeholder="Enter Password"
-              value={formInput.password}
-            />
+              <Icon
+                name={showPassword ? 'eye' : 'eye-off'}
+                style={styles.passwordIcon}
+                size={20}
+                color={darkMode ? colors.white : colors.black}
+                onPress={() => setShowPassword(prev => !prev)}
+              />
+            </View>
             {error.password !== '' && (
               <Text style={styles.errorText}>{error.password}</Text>
             )}
@@ -288,6 +302,20 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     alignSelf: 'center',
+  },
+  passwordContainer: {
+    // flexDirection: 'row',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // backgroundColor: '#fff',
+  },
+  passwordIcon: {
+    position: 'absolute',
+    right: 10,
+
+    bottom: 20,
+
+    // paddingLeft: 10,
   },
 });
 

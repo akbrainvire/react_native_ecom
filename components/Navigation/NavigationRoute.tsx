@@ -101,7 +101,7 @@ const NavigationRoute = () => {
         options={({navigation, route}) => ({
           header: () => (
             <CustomHeader
-              headerLeft={<HeaderBackButton paddinghorizontal={5} />}
+              headerLeft={<HeaderBackButton paddinghorizontal={10} />}
             />
           ),
           headerShown: true,

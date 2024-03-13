@@ -21,6 +21,7 @@ const PaymentScreen = ({navigation, route}: any) => {
   const dispatch = useDispatch();
   const orderItems = useSelector((state: any) => state.cart.cartItems);
   const {address} = route.params;
+  // console.log('🚀 ~ PaymentScreen ~ address:', address);
   const handleContinueShopping = () => {
     setModalVisible(false);
     // This is to reset the stack when order is placed and redirected to dashoard page when clicked on continue shopping
@@ -47,6 +48,7 @@ const PaymentScreen = ({navigation, route}: any) => {
       return cities && cities[randBetweenOneAndFifty];
     };
 
+    // console.log('🚀 ~ GetRandomCity ~ address:', address);
     const orderItemsWithOrderId = orderItems.map((item: any) => {
       const orderId = generateRandomOrderId();
 
@@ -60,7 +62,6 @@ const PaymentScreen = ({navigation, route}: any) => {
         orderOutforDeliveryCity: address.city.name,
         orderDeliveredCity: address.city.name,
       };
-
       return {
         ...item,
         orderId: orderId,

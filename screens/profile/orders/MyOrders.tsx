@@ -8,6 +8,7 @@ import moment from 'moment';
 const MyOrders = ({navigation}: any) => {
   const [tab, setTab] = useState('ongoing');
   const orders = useSelector((state: any) => state.orders.orders);
+
   const [onGoing, setOnGoing] = useState<any>([]);
   const [completed, setCompleted] = useState<any>([]);
 
@@ -125,7 +126,10 @@ const MyOrders = ({navigation}: any) => {
             style={[
               styles.tab,
               tab === 'ongoing'
-                ? {color: darkMode ? 'white' : 'black'}
+                ? {
+                    backgroundColor: darkMode ? 'white' : 'black',
+                    color: darkMode ? 'black' : 'white',
+                  }
                 : {color: '#929292'},
             ]}
             onPress={() => setTab('ongoing')}>
@@ -135,7 +139,10 @@ const MyOrders = ({navigation}: any) => {
             style={[
               styles.tab,
               tab === 'completed'
-                ? {color: darkMode ? 'white' : 'black'}
+                ? {
+                    backgroundColor: darkMode ? 'white' : 'black',
+                    color: darkMode ? 'black' : 'white',
+                  }
                 : {color: '#929292'},
             ]}
             onPress={() => setTab('completed')}>

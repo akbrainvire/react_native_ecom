@@ -62,6 +62,8 @@ const NewAddressForm = ({navigation}: any) => {
     });
   };
 
+  console.log(addressDetails, 'addresddreta');
+
   const handleSubmit = () => {
     const validationErrors: any = {
       fullName: '',

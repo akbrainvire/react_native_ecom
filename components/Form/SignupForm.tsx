@@ -17,6 +17,7 @@ import CustomModal from '../generic/CustomModal';
 import Icon from 'react-native-vector-icons/AntDesign';
 import CustomActivityIndicator from '../generic/CustomActivityIndicator';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon2 from 'react-native-vector-icons/Ionicons';
 
 const SignupForm = ({darkMode, colors}: any) => {
   const dispatch = useDispatch();
@@ -157,6 +158,7 @@ const SignupForm = ({darkMode, colors}: any) => {
   //   console.log(error);
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <View style={styles.mainContainer}>
@@ -218,40 +220,60 @@ const SignupForm = ({darkMode, colors}: any) => {
               <Text style={styles.errorText}>{error.email}</Text>
             )}
 
-            <TextInput
-              style={[
-                styles.textInput,
-                ,
-                {color: darkMode ? colors.white : colors.black},
-              ]}
-              onChangeText={value => {
-                OnHandleChange(value, 'password');
-                checkForError();
-              }}
-              onBlur={() => HandleErrorOnBlur()}
-              placeholder="Enter Password"
-              value={formInput.password}
-              placeholderTextColor={colors.grey}
-            />
+            <View>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  ,
+                  {color: darkMode ? colors.white : colors.black},
+                ]}
+                onChangeText={value => {
+                  OnHandleChange(value, 'password');
+                  checkForError();
+                }}
+                onBlur={() => HandleErrorOnBlur()}
+                placeholder="Enter Password"
+                value={formInput.password}
+                placeholderTextColor={colors.grey}
+                secureTextEntry={!showPassword}
+              />
+              <Icon2
+                name={showPassword ? 'eye' : 'eye-off'}
+                style={styles.passwordIcon}
+                size={20}
+                color={darkMode ? colors.white : colors.black}
+                onPress={() => setShowPassword(prev => !prev)}
+              />
+            </View>
             {error.password !== '' && (
               <Text style={styles.errorText}>{error.password}</Text>
             )}
 
-            <TextInput
-              style={[
-                styles.textInput,
-                ,
-                {color: darkMode ? colors.white : colors.black},
-              ]}
-              onChangeText={value => {
-                OnHandleChange(value, 'confirmpassword');
-                checkForError();
-              }}
-              onBlur={() => HandleErrorOnBlur()}
-              placeholder="Confirm Password"
-              value={formInput.confirmpassword}
-              placeholderTextColor={colors.grey}
-            />
+            <View>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  ,
+                  {color: darkMode ? colors.white : colors.black},
+                ]}
+                onChangeText={value => {
+                  OnHandleChange(value, 'confirmpassword');
+                  checkForError();
+                }}
+                onBlur={() => HandleErrorOnBlur()}
+                placeholder="Confirm Password"
+                value={formInput.confirmpassword}
+                placeholderTextColor={colors.grey}
+                secureTextEntry={!showConfirmPassword}
+              />
+              <Icon2
+                name={showConfirmPassword ? 'eye' : 'eye-off'}
+                style={styles.passwordIcon}
+                size={20}
+                color={darkMode ? colors.white : colors.black}
+                onPress={() => setShowConfirmPassword(prev => !prev)}
+              />
+            </View>
             {error.confirmpassword !== '' && (
               <Text style={styles.errorText}>{error.confirmpassword}</Text>
             )}
@@ -356,6 +378,12 @@ const styles = StyleSheet.create({
   },
   signupBtnContainer: {
     marginTop: 'auto',
+  },
+  passwordIcon: {
+    position: 'absolute',
+    right: 10,
+
+    bottom: 20,
   },
 });
 

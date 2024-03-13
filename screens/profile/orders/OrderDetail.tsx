@@ -8,6 +8,7 @@ import CustomButtonComponent from '../../../components/generic/CustomButtonCompo
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import OrderStepper from './OrderStepper';
 import moment from 'moment';
+import {useSelector} from 'react-redux';
 const {height, width} = Dimensions.get('window');
 const OrderDetail = ({navigation, route}: any) => {
   console.log(route.params.item.orderDetails, 'item');
@@ -28,11 +29,18 @@ const OrderDetail = ({navigation, route}: any) => {
 
   const {darkMode, colors} = useTheme();
 
-  const address = route.params.item.address;
+  const orderData = useSelector((state: any) =>
+    state.orders.orders.find(
+      (order: any) => order.orderId === route.params.item.orderId,
+    ),
+  );
+  // console.log(orderData.address);
 
-  // console.log(address, 'route');
+  const address = orderData.address;
+  // console.log(route.params.item, 'route');
 
   const handleChangePickupAddress = () => {};
+  console.log(route.params.item.orderInfo, 'orderinfo');
 
   const orderInfo = route.params.item.orderInfo;
 
