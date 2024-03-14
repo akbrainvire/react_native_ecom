@@ -41,6 +41,7 @@ import ChatGPTSupport from '../chatgpt/ChatBotOAI';
 import OrderDetail from '../../screens/profile/orders/OrderDetail';
 import VideoPlayerScreen from '../../screens/videoplayer/VideoPlayerScreen';
 import OrderMapFullView from '../../screens/profile/orders/OrderMapFullView';
+import AddAddressMap from '../Form/AddAddressMap';
 const NavigationRoute = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
@@ -482,6 +483,17 @@ const NavigationRoute = () => {
           header: () => (
             <CustomHeader
               headerTitle="Delivery Location"
+              headerLeft={<HeaderBackButton paddinghorizontal={10} />}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="AddAddressMap"
+        component={AddAddressMap}
+        options={({navigation, route}) => ({
+          header: () => (
+            <CustomHeader
               headerLeft={<HeaderBackButton paddinghorizontal={10} />}
             />
           ),

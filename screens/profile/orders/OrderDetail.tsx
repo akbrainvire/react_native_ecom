@@ -53,6 +53,7 @@ const OrderDetail = ({navigation, route}: any) => {
         longitudeDelta: 0.0121,
       },
       address: address,
+      orderInfo: orderInfo,
     });
   };
   return (
@@ -82,6 +83,7 @@ const OrderDetail = ({navigation, route}: any) => {
         </View>
         <View style={[styles.container]}>
           <MapView
+            liteMode={true}
             provider={PROVIDER_GOOGLE}
             onPress={handleMapFullView}
             style={styles.map}

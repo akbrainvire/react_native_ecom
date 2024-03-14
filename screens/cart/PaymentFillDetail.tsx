@@ -55,13 +55,21 @@ const PaymentFillDetail = ({navigation, route}: any) => {
 
       const orderDate = moment().format('LL');
 
-      const randomCity = GetRandomCity()?.name;
+      const randomCity: any = GetRandomCity();
 
       const orderInfo = {
-        orderPlacedCity: randomCity,
-        orderShippedCity: randomCity,
+        orderPlacedCity: randomCity?.name,
+        orderShippedCity: randomCity?.name,
         orderOutforDeliveryCity: address.city.name,
         orderDeliveredCity: address.city.name,
+        orderPlacedLocation: {
+          latitude: 1 * randomCity?.latitude,
+          longitude: 1 * randomCity?.longitude,
+        },
+        orderDeliveredLocation: {
+          latitude: address.city?.latitude,
+          longitude: address.city?.longitude,
+        },
       };
 
       return {

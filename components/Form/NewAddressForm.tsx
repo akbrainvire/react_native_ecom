@@ -13,6 +13,7 @@ import CustomKeyboardAvoidingView from '../generic/CustomKeyboardAvoidingView';
 import {useTheme} from '../../context/ThemeContext';
 import CustomDropdown from '../generic/CustomDropDown';
 import {Country, State, City} from 'country-state-city';
+import HorizontalLineWithText from '../generic/HorizontalLinewithText';
 
 const NewAddressForm = ({navigation}: any) => {
   const {darkMode, colors} = useTheme();
@@ -195,6 +196,9 @@ const NewAddressForm = ({navigation}: any) => {
     });
   };
 
+  const handleSelectOnMap = () => {
+    navigation.navigate('AddAddressMap');
+  };
   return (
     // <CustomKeyboardAvoidingView>
     <View
@@ -330,20 +334,45 @@ const NewAddressForm = ({navigation}: any) => {
         placeholderTextColor={darkMode ? '#dedede' : colors.grey}
       />
       {errors.area && <Text style={styles.error}>{errors.area}</Text>}
-      <TouchableOpacity
-        style={[
-          styles.button,
-          {backgroundColor: darkMode ? colors.white : colors.black},
-        ]}
-        onPress={handleSubmit}>
-        <Text
+      <View style={{flex: 1}}>
+        <TouchableOpacity
           style={[
-            styles.buttonText,
-            {color: darkMode ? colors.black : colors.white},
-          ]}>
-          Save Address
-        </Text>
-      </TouchableOpacity>
+            styles.button,
+            {
+              backgroundColor: darkMode ? colors.white : colors.black,
+              marginTop: 'auto',
+            },
+          ]}
+          onPress={handleSubmit}>
+          <Text
+            style={[
+              styles.buttonText,
+              {color: darkMode ? colors.black : colors.white},
+            ]}>
+            Save Address
+          </Text>
+        </TouchableOpacity>
+        <HorizontalLineWithText text="Or" />
+        <TouchableOpacity
+          style={[
+            styles.button,
+            {
+              backgroundColor: darkMode ? colors.black : colors.white,
+              marginBottom: 20,
+              borderColor: colors.grey,
+              borderWidth: 2,
+            },
+          ]}
+          onPress={handleSelectOnMap}>
+          <Text
+            style={[
+              styles.buttonText,
+              {color: darkMode ? colors.white : colors.black},
+            ]}>
+            Select from Map
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
     // </CustomKeyboardAvoidingView>
   );
@@ -381,12 +410,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    marginTop: 'auto',
+    // marginTop: 'auto',
     // backgroundColor: 'black',
     padding: 10,
     borderRadius: 25,
     alignItems: 'center',
-    marginBottom: 20,
   },
   buttonText: {
     // color: 'white',
