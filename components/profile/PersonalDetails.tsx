@@ -10,7 +10,11 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import CustomButtonComponent from '../generic/CustomButtonComponent';
-import {logout, updateUserOptions} from '../../store/AuthenticSlice';
+import {
+  logout,
+  updateUserOptions,
+  updateUserProfile,
+} from '../../store/AuthenticSlice';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {TouchableOpacity} from 'react-native';
 import SettingCustomOption from './SettingCustomOption';
@@ -18,6 +22,7 @@ import BasicModal from '../generic/BasicModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTheme} from '../../context/ThemeContext';
 import SingleRadioButton from './SingleRadioButton';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const {height, width} = Dimensions.get('window');
 
@@ -27,6 +32,7 @@ const PersonalDetails = ({navigation}: any) => {
   const userDetails = useSelector(
     (state: any) => state.autheticate.userDetails,
   );
+  console.log(userDetails, 'userdetails');
   const [selectedGenderId, setselectedGenderId] = useState(
     userDetails.gender.toLowerCase() === 'female' ? 2 : 1,
   );
@@ -124,7 +130,30 @@ const PersonalDetails = ({navigation}: any) => {
     setselectedGenderId(value);
     console.log(value);
   };
-
+  const handleImagePick = async () => {
+    const result = await launchImageLibrary(
+      {
+        mediaType: 'photo',
+      },
+      (response: any) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('Image picker error: ', response.error);
+        } else {
+          let imageUri = response.uri || response.assets?.[0]?.uri;
+          console.log(imageUri);
+          dispatch(updateUserProfile(imageUri));
+          // setSelectedImage(imageUri);
+        }
+      },
+    );
+  };
+  // console.log(userDetails.userImage, 'userdetailuserimage');
+  const image =
+    userDetails.userImage !== ''
+      ? {uri: userDetails.userImage}
+      : userDetails.image;
   return (
     <ScrollView
       style={[
@@ -134,14 +163,10 @@ const PersonalDetails = ({navigation}: any) => {
       <View style={styles.contentContainer}>
         <View style={styles.imageContainerMain}>
           <View style={styles.imageContainer}>
-            <Image
-              source={userDetails.image}
-              style={styles.image}
-              resizeMode="cover"
-            />
+            <Image source={image} style={styles.image} resizeMode="contain" />
           </View>
           <View style={styles.editOrupload}>
-            <TouchableOpacity style={styles.editBtn}>
+            <TouchableOpacity style={styles.editBtn} onPress={handleImagePick}>
               <Icon size={20} color="black" name="edit" />
             </TouchableOpacity>
           </View>

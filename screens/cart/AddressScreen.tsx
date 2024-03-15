@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, FlatList} from 'react-native';
 import StepProgress from '../../components/cart/StepProgress';
 import {useNavigation} from '@react-navigation/native';
@@ -6,6 +6,9 @@ import CustomButtonComponent from '../../components/generic/CustomButtonComponen
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useTheme} from '../../context/ThemeContext';
+import {useToast} from 'react-native-toast-notifications';
+import CustomActivityIndicator from '../../components/generic/CustomActivityIndicator';
+import axios from 'axios';
 
 const CustomRadioButton = ({selected, onPress, darkMode, children}: any) => (
   <TouchableOpacity
@@ -16,16 +19,16 @@ const CustomRadioButton = ({selected, onPress, darkMode, children}: any) => (
 );
 
 const AddressScreen = ({route}: any) => {
-  // const {cartItems} = route.params;
-  // console.log(cartItems);
+  const {addressDetails} = route?.params;
+  console.log(addressDetails);
   const {darkMode} = useTheme();
   const savedAddresses = useSelector(
     (state: any) => state.autheticate.userDetails.savedAddresses,
   );
-
+  const [loading, setLoading] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState<number>();
   const [selectedAddress, setSelectedAddress] = useState<any>({});
-
+  const toast = useToast();
   // console.log(savedAddresses);
   const navigation = useNavigation<any>();
 
@@ -44,6 +47,32 @@ const AddressScreen = ({route}: any) => {
     setSelectedAddress(address);
     setSelectedAddressId(addressId);
   };
+
+  const handleGetAddress = async (lat: any, long: any) => {
+    setLoading(true);
+    try {
+      console.log(lat, long, 'console');
+      const response = await axios.get(
+        `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${lat}%2C${long}&limit=20&apiKey=XmVTCjy44QbboBMWdJJRZnhcahJHn321dGDO6yXlrQs`,
+      );
+      console.log(response.data.items, 'response');
+    } catch (error: any) {
+      toast.show(error.message, {
+        duration: 2000,
+        swipeEnabled: true,
+        style: {backgroundColor: 'black'},
+        textStyle: {color: 'white'},
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (addressDetails.latitude !== null) {
+      handleGetAddress(addressDetails.latitude, addressDetails.longitude);
+    }
+  }, [addressDetails?.latitude]);
 
   const AddressCard = ({address}: {address: any}) => (
     <TouchableOpacity onPress={() => handleAddressSelect(address.id)}>
@@ -92,28 +121,34 @@ const AddressScreen = ({route}: any) => {
         styles.maincontainer,
         {backgroundColor: darkMode ? 'black' : 'white'},
       ]}>
-      <CustomButtonComponent
-        text="Add a new address"
-        color={darkMode ? '#242424' : 'white'}
-        onSubmit={handleAddAddressNew}
-        textcolor={darkMode ? 'white' : '#007fc9'}
-        logo="plus"
-      />
-      <FlatList
-        data={savedAddresses}
-        renderItem={({item}) => <AddressCard address={item} />}
-        keyExtractor={(item, index) => index.toString()}
-        ListEmptyComponent={() => <Text>No saved addresses found</Text>}
-      />
-      <View style={styles.nextbtn}>
-        <CustomButtonComponent
-          text="Confirm Address"
-          color={darkMode ? 'white' : 'black'}
-          onSubmit={handleNext}
-          textcolor={darkMode ? 'black' : 'white'}
-          disabled={selectedAddressId ? false : true}
-        />
-      </View>
+      {loading ? (
+        <CustomActivityIndicator />
+      ) : (
+        <View style={{flex: 1}}>
+          <CustomButtonComponent
+            text="Add a new address"
+            color={darkMode ? '#242424' : 'white'}
+            onSubmit={handleAddAddressNew}
+            textcolor={darkMode ? 'white' : '#007fc9'}
+            logo="plus"
+          />
+          <FlatList
+            data={savedAddresses}
+            renderItem={({item}) => <AddressCard address={item} />}
+            keyExtractor={(item, index) => index.toString()}
+            ListEmptyComponent={() => <Text>No saved addresses found</Text>}
+          />
+          <View style={styles.nextbtn}>
+            <CustomButtonComponent
+              text="Confirm Address"
+              color={darkMode ? 'white' : 'black'}
+              onSubmit={handleNext}
+              textcolor={darkMode ? 'black' : 'white'}
+              disabled={selectedAddressId ? false : true}
+            />
+          </View>
+        </View>
+      )}
     </View>
   );
 };

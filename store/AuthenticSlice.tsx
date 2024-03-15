@@ -12,6 +12,7 @@ const Authorize = createSlice({
       lastName: '',
       gender: '',
       image: '',
+      userImage: '',
       savedAddresses: [],
     },
     userOptions: {
@@ -86,9 +87,17 @@ const Authorize = createSlice({
     updateUserOptions: (state: any, action) => {
       state.userOptions = {...state.userOptions, ...action.payload};
     },
+    updateUserProfile: (state: any, action) => {
+      state.userDetails.userImage = action.payload;
+    },
   },
 });
 
-export const {authorize, logout, addAddressForUser, updateUserOptions} =
-  Authorize.actions;
+export const {
+  authorize,
+  logout,
+  addAddressForUser,
+  updateUserOptions,
+  updateUserProfile,
+} = Authorize.actions;
 export default Authorize.reducer;

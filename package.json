@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@muratoner/semantic-ui-react-native": "^1.0.24",
     "@react-native-async-storage/async-storage": "^1.22.3",
     "@react-native-community/geolocation": "^3.2.0",
     "@react-native-masked-view/masked-view": "^0.3.1",
@@ -20,6 +21,7 @@
     "@react-navigation/stack": "^6.3.20",
     "@reduxjs/toolkit": "^2.1.0",
     "@types/react-native-snap-carousel": "^3.8.10",
+    "axios": "^1.6.7",
     "country-state-city": "^3.2.1",
     "geolib": "^3.3.4",
     "moment": "^2.30.1",
@@ -31,6 +33,7 @@
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "^2.15.0",
     "react-native-gifted-chat": "^2.4.0",
+    "react-native-image-picker": "^7.1.1",
     "react-native-maps": "^1.10.3",
     "react-native-paper": "^5.12.3",
     "react-native-radio-buttons-group": "^3.0.7",

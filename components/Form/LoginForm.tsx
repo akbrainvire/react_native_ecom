@@ -82,6 +82,7 @@ const LoginForm = ({colors, darkMode}: any) => {
           age: 25,
           savedAddresses: [],
           image: require('../../assets/logo/21306920_on8o_9ifb_210803.jpg'),
+          userImage: '',
         };
         AsyncStorage.setItem('isAuthorized', JSON.stringify(true)).catch(
           error => console.error('Error storing options:', error),

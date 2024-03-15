@@ -133,6 +133,7 @@ const SignupForm = ({darkMode, colors}: any) => {
             ...userData,
             savedAddresses: [],
             image: require('../../assets/logo/icon-5359553_640.jpg'),
+            userImage: '',
           };
           AsyncStorage.setItem('isAuthorized', JSON.stringify(true)).catch(
             error => console.error('Error storing options:', error),

@@ -60,7 +60,9 @@ const CartScreen = ({navigation}: any) => {
 
   const handleProceedCheckout = () => {
     // navigation.navigate('AddressScreen', {cartItems: cartItems});
-    navigation.navigate('AddressScreen');
+    navigation.navigate('AddressScreen', {
+      addressDetails: {latitude: null, longitude: null},
+    });
   };
 
   const totalSum = cartItems.reduce(

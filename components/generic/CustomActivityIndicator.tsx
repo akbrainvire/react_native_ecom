@@ -9,6 +9,7 @@ const CustomActivityIndicator = ({animating}: {animating?: boolean}) => {
       animating={animating}
       size="large"
       color={darkMode ? 'white' : '#242424'}
+      style={{marginTop: 'auto', marginBottom: 'auto'}}
     />
   );
 };

@@ -11,7 +11,7 @@ import {useTheme} from '../../context/ThemeContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomActivityIndicator from '../../components/generic/CustomActivityIndicator';
 
-const Card = ({name, email, image, darkMode}: any) => {
+const Card = ({name, email, image, darkMode, userImage}: any) => {
   const [loading, setLoading] = useState(false);
   return (
     <View
@@ -25,8 +25,9 @@ const Card = ({name, email, image, darkMode}: any) => {
       ]}>
       <View style={styles.imageContainer}>
         <Image
-          source={image}
+          source={userImage !== '' ? {uri: userImage} : image}
           style={styles.image}
+          // resizeMode="contain"
           onLoadStart={() => setLoading(true)}
           onLoadEnd={() => setLoading(false)}
         />
@@ -136,6 +137,7 @@ const ProfileScreen = ({navigation}: any) => {
           name={userDetails.username}
           email={userDetails.email}
           image={userDetails.image}
+          userImage={userDetails.userImage}
           darkMode={darkMode}
         />
         <ProfileOptions
@@ -199,7 +201,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
-    objectFit: 'cover',
+    objectFit: 'contain',
   },
   namemailContainer: {
     paddingLeft: 10,
