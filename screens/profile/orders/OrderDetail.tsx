@@ -15,17 +15,17 @@ const OrderDetail = ({navigation, route}: any) => {
 
   let uptoDate = route.params.item.orderDetails.orderPlaced.date;
 
-  const orderPlacedDat = moment(uptoDate, 'MMMM D, YYYY');
+  const orderPlacedDat = moment(uptoDate);
 
-  const orderPlacedDate = moment(orderPlacedDat);
+  // const orderPlacedDate = moment(orderPlacedDat);
 
-  console.log(orderPlacedDate.format('LL'));
+  // console.log(orderPlacedDat.format('LL'));
 
-  const twoDaysLaterDate = moment(orderPlacedDate).add(2, 'days');
-  const isLessthanTwoDays = twoDaysLaterDate > orderPlacedDate;
+  const twoDaysLaterDate = moment(uptoDate).add(2, 'days');
+  const isLessthanTwoDays = twoDaysLaterDate > orderPlacedDat;
 
   console.log(twoDaysLaterDate.format());
-  console.log(orderPlacedDate > twoDaysLaterDate, 'isMorethanTwoDays');
+  console.log(orderPlacedDat > twoDaysLaterDate, 'isMorethanTwoDays');
 
   const {darkMode, colors} = useTheme();
 
@@ -54,6 +54,7 @@ const OrderDetail = ({navigation, route}: any) => {
       },
       address: address,
       orderInfo: orderInfo,
+      orderDetails: route.params.item.orderDetails,
     });
   };
   return (

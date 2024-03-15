@@ -79,20 +79,20 @@ const PaymentFillDetail = ({navigation, route}: any) => {
         orderDate: orderDate,
         orderDetails: {
           orderPlaced: {
-            date: currentDate.format('LL'),
-            time: currentDate.format('LT'),
+            date: currentDate,
+            time: currentDate,
           },
           orderShipped: {
-            date: twoDaysAfter.format('LL'),
-            time: twoDaysAfter.format('LT'),
+            date: twoDaysAfter,
+            time: twoDaysAfter,
           },
           orderOutforDelivery: {
-            date: fourDaysAfter.format('LL'),
-            time: fourDaysAfter.format('LT'),
+            date: fourDaysAfter,
+            time: fourDaysAfter,
           },
           orderDelivered: {
-            date: fourDaysAfter.format('LL'),
-            time: fourDaysAfter.format('LT'),
+            date: fourDaysAfter,
+            time: fourDaysAfter,
           },
         },
         orderInfo: orderInfo,

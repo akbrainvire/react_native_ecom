@@ -4,12 +4,13 @@ import MapView, {Marker, PROVIDER_GOOGLE, Polyline} from 'react-native-maps';
 import {useTheme} from '../../../context/ThemeContext';
 import {Button, Image} from 'react-native-elements';
 import {getDistance} from 'geolib';
+import moment from 'moment';
 
 const OrderMapFullView = ({route}: any) => {
   const {darkMode, colors} = useTheme();
-  const {region, address, orderInfo} = route.params;
+  const {region, address, orderInfo, orderDetails} = route.params;
   const [distance, setDistance] = useState(0);
-  console.log(address, 'address');
+  console.log(orderDetails, 'orderDetails');
 
   const calculateDistance = () => {
     console.log(orderInfo.orderPlacedLocation, region);
@@ -22,6 +23,11 @@ const OrderMapFullView = ({route}: any) => {
     );
     setDistance(calculatedDistance);
   };
+
+  const calculateTimeTakeToDeliver = moment(
+    orderDetails.orderOutforDelivery.date,
+  ).diff(orderDetails.orderPlaced.date, 'days');
+  console.log(calculateTimeTakeToDeliver, 'calculateTimeTakeToDeliver');
 
   useEffect(() => {
     calculateDistance();
@@ -102,15 +108,33 @@ const OrderMapFullView = ({route}: any) => {
               latitude:
                 (region.latitude + orderInfo.orderPlacedLocation.latitude) / 2,
               longitude:
-                (region.longitude +
-                  orderInfo.orderPlacedLocation.longitude -
-                  0.6) /
+                (region.longitude + orderInfo.orderPlacedLocation.longitude) /
                 2,
             }}>
             <View style={styles.testContainer}>
+              {moment().isBefore(orderDetails.orderDelivered.date) && (
+                <Text
+                  style={{
+                    color: 'black',
+                    letterSpacing: 5,
+                    fontWeight: 'bold',
+                    fontSize: 12,
+                    textAlign: 'center',
+                  }}>
+                  {distance ? `${distance / 1000} KM` : 'Calculating...'}
+                </Text>
+              )}
               <Text
-                style={{color: 'black', letterSpacing: 5, fontWeight: 'bold'}}>
-                {distance ? `${distance / 1000} KM` : 'Calculating...'}
+                style={{
+                  color: '#0088ff',
+                  letterSpacing: 1,
+                  // fontWeight: 'bold',
+                  fontSize: 12,
+                  textAlign: 'center',
+                }}>
+                {calculateTimeTakeToDeliver
+                  ? `Order reach in ${calculateTimeTakeToDeliver} days`
+                  : 'Order Delivered'}
               </Text>
             </View>
           </Marker>

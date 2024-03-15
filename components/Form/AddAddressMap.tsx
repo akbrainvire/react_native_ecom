@@ -57,18 +57,27 @@ const AddAddressMap = ({route}: any) => {
           provider={PROVIDER_GOOGLE}
           style={styles.map}
           loadingEnabled={true}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          followsUserLocation={true}
+          showsCompass={true}
+          scrollEnabled={true}
+          zoomEnabled={true}
+          pitchEnabled={true}
+          rotateEnabled={true}
           //   zoomEnabled={false}
           //   scrollEnabled={false}
           //   showsScale={false}
           //   showsTraffic={false}
           mapType="standard"
-          region={{
-            latitude: 10,
-            longitude: 30,
-            latitudeDelta: 0,
-            longitudeDelta: 0,
-          }}>
-          <Marker
+          // region={{
+          //   latitude: 10,
+          //   longitude: 30,
+          //   latitudeDelta: 0,
+          //   longitudeDelta: 0,
+          // }}
+        >
+          {/* <Marker
             coordinate={{
               latitude: region.latitude,
               longitude: region.longitude,
@@ -76,7 +85,7 @@ const AddAddressMap = ({route}: any) => {
             title={'Selected location'}
             description={'Delivery Location'}
             draggable={true}
-            onDragEnd={e => handleDrag(e)}></Marker>
+            onDragEnd={e => handleDrag(e)}></Marker> */}
         </MapView>
       </View>
     </View>

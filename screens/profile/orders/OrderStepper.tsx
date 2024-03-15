@@ -35,8 +35,10 @@ const OrderStepper = ({
           continue;
         }
         const order = orderDetails[orderKey];
-        const orderDate = moment(`${order.date} ${order.time}`, 'LL LT');
-        if (moment().isAfter(orderDate)) {
+
+        console.log(order, 'ordreererer');
+        // const orderDate = moment(`${order.date} ${order.time}`, 'LL LT');
+        if (moment().isAfter(order.date)) {
           setstepsCompleted(prev => prev + 1);
         } else {
           break;
@@ -50,27 +52,27 @@ const OrderStepper = ({
   }, []);
   const data = [
     {
-      date: orderDetails.orderPlaced.date,
-      time: orderDetails.orderPlaced.time,
+      date: moment(orderDetails.orderPlaced.date).format('LL'),
+      time: moment(orderDetails.orderPlaced.time).format('LT'),
       thing: 'Order Placed',
       location: orderInfo.orderPlacedCity,
     },
     {
-      date: orderDetails.orderShipped.date,
-      time: orderDetails.orderShipped.time,
+      date: moment(orderDetails.orderShipped.date).format('LL'),
+      time: moment(orderDetails.orderShipped.time).format('LT'),
       location: orderInfo.orderShippedCity,
 
       thing: 'Order Shipped',
     },
     {
-      date: orderDetails.orderOutforDelivery.date,
-      time: orderDetails.orderOutforDelivery.time,
+      date: moment(orderDetails.orderOutforDelivery.date).format('LL'),
+      time: moment(orderDetails.orderOutforDelivery.time).format('LT'),
       location: orderInfo.orderOutforDeliveryCity,
       thing: 'Order out for Delivery',
     },
     {
-      date: orderDetails.orderDelivered.date,
-      time: orderDetails.orderDelivered.time,
+      date: moment(orderDetails.orderDelivered.date).format('LL'),
+      time: moment(orderDetails.orderDelivered.time).format('LT'),
       location: orderInfo.orderDeliveredCity,
       thing: 'Order Delivered',
     },

@@ -45,7 +45,13 @@ const CustomDropdown = ({
         <Text
           style={[
             styles.selectedOption,
-            {color: darkMode ? colors.white : colors.grey},
+            {
+              color: darkMode
+                ? colors.white
+                : value
+                ? colors.black
+                : colors.grey,
+            },
           ]}>
           {value || placeholder}
         </Text>
@@ -64,7 +70,7 @@ const CustomDropdown = ({
                 <Text
                   style={[
                     styles.option,
-                    {color: darkMode ? colors.white : colors.grey},
+                    {color: darkMode ? colors.white : colors.black},
                   ]}>
                   {item.name}
                 </Text>

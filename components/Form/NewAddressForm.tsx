@@ -200,65 +200,71 @@ const NewAddressForm = ({navigation}: any) => {
     navigation.navigate('AddAddressMap');
   };
   return (
-    // <CustomKeyboardAvoidingView>
-    <View
-      style={[
-        styles.container,
-        {backgroundColor: darkMode ? colors.black : colors.white},
-      ]}>
-      <View style={styles.row}>
-        <View style={styles.half}>
-          <TextInput
-            style={[
-              styles.input,
-              {color: darkMode ? colors.white : colors.black},
-            ]}
-            placeholder="Full Name"
-            value={addressDetails.fullName}
-            onChangeText={text => handleChange('fullName', text)}
-            placeholderTextColor={darkMode ? '#dedede' : colors.grey}
-          />
-          {errors.fullName && (
-            <Text style={styles.error}>{errors.fullName}</Text>
-          )}
-        </View>
-        <View style={styles.half}>
-          <TextInput
-            style={[
-              styles.input,
-              {color: darkMode ? colors.white : colors.black},
-            ]}
-            placeholder="Phone Number"
-            value={addressDetails.phoneNumber}
-            onChangeText={text => handleChange('phoneNumber', text)}
-            keyboardType="phone-pad"
-            placeholderTextColor={darkMode ? '#dedede' : colors.grey}
-          />
-          {errors.phoneNumber && (
-            <Text style={styles.error}>{errors.phoneNumber}</Text>
-          )}
-        </View>
-      </View>
-      <View style={[{marginBottom: 20, backgroundColor: colors.black}]}>
-        {/* <TextInput
+    <CustomKeyboardAvoidingView>
+      <ScrollView contentContainerStyle={{flex: 1}}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: darkMode ? colors.black : colors.white,
+            paddingHorizontal: 20,
+            paddingTop: 20,
+          }}>
+          <View style={[styles.container]}>
+            <View style={styles.row}>
+              <View style={styles.half}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    {color: darkMode ? colors.white : colors.black},
+                  ]}
+                  placeholder="Full Name"
+                  value={addressDetails.fullName}
+                  onChangeText={text => handleChange('fullName', text)}
+                  placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+                />
+                {errors.fullName && (
+                  <Text style={styles.error}>{errors.fullName}</Text>
+                )}
+              </View>
+              <View style={styles.half}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    {color: darkMode ? colors.white : colors.black},
+                  ]}
+                  placeholder="Phone Number"
+                  value={addressDetails.phoneNumber}
+                  onChangeText={text => handleChange('phoneNumber', text)}
+                  keyboardType="phone-pad"
+                  placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+                />
+                {errors.phoneNumber && (
+                  <Text style={styles.error}>{errors.phoneNumber}</Text>
+                )}
+              </View>
+            </View>
+            <View style={[{marginBottom: 20, backgroundColor: colors.black}]}>
+              {/* <TextInput
             style={[{color: darkMode ?colors.white : 'black'}]}
             placeholder="Country"
             value={addressDetails.country}
             onChangeText={text => handleChange('country', text)}
             placeholderTextColor={darkMode ? '#dedede' : 'grey'}
           /> */}
-        <CustomDropdown
-          placeholder={'Country'}
-          options={countries}
-          onSelect={(option: any) => handleCountrySelect(option)}
-          disabled={false}
-          value={addressDetails.country.name}
-        />
-        {errors.country && <Text style={styles.error}>{errors.country}</Text>}
-      </View>
-      <View style={styles.row}>
-        <View style={styles.half}>
-          {/* <TextInput
+              <CustomDropdown
+                placeholder={'Country'}
+                options={countries}
+                onSelect={(option: any) => handleCountrySelect(option)}
+                disabled={false}
+                value={addressDetails.country.name}
+              />
+              {errors.country && (
+                <Text style={styles.error}>{errors.country}</Text>
+              )}
+            </View>
+            <View style={styles.row}>
+              <View style={styles.half}>
+                {/* <TextInput
             style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
             placeholder="State"
             value={addressDetails.state}
@@ -266,123 +272,130 @@ const NewAddressForm = ({navigation}: any) => {
             placeholderTextColor={darkMode ? '#dedede' : 'grey'}
           />*/}
 
-          <CustomDropdown
-            placeholder={'State'}
-            options={states}
-            onSelect={(option: any) => handleStateSelect(option)}
-            disabled={addressDetails.country.name == ''}
-            value={addressDetails.state.name}
-          />
-          {errors.state && <Text style={styles.error}>{errors.state}</Text>}
-        </View>
-        <View style={styles.half}>
-          {/* <TextInput
+                <CustomDropdown
+                  placeholder={'State'}
+                  options={states}
+                  onSelect={(option: any) => handleStateSelect(option)}
+                  disabled={addressDetails.country.name == ''}
+                  value={addressDetails.state.name}
+                />
+                {errors.state && (
+                  <Text style={styles.error}>{errors.state}</Text>
+                )}
+              </View>
+              <View style={styles.half}>
+                {/* <TextInput
             style={[styles.input, {color: darkMode ? 'white' : 'black'}]}
             placeholder="City"
             value={addressDetails.city}
             onChangeText={text => handleChange('city', text)}
             placeholderTextColor={darkMode ? '#dedede' : 'grey'}
           /> */}
-          <CustomDropdown
-            placeholder={'City'}
-            options={cities}
-            onSelect={(option: any) => handleCitySelect(option)}
-            disabled={addressDetails.state.name == ''}
-            value={addressDetails.city.name}
-          />
-          {errors.city && <Text style={styles.error}>{errors.city}</Text>}
+                <CustomDropdown
+                  placeholder={'City'}
+                  options={cities}
+                  onSelect={(option: any) => handleCitySelect(option)}
+                  disabled={addressDetails.state.name == ''}
+                  value={addressDetails.city.name}
+                />
+                {errors.city && <Text style={styles.error}>{errors.city}</Text>}
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.half}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    {color: darkMode ? colors.white : colors.black},
+                  ]}
+                  placeholder="House No."
+                  value={addressDetails.houseNo}
+                  onChangeText={text => handleChange('houseNo', text)}
+                  placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+                />
+                {errors.houseNo && (
+                  <Text style={styles.error}>{errors.houseNo}</Text>
+                )}
+              </View>
+              <View style={styles.half}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    {color: darkMode ? colors.white : colors.black},
+                  ]}
+                  placeholder="Pincode"
+                  value={addressDetails.pincode}
+                  onChangeText={text => handleChange('pincode', text)}
+                  placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+                />
+                {errors.pincode && (
+                  <Text style={styles.error}>{errors.pincode}</Text>
+                )}
+              </View>
+            </View>
+            <TextInput
+              style={[
+                styles.inputArea,
+                {color: darkMode ? colors.white : colors.black},
+              ]}
+              placeholder="Area"
+              value={addressDetails.area}
+              multiline={true}
+              // maxLength={200}
+              onChangeText={text => handleChange('area', text)}
+              placeholderTextColor={darkMode ? '#dedede' : colors.grey}
+            />
+            {errors.area && <Text style={styles.error}>{errors.area}</Text>}
+          </View>
+          <View style={{flex: 1}}>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor: darkMode ? colors.white : colors.black,
+                  marginTop: 'auto',
+                },
+              ]}
+              onPress={handleSubmit}>
+              <Text
+                style={[
+                  styles.buttonText,
+                  {color: darkMode ? colors.black : colors.white},
+                ]}>
+                Save Address
+              </Text>
+            </TouchableOpacity>
+            <HorizontalLineWithText text="Or" />
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {
+                  backgroundColor: darkMode ? colors.black : colors.white,
+                  marginBottom: 20,
+                  borderColor: colors.grey,
+                  borderWidth: 2,
+                },
+              ]}
+              onPress={handleSelectOnMap}>
+              <Text
+                style={[
+                  styles.buttonText,
+                  {color: darkMode ? colors.white : colors.black},
+                ]}>
+                Select from Map
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <View style={styles.row}>
-        <View style={styles.half}>
-          <TextInput
-            style={[
-              styles.input,
-              {color: darkMode ? colors.white : colors.black},
-            ]}
-            placeholder="House No."
-            value={addressDetails.houseNo}
-            onChangeText={text => handleChange('houseNo', text)}
-            placeholderTextColor={darkMode ? '#dedede' : colors.grey}
-          />
-          {errors.houseNo && <Text style={styles.error}>{errors.houseNo}</Text>}
-        </View>
-        <View style={styles.half}>
-          <TextInput
-            style={[
-              styles.input,
-              {color: darkMode ? colors.white : colors.black},
-            ]}
-            placeholder="Pincode"
-            value={addressDetails.pincode}
-            onChangeText={text => handleChange('pincode', text)}
-            placeholderTextColor={darkMode ? '#dedede' : colors.grey}
-          />
-          {errors.pincode && <Text style={styles.error}>{errors.pincode}</Text>}
-        </View>
-      </View>
-      <TextInput
-        style={[
-          styles.inputArea,
-          {color: darkMode ? colors.white : colors.black},
-        ]}
-        placeholder="Area"
-        value={addressDetails.area}
-        multiline={true}
-        // maxLength={200}
-        onChangeText={text => handleChange('area', text)}
-        placeholderTextColor={darkMode ? '#dedede' : colors.grey}
-      />
-      {errors.area && <Text style={styles.error}>{errors.area}</Text>}
-      <View style={{flex: 1}}>
-        <TouchableOpacity
-          style={[
-            styles.button,
-            {
-              backgroundColor: darkMode ? colors.white : colors.black,
-              marginTop: 'auto',
-            },
-          ]}
-          onPress={handleSubmit}>
-          <Text
-            style={[
-              styles.buttonText,
-              {color: darkMode ? colors.black : colors.white},
-            ]}>
-            Save Address
-          </Text>
-        </TouchableOpacity>
-        <HorizontalLineWithText text="Or" />
-        <TouchableOpacity
-          style={[
-            styles.button,
-            {
-              backgroundColor: darkMode ? colors.black : colors.white,
-              marginBottom: 20,
-              borderColor: colors.grey,
-              borderWidth: 2,
-            },
-          ]}
-          onPress={handleSelectOnMap}>
-          <Text
-            style={[
-              styles.buttonText,
-              {color: darkMode ? colors.white : colors.black},
-            ]}>
-            Select from Map
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-    // </CustomKeyboardAvoidingView>
+      </ScrollView>
+    </CustomKeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+
     // backgroundColor: '#fff',
   },
   row: {
@@ -390,7 +403,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   half: {
-    flex: 1,
+    width: '50%',
+    // flex: 1
     marginRight: 5,
   },
   input: {

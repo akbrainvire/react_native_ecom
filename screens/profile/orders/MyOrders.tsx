@@ -16,15 +16,17 @@ const MyOrders = ({navigation}: any) => {
 
   let currentDate = moment();
 
+  console.log(moment(orders[0].orderDetails.orderDelivered.date).format('LL'));
+
   const checkOnGoingorCompleted = () => {
     for (let i = 0; i < orders.length; i++) {
-      const orderDeliverDate = moment(
-        orders[i].orderDetails.orderDelivered.date,
-        'MMMM D, YYYY',
-      );
-
-      console.log('first', orders[i]);
-      if (orderDeliverDate > currentDate) {
+      // const orderDeliverDate = moment(
+      //   orders[i].orderDetails.orderDelivered.date,
+      // ).format('LL');
+      // console.log('first', orders[i]);
+      if (
+        moment(orders[i].orderDetails.orderDelivered.date).isAfter(currentDate)
+      ) {
         setOnGoing((prev: any) => [...prev, orders[i]]);
       } else {
         setCompleted((prev: any) => [...prev, orders[i]]);
