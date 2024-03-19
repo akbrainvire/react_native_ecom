@@ -48,7 +48,6 @@ const PaymentScreen = ({navigation, route}: any) => {
       return cities && cities[randBetweenOneAndFifty];
     };
 
-    // console.log('🚀 ~ GetRandomCity ~ address:', address);
     const orderItemsWithOrderId = orderItems.map((item: any) => {
       const orderId = generateRandomOrderId();
 
@@ -70,6 +69,7 @@ const PaymentScreen = ({navigation, route}: any) => {
           longitude: address.city?.longitude,
         },
       };
+
       return {
         ...item,
         orderId: orderId,
@@ -77,20 +77,20 @@ const PaymentScreen = ({navigation, route}: any) => {
         orderDate: orderDate,
         orderDetails: {
           orderPlaced: {
-            date: currentDate.format('LL'),
-            time: currentDate.format('LT'),
+            date: currentDate,
+            time: currentDate,
           },
           orderShipped: {
-            date: twoDaysAfter.format('LL'),
-            time: twoDaysAfter.format('LT'),
+            date: twoDaysAfter,
+            time: twoDaysAfter,
           },
           orderOutforDelivery: {
-            date: fourDaysAfter.format('LL'),
-            time: fourDaysAfter.format('LT'),
+            date: fourDaysAfter,
+            time: fourDaysAfter,
           },
           orderDelivered: {
-            date: fourDaysAfter.format('LL'),
-            time: fourDaysAfter.format('LT'),
+            date: fourDaysAfter,
+            time: fourDaysAfter,
           },
         },
         orderInfo: orderInfo,
@@ -101,7 +101,6 @@ const PaymentScreen = ({navigation, route}: any) => {
     dispatch(emptyCartafterOplaced());
     navigation.navigate('Dashboard Screen');
   };
-
   const {darkMode} = useTheme();
 
   const radioButtons = useMemo(

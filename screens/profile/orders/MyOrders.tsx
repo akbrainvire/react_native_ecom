@@ -12,7 +12,7 @@ const MyOrders = ({navigation}: any) => {
   const [onGoing, setOnGoing] = useState<any>([]);
   const [completed, setCompleted] = useState<any>([]);
 
-  // console.log(orders, 'orders');
+  console.log(orders[0].orderDetails, 'orders');
 
   let currentDate = moment();
 
@@ -24,6 +24,10 @@ const MyOrders = ({navigation}: any) => {
       //   orders[i].orderDetails.orderDelivered.date,
       // ).format('LL');
       // console.log('first', orders[i]);
+      console.log(
+        moment(orders[i].orderDetails.orderDelivered.date),
+        'hello there',
+      );
       if (
         moment(orders[i].orderDetails.orderDelivered.date).isAfter(currentDate)
       ) {

@@ -132,8 +132,8 @@ const OrderMapFullView = ({route}: any) => {
                   fontSize: 12,
                   textAlign: 'center',
                 }}>
-                {calculateTimeTakeToDeliver
-                  ? `Order reach in ${calculateTimeTakeToDeliver} days`
+                {moment().isBefore(orderDetails.orderDelivered.date)
+                  ? `Order reaches in ${calculateTimeTakeToDeliver} days`
                   : 'Order Delivered'}
               </Text>
             </View>

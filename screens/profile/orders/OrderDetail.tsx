@@ -11,8 +11,8 @@ import moment from 'moment';
 import {useSelector} from 'react-redux';
 const {height, width} = Dimensions.get('window');
 const OrderDetail = ({navigation, route}: any) => {
-  console.log(route.params.item.orderDetails, 'item');
-
+  console.log(route.params.item, 'item');
+  const orderId = route.params.item;
   let uptoDate = route.params.item.orderDetails.orderPlaced.date;
 
   const orderPlacedDat = moment(uptoDate);
@@ -34,12 +34,18 @@ const OrderDetail = ({navigation, route}: any) => {
       (order: any) => order.orderId === route.params.item.orderId,
     ),
   );
-  // console.log(orderData.address);
+  console.log(orderData.id, 'orderDataaaa');
 
   const address = orderData.address;
   // console.log(route.params.item, 'route');
 
-  const handleChangePickupAddress = () => {};
+  const handleChangePickupAddress = () => {
+    navigation.navigate('NewAddressForm', {
+      isChange: true,
+      orderId: orderData.id,
+      addressDetails2: {longitude: null, latitude: null},
+    });
+  };
   console.log(route.params.item.orderInfo, 'orderinfo');
 
   const orderInfo = route.params.item.orderInfo;

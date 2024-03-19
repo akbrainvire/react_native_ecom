@@ -22,7 +22,7 @@ import {useTheme} from '../../context/ThemeContext';
 const CartScreen = ({navigation}: any) => {
   const dispatch = useDispatch();
   const {cartItems} = useSelector((state: any) => state.cart);
-  const {darkMode} = useTheme();
+  const {darkMode, colors} = useTheme();
   // console.log(cartItems, 'cartitems');
 
   const handleRemoveFromCart = (id: any) => {
@@ -71,159 +71,179 @@ const CartScreen = ({navigation}: any) => {
   );
 
   return (
-    <ScrollView
-      style={[{backgroundColor: darkMode ? 'black' : 'white'}]}
-      contentContainerStyle={styles.mainContainer}>
-      {cartItems.length > 0 ? (
-        cartItems.map((item: any, i: any) => (
-          <View
-            key={`${item.id}-${item.name}-${item.size}`}
-            style={[
-              styles.card,
-              {
-                borderColor: darkMode ? 'white' : 'black',
-                borderWidth: darkMode ? 1 : 0,
-                borderRadius: 15,
-              },
-            ]}>
-            <Image
-              // source={require('../../assets/m3.jpg')}
-              source={{uri: item.thumbnail}}
-              style={styles.image}
-              resizeMode="cover"
-            />
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: darkMode ? colors.black : colors.white,
+      }}>
+      <ScrollView contentContainerStyle={styles.mainContainer}>
+        {cartItems.length > 0 ? (
+          cartItems.map((item: any, i: any) => (
             <View
+              key={`${item.id}-${item.name}-${item.size}`}
               style={[
-                styles.counterContainer,
-                {backgroundColor: darkMode ? 'black' : 'white'},
+                styles.card,
+                {
+                  borderColor: darkMode ? 'white' : 'black',
+                  borderWidth: darkMode ? 1 : 0,
+                  borderRadius: 15,
+                },
               ]}>
-              <TouchableOpacity onPress={() => handleRemoveFromCart(item.id)}>
-                <View
-                  style={[
-                    styles.counterButton,
-                    {backgroundColor: darkMode ? 'black' : 'white'},
-                  ]}>
-                  <Text
-                    style={[
-                      styles.removeButton,
-                      {backgroundColor: darkMode ? 'black' : 'white'},
-                      {color: darkMode ? 'white' : 'black'},
-                    ]}>
-                    -
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <Text
+              <Image
+                // source={require('../../assets/m3.jpg')}
+                source={{uri: item.thumbnail}}
+                style={styles.image}
+                resizeMode="cover"
+              />
+              <View
                 style={[
-                  styles.quantity,
-                  {color: darkMode ? 'white' : 'black'},
+                  styles.counterContainer,
+                  {backgroundColor: darkMode ? 'black' : 'white'},
                 ]}>
-                {item.quantity}
-              </Text>
-              <TouchableOpacity onPress={() => handleIncreasetoCart(item)}>
-                <View
-                  style={[
-                    styles.counterButton,
-                    {backgroundColor: darkMode ? 'black' : 'white'},
-                  ]}>
-                  <Text
+                <TouchableOpacity onPress={() => handleRemoveFromCart(item.id)}>
+                  <View
                     style={[
-                      styles.addButton,
+                      styles.counterButton,
                       {backgroundColor: darkMode ? 'black' : 'white'},
-                      {color: darkMode ? 'white' : 'black'},
                     ]}>
-                    +
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.removeButtonContainer}>
-              <TouchableOpacity onPress={() => handleRemoveWhole(item.id)}>
-                <View
-                  style={[
-                    styles.removeButtonIcon,
-                    {backgroundColor: darkMode ? 'white' : 'black'},
-                  ]}>
-                  <Icon2
-                    name="delete"
-                    size={18}
-                    color={darkMode ? 'black' : '#fff'}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.brandnamePriceContainer}>
-              <View>
-                <Text
-                  style={[styles.brand, {color: darkMode ? 'white' : 'black'}]}>
-                  {item.brand}
-                </Text>
-                <Text style={styles.name}>{item.name}</Text>
-              </View>
-              <View style={{alignItems: 'flex-end'}}>
+                    <Text
+                      style={[
+                        styles.removeButton,
+                        {backgroundColor: darkMode ? 'black' : 'white'},
+                        {color: darkMode ? 'white' : 'black'},
+                      ]}>
+                      -
+                    </Text>
+                  </View>
+                </TouchableOpacity>
                 <Text
                   style={[
-                    styles.totalPrice,
+                    styles.quantity,
                     {color: darkMode ? 'white' : 'black'},
                   ]}>
-                  ${item.totalPrice}
+                  {item.quantity}
                 </Text>
-                <Text
-                  style={[styles.name, {color: darkMode ? 'white' : 'black'}]}>
-                  Size: {item.size}
-                </Text>
+                <TouchableOpacity onPress={() => handleIncreasetoCart(item)}>
+                  <View
+                    style={[
+                      styles.counterButton,
+                      {backgroundColor: darkMode ? 'black' : 'white'},
+                    ]}>
+                    <Text
+                      style={[
+                        styles.addButton,
+                        {backgroundColor: darkMode ? 'black' : 'white'},
+                        {color: darkMode ? 'white' : 'black'},
+                      ]}>
+                      +
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.removeButtonContainer}>
+                <TouchableOpacity onPress={() => handleRemoveWhole(item.id)}>
+                  <View
+                    style={[
+                      styles.removeButtonIcon,
+                      {backgroundColor: darkMode ? 'white' : 'black'},
+                    ]}>
+                    <Icon2
+                      name="delete"
+                      size={18}
+                      color={darkMode ? 'black' : '#fff'}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.brandnamePriceContainer}>
+                <View>
+                  <Text
+                    style={[
+                      styles.brand,
+                      {color: darkMode ? 'white' : 'black'},
+                    ]}>
+                    {item.brand}
+                  </Text>
+                  <Text style={styles.name}>{item.name}</Text>
+                </View>
+                <View style={{alignItems: 'flex-end'}}>
+                  <Text
+                    style={[
+                      styles.totalPrice,
+                      {color: darkMode ? 'white' : 'black'},
+                    ]}>
+                    ${item.totalPrice}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.name,
+                      {color: darkMode ? 'white' : 'black'},
+                    ]}>
+                    Size: {item.size}
+                  </Text>
+                </View>
               </View>
             </View>
+          ))
+        ) : (
+          <Text
+            style={[
+              styles.noproductcart,
+              {color: darkMode ? 'white' : 'black'},
+            ]}>
+            No product in Cart
+          </Text>
+        )}
+        {cartItems.length > 0 ? (
+          <View
+            style={[
+              styles.footer,
+              {backgroundColor: darkMode ? 'black' : 'white'},
+            ]}>
+            <View style={styles.totalContainer}>
+              <Text
+                style={[
+                  styles.totalText,
+                  {color: darkMode ? 'white' : 'black'},
+                ]}>
+                Total ({cartItems.length} items)
+              </Text>
+              <Text
+                style={[
+                  styles.totalPriceValue,
+                  {color: darkMode ? 'white' : 'black'},
+                ]}>
+                ${totalSum}
+              </Text>
+            </View>
           </View>
-        ))
-      ) : (
-        <Text
-          style={[styles.noproductcart, {color: darkMode ? 'white' : 'black'}]}>
-          No product in Cart
-        </Text>
-      )}
+        ) : (
+          ''
+        )}
+      </ScrollView>
       {cartItems.length > 0 ? (
-        <View
-          style={[
-            styles.footer,
-            {backgroundColor: darkMode ? 'black' : 'white'},
-          ]}>
-          <View style={styles.totalContainer}>
-            <Text
-              style={[styles.totalText, {color: darkMode ? 'white' : 'black'}]}>
-              Total ({cartItems.length} items)
-            </Text>
-            <Text
-              style={[
-                styles.totalPriceValue,
-                {color: darkMode ? 'white' : 'black'},
-              ]}>
-              ${totalSum}
-            </Text>
-          </View>
-          <View style={styles.btnproceed}>
-            <CustomButtonComponent
-              LogoComponent={() => (
-                <Icon
-                  name="chevron-forward-outline"
-                  size={24}
-                  color={darkMode ? 'black' : '#fff'}
-                />
-              )}
-              logoComp={true}
-              text="Proceed to Checkout"
-              color={darkMode ? 'white' : 'black'}
-              onSubmit={handleProceedCheckout}
-              textcolor={darkMode ? 'black' : 'white'}
-              width="100%"
-              marginTop="auto"
-            />
-          </View>
+        <View style={styles.btnproceed}>
+          <CustomButtonComponent
+            LogoComponent={() => (
+              <Icon
+                name="chevron-forward-outline"
+                size={24}
+                color={darkMode ? 'black' : '#fff'}
+              />
+            )}
+            logoComp={true}
+            text="Proceed to Checkout"
+            color={darkMode ? 'white' : 'black'}
+            onSubmit={handleProceedCheckout}
+            textcolor={darkMode ? 'black' : 'white'}
+            width="100%"
+            marginTop="auto"
+          />
         </View>
       ) : (
         ''
       )}
-    </ScrollView>
+    </View>
   );
 };
 
@@ -232,6 +252,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingBottom: 20,
     // flexShrink: 1,
+    // flex: 1
   },
   container: {
     // flex: 1,
@@ -366,10 +387,13 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   btnproceed: {
+    paddingHorizontal: 20,
     flexDirection: 'row',
-    flex: 1,
+    // flex: 1,
     // marginTop: 'auto',
-    // paddingBottom: 20,
+    paddingBottom: 25,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
 });
 

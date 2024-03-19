@@ -28,7 +28,7 @@ const AddAddressMap = ({navigation, route}: any) => {
 
   const handleSaveLocation = () => {
     // console.log('Location saved:', region);
-    navigation.navigate('AddressScreen', {addressDetails: region});
+    navigation.navigate('NewAddressForm', {addressDetails2: region});
   };
 
   return (
